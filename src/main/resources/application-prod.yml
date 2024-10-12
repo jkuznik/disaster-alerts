@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: Disaster Alerts
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/disasterdb
+    username: user
+    password: pass
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
