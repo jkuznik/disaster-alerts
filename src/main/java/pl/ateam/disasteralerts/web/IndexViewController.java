@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts;
+package pl.ateam.disasteralerts.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
