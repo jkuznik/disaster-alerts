@@ -36,7 +36,7 @@ class Disaster {
 
     @Column(nullable = false)
     private Instant startTimeDisaster;
-    
+
     private Instant endTimeDisaster;
 
     @Column(nullable = false)
