@@ -1,4 +1,4 @@
-package user;
+package pl.ateam.disasteralerts.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+
 }
