@@ -35,9 +35,9 @@ class Disaster {
     private String location;
 
     @Column(nullable = false)
-    private Instant startTimeDisaster;
+    private Instant disasterStartTime;
 
-    private Instant endTimeDisaster;
+    private Instant disasterEndTime;
 
     @Column(nullable = false)
     private DisasterStatus status;
