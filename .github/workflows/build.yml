@@ -18,7 +18,7 @@ jobs:
           POSTGRES_USER: user
           POSTGRES_PASSWORD: pass
         ports:
-          - 5432:5432
+          - 5433:5432
         options: >-
           --health-cmd "pg_isready -U user -d disasterdb"
           --health-interval 10s
@@ -35,11 +35,12 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-      
-      - name: Run Tests
-        run: mvn -B test
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5433 -U user; do
+            echo "Waiting for PostgreSQL..."
+            sleep 5
+          done
 
-      - name: Run Spring Boot App with dev profile
-        run: mvn spring-boot:run -Dspring-boot.run.profiles=dev
+      - name: Build and Run Tests
+        run: mvn clean install
