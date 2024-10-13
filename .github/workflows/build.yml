@@ -1,52 +1,21 @@
-name: CI Pipeline
-
+name: Java CI with Maven
 on:
   push:
-    branches:
-      - main
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - main
-
+    branches: [ "master" ]
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: disasterdb
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: pass
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U user"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    env:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/disasterdb
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: pass
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK 21
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Build with Maven
-        run: mvn clean install
-
-      - name: Run tests
-        run: mvn test
-
-      - name: Run Spring Boot App with dev profile
-        run: mvn spring-boot:run -Dspring-boot.run.profiles=dev
-
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    - name: Run Tests
+      run: mvn -B test
