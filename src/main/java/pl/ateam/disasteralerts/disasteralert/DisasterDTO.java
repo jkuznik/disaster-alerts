@@ -7,7 +7,7 @@ record DisasterDTO(UUID id,
                    DisasterType type,
                    String source,
                    String location,
-                   Instant startTimeDisaster,
-                   Instant endTimeDisaster,
+                   Instant disasterStartTime,
+                   Instant disasterEndTime,
                    DisasterStatus status) {
 }
