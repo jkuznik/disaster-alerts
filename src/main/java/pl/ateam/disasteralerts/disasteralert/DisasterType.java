@@ -1,5 +1,5 @@
 package pl.ateam.disasteralerts.disasteralert;
 
 enum DisasterType {
-    BURZA, POŻAR, POWÓDŹ, HURAGAN, ŚNIEŻYCA, SUSZA
+    STORM, FIRE, FLOOD, HURRICANE, BLIZZARD, DROUGHT
 }
