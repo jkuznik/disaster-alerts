@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://db:5432/disasterdb
+    url: jdbc:postgresql://localhost:5432/disasterdb
     username: user
     password: pass
   jpa:
@@ -15,5 +15,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   liquibase:
-    change-log: db/changelog-prod.yaml
-    contexts: prod
+    change-log: db/changelog-dev.yaml
+    contexts: dev
+
+server:
+  port: 8080
