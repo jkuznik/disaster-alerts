@@ -1,4 +1,8 @@
-package pl.ateam.disasteralerts.disasteralert;
+package pl.ateam.disasteralerts.disasteralert.dto;
+
+import pl.ateam.disasteralerts.disasteralert.AlertDTO;
+import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
+import pl.ateam.disasteralerts.disasteralert.DisasterType;
 
 import java.time.Instant;
 import java.util.List;
