@@ -10,7 +10,8 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-class UserService {
+public class UserService {
+
     private final UserRepository repository;
 
     boolean existsById(UUID userId) {
