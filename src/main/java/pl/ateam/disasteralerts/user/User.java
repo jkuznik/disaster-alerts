@@ -37,8 +37,10 @@ class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Min(9)
+    @Size(min = 9, max = 9)
     private String phoneNumber;
 
     private String location;
+
+    private Role role;
 }
