@@ -2,18 +2,16 @@ package pl.ateam.disasteralerts.disasteralert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.ateam.disasteralerts.util.EntityAudit;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,11 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "disasters")
-class Disaster {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+class Disaster extends EntityAudit {
 
     @Column(nullable = false)
     private DisasterType type;
