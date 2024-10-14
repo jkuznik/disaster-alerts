@@ -4,6 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -11,7 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -23,7 +28,7 @@ import java.util.UUID;
 class User {
 
     @Id
-    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.AUTO)
     private UUID id;
 
     @Size(min = 5, max = 15)
@@ -43,4 +48,17 @@ class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    private LocalDate createDate;
+
+    private LocalDate updateDate;
+
+    @PrePersist
+    public void setCreateDate() {
+        this.createDate = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void setUpdateDate() {
+        this.updateDate = LocalDate.now();
+    }
 }
