@@ -5,7 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
 import pl.ateam.disasteralerts.disasteralert.DisasterType;
 
-public record DisasterAddDTO(@NotNull DisasterType disasterType,
+import java.time.Instant;
+import java.util.UUID;
+
+public record DisasterAddDTO(@NotNull UUID id,
+                             @NotNull DisasterType type,
                              @NotNull @NotBlank String source,
-                             @NotNull DisasterStatus disasterStatus) {
+                             @NotNull @NotBlank String location,
+                             @NotNull Instant disasterStartTime,
+                             @NotNull DisasterStatus status) {
 }
