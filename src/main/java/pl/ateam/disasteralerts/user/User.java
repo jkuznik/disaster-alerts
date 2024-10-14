@@ -42,5 +42,6 @@ class User {
 
     private String location;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 }
