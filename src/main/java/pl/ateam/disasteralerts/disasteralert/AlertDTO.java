@@ -4,8 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 record AlertDTO(UUID id,
-                DisasterType type,
+                Disaster disaster,
                 String location,
-                Instant creationDate,
-                DisasterStatus status) {
+                Instant creationDate) {
 }
