@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-record DisasterDTO(UUID id,
+public record DisasterDTO(UUID id,
                    DisasterType type,
                    String source,
                    String location,
