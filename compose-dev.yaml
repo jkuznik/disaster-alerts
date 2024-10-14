@@ -1,0 +1,16 @@
+services:
+  devDB:
+    image: postgres:16.3
+    container_name: DevDB
+    environment:
+      POSTGRES_DB: disasterdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - db_dataDev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+volumes:
+  db_dataDev:
