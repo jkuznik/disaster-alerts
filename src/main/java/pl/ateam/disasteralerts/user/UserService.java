@@ -1,6 +1,5 @@
 package pl.ateam.disasteralerts.user;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -9,65 +8,68 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     boolean existsById(UUID userId) {
-        return repository.existsById(userId);
+        return userRepository.existsById(userId);
     }
 
     boolean existsByUsername(String username) {
-        return repository.existsByUsername(username);
+        return userRepository.existsByUsername(username);
     }
 
     boolean existsByEmail(String email) {
-        return repository.existsByEmail(email);
+        return userRepository.existsByEmail(email);
     }
 
     Optional<User> findById(UUID id) {
-        return repository.findById(id);
+        return userRepository.findById(id);
     }
 
     Optional<User> findByUsername(String username) {
-        return repository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     Optional<User> findByEmail(String email) {
-        return repository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     List<User> getAllUsers() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
     public void save(User user) {
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public void saveAll(Collection<User> users) {
-        repository.saveAll(users);
+        userRepository.saveAll(users);
     }
 
     public void delete(User user) {
-        repository.delete(user);
+        userRepository.delete(user);
     }
 
     public void deleteById(UUID id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     public void deleteAll() {
-        repository.deleteAll();
+        userRepository.deleteAll();
     }
 
     public void deleteAll(Collection<User> users) {
-        repository.deleteAll(users);
+        userRepository.deleteAll(users);
     }
 
     public long userCount() {
-        return repository.count();
+        return userRepository.count();
     }
 
 }
