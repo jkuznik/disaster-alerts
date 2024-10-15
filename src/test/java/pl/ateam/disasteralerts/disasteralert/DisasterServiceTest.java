@@ -33,21 +33,9 @@ class DisasterServiceTest {
     @MockBean
     DisasterMapper disasterMapper;
 
-    private final DisasterAddDTO disasterAddDTO = new DisasterAddDTO(UUID.randomUUID(),
-            DisasterType.FLOOD,
-            "testSource",
-            "testLocation",
-            Instant.now(),
-            DisasterStatus.FAKE);
+    private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
 
-    private final DisasterDTO disasterDTO = new DisasterDTO(UUID.randomUUID(),
-            DisasterType.FLOOD,
-            "testSource",
-            "testLocation",
-            Instant.now(),
-            Instant.now().plusSeconds(10),
-            DisasterStatus.FAKE,
-            null);
+    private final DisasterDTO disasterDTO = getDisasterDTO();
 
     Disaster disaster = new Disaster();
 
@@ -85,5 +73,25 @@ class DisasterServiceTest {
             Assertions.assertThatThrownBy(() -> disasterService.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
 
+    }
+
+    private DisasterAddDTO getDisasterAddDTO() {
+        return new DisasterAddDTO(UUID.randomUUID(),
+                DisasterType.FLOOD,
+                "testSource",
+                "testLocation",
+                Instant.now(),
+                DisasterStatus.FAKE);
+    }
+
+    private DisasterDTO getDisasterDTO() {
+        return new DisasterDTO(UUID.randomUUID(),
+                DisasterType.FLOOD,
+                "testSource",
+                "testLocation",
+                Instant.now(),
+                Instant.now().plusSeconds(10),
+                DisasterStatus.FAKE,
+                null);
     }
 }

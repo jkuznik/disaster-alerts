@@ -1,6 +1,5 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
