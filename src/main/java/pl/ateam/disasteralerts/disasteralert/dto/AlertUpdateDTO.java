@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record AlertUpdateDto(@NotNull UUID id,
+public record AlertUpdateDTO(@NotNull UUID id,
                              @NotNull String description) {
 }
