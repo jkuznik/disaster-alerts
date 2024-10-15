@@ -20,6 +20,7 @@ class DisasterMapperTest {
     DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
             UUID.randomUUID(),
             DisasterType.FLOOD,
+            "testDescription",
             "testAdd",
             "testLocation",
             Instant.now(),

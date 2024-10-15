@@ -63,6 +63,7 @@ class DisasterAlertFacadeTest {
             DisasterAddDTO notValidDTO = new DisasterAddDTO(
                     UUID.randomUUID(),
                     DisasterType.FLOOD,
+                    "testDescription",
 //                    "testSource",     this field is required as NotNull and NotBlank
                     null,
                     "testLocation",
@@ -74,13 +75,12 @@ class DisasterAlertFacadeTest {
             //then
             Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
-
-
     }
 
     private DisasterAddDTO getDisasterAddDTO() {
         return new DisasterAddDTO(UUID.randomUUID(),
                 DisasterType.FLOOD,
+                "testDescription",
                 "testSource",
                 "testLocation",
                 Instant.now(),

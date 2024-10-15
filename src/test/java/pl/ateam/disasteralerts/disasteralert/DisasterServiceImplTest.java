@@ -69,6 +69,7 @@ class DisasterServiceImplTest {
             DisasterAddDTO notValidDTO = new DisasterAddDTO(
                     UUID.randomUUID(),
                     DisasterType.FLOOD,
+                    "testDescription",
 //                    "testSource",     this field is required as NotNull and NotBlank
                     null,
                     "testLocation",
@@ -86,6 +87,7 @@ class DisasterServiceImplTest {
     private DisasterAddDTO getDisasterAddDTO() {
         return new DisasterAddDTO(UUID.randomUUID(),
                 DisasterType.FLOOD,
+                "testDescription",
                 "testSource",
                 "testLocation",
                 Instant.now(),
