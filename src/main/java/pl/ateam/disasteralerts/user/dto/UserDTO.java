@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts.user;
+package pl.ateam.disasteralerts.user.dto;
 
 public record UserDTO(String username,
                       String email,

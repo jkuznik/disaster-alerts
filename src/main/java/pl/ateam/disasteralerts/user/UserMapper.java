@@ -1,11 +1,14 @@
 package pl.ateam.disasteralerts.user;
 
 import org.mapstruct.Mapper;
+import pl.ateam.disasteralerts.user.dto.UserDTO;
+import pl.ateam.disasteralerts.user.dto.UserLoginDTO;
 
 @Mapper
 public interface UserMapper {
 
-    UserDTO mapUserToDTO(User user);
+    UserDTO mapUserToUserDTO(User user);
     User mapUserDTOToUser(UserDTO userDTO);
+    UserLoginDTO mapUserToUserLoginDTO(User user);
 
 }
