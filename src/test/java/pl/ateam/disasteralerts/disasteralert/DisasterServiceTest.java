@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 class DisasterServiceTest {
 
     @Autowired
-    DisasterService disasterService;
+    DisasterServiceAPI disasterService;
 
     @Mock
     DisasterRepository disasterRepository;
@@ -61,6 +61,25 @@ class DisasterServiceTest {
 
 //            Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
+        }
+
+        @Test
+        void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
+            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+        }
+
+        @Test
+        void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNotValid() {
+            DisasterAddDTO notValidDTO = new DisasterAddDTO(
+                    UUID.randomUUID(),
+                    DisasterType.FLOOD,
+//                    "testSource",
+                    null,
+                    "testLocation",
+                    Instant.now(),
+                    DisasterStatus.FAKE);
+
+            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
 
     }
