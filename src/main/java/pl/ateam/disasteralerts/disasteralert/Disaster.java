@@ -8,10 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import pl.ateam.disasteralerts.util.EntityAudit;
 
 import java.time.Instant;
 import java.util.List;
+
 
 @Entity
 @Getter
@@ -19,7 +21,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "disasters")
+
 class Disaster extends EntityAudit {
+
 
     @Column(nullable = false)
     private DisasterType type;

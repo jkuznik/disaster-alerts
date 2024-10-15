@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Disaster alerts
+  description: "
+  <h3>W tym miejscu będzie techniczny opis aplikacji np. rodzaj działającego security oraz sposób uwierzytelnienia na potrzeby swagger podając kolejne kroki oraz 'credentials'</h3>
+  <h2>login: </h2>
+  <h2>hasło: </h2>
+  Można ustawić tak aby w środowisku testowym uwierzytelnienie nie było wymagane."
+  contact:
+    name: Kontakt
+    url: http://www.github.com/jkuznik/disaster-alerts
+#servers:
+#  - url: http://localhost:8080
+#    description: Środowisko test
+#  - url: http://localhost:8081
+#    description: Środowisko prod
+externalDocs:
+  description: Templatka do obsługi swagger z wykorzystaniem tego pliku
+  url: https://editor.swagger.io/

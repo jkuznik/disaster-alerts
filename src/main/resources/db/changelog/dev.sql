@@ -1,5 +1,6 @@
 -- liquibase formatted sql
 
+
 -- changeset Slawek84PL:1728934675080-1
 CREATE TABLE alerts
 (
@@ -49,6 +50,7 @@ CREATE TABLE users
     phone_number VARCHAR(9),
     location     VARCHAR(255),
     role         VARCHAR(255),
+
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
