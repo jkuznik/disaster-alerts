@@ -8,6 +8,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
@@ -18,16 +21,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringJUnitConfig(classes = {DisasterService.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
 class DisasterServiceTest {
 
     @Autowired
     DisasterServiceAPI disasterService;
 
-    @Mock
+    @MockBean
     DisasterRepository disasterRepository;
 
-    @Mock
+    @MockBean
     DisasterMapper disasterMapper;
 
     private final DisasterAddDTO disasterAddDTO = new DisasterAddDTO(UUID.randomUUID(),

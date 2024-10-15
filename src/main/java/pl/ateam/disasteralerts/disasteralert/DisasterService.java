@@ -10,18 +10,20 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 class DisasterService implements DisasterServiceAPI{
 
     private final DisasterRepository repository;
-    DisasterMapper disasterMapper = Mappers.getMapper(DisasterMapper.class);
+    private final DisasterMapper mapper;
 
-    public DisasterService(DisasterRepository repository) {
+
+    public DisasterService(DisasterRepository repository, DisasterMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Transactional
     public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO){
 
-        Disaster disaster = disasterMapper.disasterAddDtoToDisaster(disasterAddDTO);
+        Disaster disaster = mapper.disasterAddDtoToDisaster(disasterAddDTO);
 
-        DisasterDTO disasterDTO = disasterMapper.disasterToDto(
+        DisasterDTO disasterDTO = mapper.disasterToDto(
                 repository.save(disaster));
 
         return disasterDTO;
