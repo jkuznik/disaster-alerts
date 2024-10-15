@@ -1,6 +1,8 @@
 package pl.ateam.disasteralerts.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.ateam.disasteralerts.user.dto.UserLoginDTO;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,13 +10,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserMapper userMapper;
 
     boolean existsById(UUID userId) {
         return userRepository.existsById(userId);
@@ -36,8 +36,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserLoginDTO findByEmail(String email) {
+        User user = new User();
+        user.setEmail(email);
+        return userMapper.mapUserToUserLoginDTO(user);
     }
 
     List<User> getAllUsers() {
