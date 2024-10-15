@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/signup")
 public class SignupViewController {
     @GetMapping
-    public String signup() {
+    public String signupView() {
         return "signup";
     }
 }
