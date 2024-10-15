@@ -1,6 +1,5 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -11,7 +10,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(classes = DisasterMapperImpl.class)
 class DisasterMapperTest {
@@ -39,9 +37,12 @@ class DisasterMapperTest {
 
     @Test
     void dtoToDisaster() {
+        //given
 
-        Disaster result = disasterMapper.disasterDtoToDisaster(disasterDTO);
+        //when
+        Disaster result = disasterMapper.mapDisasterDtoToDisasterEntity(disasterDTO);
 
+        //then
         assertThat(result.getId()).isEqualTo(disasterDTO.id());
     }
 
@@ -50,6 +51,6 @@ class DisasterMapperTest {
     }
 
     @Test
-    void disasterToDto() {
+    void mapDisasterToDisasterDto() {
     }
 }

@@ -7,13 +7,13 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 @Component
 public class DisasterAlertFacade {
 
-    private final DisasterServiceAPI disasterServiceAPI;
+    private final DisasterService disasterService;
 
-    public DisasterAlertFacade(DisasterServiceAPI disasterServiceAPI) {
-        this.disasterServiceAPI = disasterServiceAPI;
+    public DisasterAlertFacade(DisasterService disasterService) {
+        this.disasterService = disasterService;
     }
 
     public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO) {
-        return disasterServiceAPI.addDisaster(disasterAddDTO);
+        return disasterService.addDisaster(disasterAddDTO);
     }
 }

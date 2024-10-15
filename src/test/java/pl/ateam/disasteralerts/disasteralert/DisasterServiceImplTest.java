@@ -4,10 +4,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
@@ -17,15 +14,14 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import java.time.Instant;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig(classes = {DisasterService.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
-class DisasterServiceTest {
+@SpringJUnitConfig(classes = {DisasterServiceImpl.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
+class DisasterServiceImplTest {
 
     @Autowired
-    DisasterServiceAPI disasterService;
+    DisasterService disasterService;
 
     @MockBean
     DisasterRepository disasterRepository;
@@ -43,11 +39,14 @@ class DisasterServiceTest {
     class PostMethodsTests {
         @Test
         void addDisaster_shouldReturnDisasterDtoWhenDisasterAddDtoIsValid() {
+            //given
 
-            when(disasterMapper.disasterAddDtoToDisaster(any(DisasterAddDTO.class))).thenReturn(disaster);
+            //when
+            when(disasterMapper.mapDisasterAddDtoToDisaster(any(DisasterAddDTO.class))).thenReturn(disaster);
             when(disasterRepository.save(any(Disaster.class))).thenReturn(disaster);
-            when(disasterMapper.disasterToDto(disaster)).thenReturn(disasterDTO);
+            when(disasterMapper.mapDisasterToDisasterDto(disaster)).thenReturn(disasterDTO);
 
+            //then
             DisasterDTO result = disasterService.addDisaster(disasterAddDTO);
 
             Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
@@ -56,20 +55,29 @@ class DisasterServiceTest {
 
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
+            //given
+
+            //when
+
+            //then
             Assertions.assertThatThrownBy(() -> disasterService.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNotValid() {
+            //given
             DisasterAddDTO notValidDTO = new DisasterAddDTO(
                     UUID.randomUUID(),
                     DisasterType.FLOOD,
-//                    "testSource",
+//                    "testSource",     this field is required as NotNull and NotBlank
                     null,
                     "testLocation",
                     Instant.now(),
                     DisasterStatus.FAKE);
 
+            //when
+
+            //then
             Assertions.assertThatThrownBy(() -> disasterService.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
 

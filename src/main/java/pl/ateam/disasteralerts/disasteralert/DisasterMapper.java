@@ -7,10 +7,11 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 @Mapper
 interface DisasterMapper {
 
-    Disaster disasterDtoToDisaster(DisasterDTO dto);
-    Disaster disasterAddDtoToDisaster(DisasterAddDTO dto);
-    DisasterDTO disasterToDto(Disaster disaster);
+    Disaster mapDisasterDtoToDisasterEntity(DisasterDTO dto);
+    Disaster mapDisasterAddDtoToDisaster(DisasterAddDTO dto);
+    DisasterDTO mapDisasterToDisasterDto(Disaster disaster);
 
 
 
 }
+
