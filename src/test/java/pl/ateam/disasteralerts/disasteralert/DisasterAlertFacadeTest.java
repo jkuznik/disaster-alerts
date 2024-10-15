@@ -57,6 +57,24 @@ class DisasterAlertFacadeTest {
             Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
 
+        @Test
+        void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNotValid() {
+            //given
+            DisasterAddDTO notValidDTO = new DisasterAddDTO(
+                    UUID.randomUUID(),
+                    DisasterType.FLOOD,
+//                    "testSource",     this field is required as NotNull and NotBlank
+                    null,
+                    "testLocation",
+                    Instant.now(),
+                    DisasterStatus.FAKE);
+
+            //when
+
+            //then
+            Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+        }
+
 
     }
 
