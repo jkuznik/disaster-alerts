@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.ateam.disasteralerts.util.EntityAudit;
 
+import java.time.Instant;
 
 
 @Entity
