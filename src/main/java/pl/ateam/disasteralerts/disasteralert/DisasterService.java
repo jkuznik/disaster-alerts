@@ -19,8 +19,11 @@ class DisasterService implements DisasterServiceAPI{
     @Transactional
     public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO){
 
-        return disasterMapper.disasterToDto(
-                repository.save(disasterMapper.disasterAddDtoToDisaster(disasterAddDTO)
-                ));
+        Disaster disaster = disasterMapper.disasterAddDtoToDisaster(disasterAddDTO);
+
+        DisasterDTO disasterDTO = disasterMapper.disasterToDto(
+                repository.save(disaster));
+
+        return disasterDTO;
     }
 }
