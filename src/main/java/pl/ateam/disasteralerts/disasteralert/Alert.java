@@ -4,17 +4,16 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.ateam.disasteralerts.util.EntityAudit;
 
-import java.time.Instant;
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -22,11 +21,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "alerts")
-class Alert {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
+class Alert extends EntityAudit {
+
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Disaster disaster;
