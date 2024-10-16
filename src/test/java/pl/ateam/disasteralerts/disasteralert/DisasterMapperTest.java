@@ -43,7 +43,7 @@ class DisasterMapperTest {
         Disaster result = disasterMapper.mapDisasterDtoToDisasterEntity(disasterDTO);
 
         //then
-        assertThat(result.getId()).isEqualTo(disasterDTO.id());
+        assertThat(result.getId()).isEqualTo(disasterDTO.disasterId());
     }
 
     @Test

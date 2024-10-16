@@ -47,7 +47,7 @@ class DisasterServiceImplTest {
             //then
             DisasterDTO result = disasterService.addDisaster(disasterAddDTO);
 
-            Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
+            Assertions.assertThat(result.disasterId()).isEqualTo(disasterDTO.disasterId());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
         }
 

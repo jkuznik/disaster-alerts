@@ -39,7 +39,7 @@ class DisasterAlertFacadeTest {
             //then
             DisasterDTO result = disasterAlertFacade.addDisaster(disasterAddDTO);
 
-            Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
+            Assertions.assertThat(result.disasterId()).isEqualTo(disasterDTO.disasterId());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
         }
 
