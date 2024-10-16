@@ -59,18 +59,6 @@ class DisasterController {
     private String getUserEmail(Authentication authentication) {
         Object details = authentication.getDetails();
         UserDetails userDetails = (UserDetails) details;
-        String userEmail = userDetails.getUsername();
-
-        //TODO: wymaganie dla modułu User
-        // implementacja UserFacade musi wystawic metodę do pobrania UserDto na podstawie email
-
-        UserDTO userDtoByUsername;
-        try {
-            userDtoByUsername = userFacadeWydmuszka.getUserDtoByUsername(userEmail);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-
-        return userDtoByUsername.email();
+        return userDetails.getUsername();
     }
 }
