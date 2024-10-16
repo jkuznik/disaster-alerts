@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +13,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
-import pl.ateam.disasteralerts.disasteralert.roboczeKlasyWydmuszki.UserFacadeWydmuszka;
-import pl.ateam.disasteralerts.user.UserDTO;
-import pl.ateam.disasteralerts.user.UserService;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(DisasterController.DISASTERS_BASE_URL)
@@ -30,7 +24,6 @@ class DisasterController {
     public static final String DISASTERS_BASE_URL = "/disasters";
 
     private final DisasterService disasterService;
-    private final UserFacadeWydmuszka userFacadeWydmuszka;
 
     @PostMapping()
     public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal Authentication authentication,
