@@ -8,6 +8,5 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 @Validated
 public interface DisasterService {
-
     DisasterDTO addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO);
 }

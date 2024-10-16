@@ -55,10 +55,6 @@ class DisasterServiceImplTest {
 
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
-            //given
-
-            //when
-
             //then
             Assertions.assertThatThrownBy(() -> disasterService.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
@@ -70,7 +66,6 @@ class DisasterServiceImplTest {
                     UUID.randomUUID(),
                     DisasterType.FLOOD,
                     "testDescription",
-//                    "testSource",     this field is required as NotNull and NotBlank
                     null,
                     "testLocation",
                     Instant.now(),
@@ -81,7 +76,6 @@ class DisasterServiceImplTest {
             //then
             Assertions.assertThatThrownBy(() -> disasterService.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
-
     }
 
     private DisasterAddDTO getDisasterAddDTO() {
