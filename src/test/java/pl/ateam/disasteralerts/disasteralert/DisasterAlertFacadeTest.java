@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -30,13 +29,10 @@ class DisasterAlertFacadeTest {
 
     private final DisasterDTO disasterDTO = getDisasterDTO();
 
-
     @Nested
     class AddDisasterTests {
         @Test
         void addDisaster_shouldReturnDisasterWhenDisasterAddDtoIsValid() {
-            //given
-
             //when
             when(disasterService.addDisaster(disasterAddDTO)).thenReturn(disasterDTO);
 
@@ -49,10 +45,6 @@ class DisasterAlertFacadeTest {
 
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
-            //given
-
-            //when
-
             //then
             Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
@@ -63,19 +55,13 @@ class DisasterAlertFacadeTest {
             DisasterAddDTO notValidDTO = new DisasterAddDTO(
                     UUID.randomUUID(),
                     DisasterType.FLOOD,
-//                    "testSource",     this field is required as NotNull and NotBlank
                     null,
                     "testLocation",
                     Instant.now(),
                     DisasterStatus.FAKE);
-
-            //when
-
             //then
             Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
-
-
     }
 
     private DisasterAddDTO getDisasterAddDTO() {
