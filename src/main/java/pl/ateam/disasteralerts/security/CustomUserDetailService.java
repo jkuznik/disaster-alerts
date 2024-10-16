@@ -1,12 +1,11 @@
 package pl.ateam.disasteralerts.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import pl.ateam.disasteralerts.user.UserService;
-import pl.ateam.disasteralerts.user.dto.UserLoginDTO;
+import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 @Component
 @RequiredArgsConstructor
@@ -16,10 +15,9 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        UserLoginDTO userDTO = userService.findByEmail(email);
-        return User.builder()
-                .username(userDTO.email())
-                .password(userDTO.password())
+        UserDTO userDTO = userService.findByEmail(email);
+        return AppUser.builder()
+                .userDTO(userDTO)
                 .build();
     }
 }
