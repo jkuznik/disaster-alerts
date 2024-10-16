@@ -1,6 +1,7 @@
 package pl.ateam.disasteralerts.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.user.dto.UserLoginDTO;
 
@@ -37,8 +38,10 @@ public class UserService {
     }
 
     public UserLoginDTO findByEmail(String email) {
-        User user = new User();
-        user.setEmail(email);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BadCredentialsException(
+                ("Użytkownik nie istnieje lub hasło jest niepoprawne")));
+        user.setEmail(user.getEmail());
+        user.setPassword(user.getPassword());
         return userMapper.mapUserToUserLoginDTO(user);
     }
 
