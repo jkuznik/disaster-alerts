@@ -11,7 +11,9 @@ import java.util.UUID;
 
 public record DisasterUpdateDTO(@NotNull UUID disasterId,
                                 Optional<DisasterType> disasterType,
+                                Optional<String> description,
                                 Optional<String> source,
+                                Optional<String> location,
                                 Optional<Instant> disasterEndTime,
                                 Optional<DisasterStatus> disasterStatus) {
 }

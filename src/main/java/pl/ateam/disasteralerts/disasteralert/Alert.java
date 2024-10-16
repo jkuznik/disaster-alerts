@@ -21,9 +21,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "alerts")
-
 class Alert extends EntityAudit {
-
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Disaster disaster;

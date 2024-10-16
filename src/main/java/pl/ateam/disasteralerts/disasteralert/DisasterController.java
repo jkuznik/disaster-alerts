@@ -30,11 +30,7 @@ class DisasterController {
     public static final String DISASTERS_BASE_URL = "/disasters";
 
     private final DisasterService disasterService;
-
     private final UserFacadeWydmuszka userFacadeWydmuszka;
-
-    // TODO: wymaganie postawione dla implementacji security
-    //  Obiekt Authentication w Credentials, Details lup Principal musi posiadać jedno z pól User będące jako UNIQUE w bazie danych
 
     @PostMapping()
     public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal Authentication authentication,
@@ -42,13 +38,13 @@ class DisasterController {
                                                       @RequestParam String description) {
 
         DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
-                getCurrentUserId(authentication),
                 disasterType,
                 description,
                 "user",
                 "lokalizacja - konieczne ustalić logikę przekazywania lokalizacji", // czy pobieramy z lokalizacji użytkownika czy user może sam wprowadzić
                 Instant.now(),
-                DisasterStatus.ACTIVE
+                DisasterStatus.ACTIVE,
+                getUserEmail(authentication)
         );
 
         DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
@@ -60,33 +56,21 @@ class DisasterController {
         return ResponseEntity.created(uriComponents.toUri()).body(disasterDTO);
     }
 
-    private UUID getCurrentUserId(Authentication authentication) {
-        // w zależności od implementacji security skorzysta się z jednej z trzech metod poniżej
-        // roboczo posłużę się metodą getDetails();
-//        Object credentials = authentication.getCredentials();
+    private String getUserEmail(Authentication authentication) {
         Object details = authentication.getDetails();
-//        Object principal = authentication.getPrincipal();
-
         UserDetails userDetails = (UserDetails) details;
-
-        String username = userDetails.getUsername();
+        String userEmail = userDetails.getUsername();
 
         //TODO: wymaganie dla modułu User
-        // implementacja UserFacade musi wystawic metodę do pobrania UserDto na podstawie obiektu otrzymanego z security context
+        // implementacja UserFacade musi wystawic metodę do pobrania UserDto na podstawie email
 
         UserDTO userDtoByUsername;
-
         try {
-            userDtoByUsername = userFacadeWydmuszka.getUserDtoByUsername(username);
+            userDtoByUsername = userFacadeWydmuszka.getUserDtoByUsername(userEmail);
         } catch (RuntimeException e) {
-
+            throw new RuntimeException(e.getMessage(), e);
         }
 
-        //TODO: wymagania dla modułu User
-        // UserDTO musi posiadać pole id albo inne które jest UNIQUE w bazie danych - w obecnej wersji DisasterDTO
-        // oczekuje id użytkownika
-//        return userDtoByUsername.getId()
-
-        return UUID.randomUUID();   // robocza implementacja na potrzeby kompilatora
+        return userDtoByUsername.email();
     }
 }

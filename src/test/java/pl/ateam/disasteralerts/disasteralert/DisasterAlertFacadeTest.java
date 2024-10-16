@@ -61,14 +61,13 @@ class DisasterAlertFacadeTest {
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNotValid() {
             //given
             DisasterAddDTO notValidDTO = new DisasterAddDTO(
-                    UUID.randomUUID(),
                     DisasterType.FLOOD,
                     "testDescription",
-//                    "testSource",     this field is required as NotNull and NotBlank
                     null,
                     "testLocation",
                     Instant.now(),
-                    DisasterStatus.FAKE);
+                    DisasterStatus.FAKE,
+                    "testUserEmail");
 
             //when
 
@@ -78,23 +77,27 @@ class DisasterAlertFacadeTest {
     }
 
     private DisasterAddDTO getDisasterAddDTO() {
-        return new DisasterAddDTO(UUID.randomUUID(),
+        return new DisasterAddDTO(
                 DisasterType.FLOOD,
                 "testDescription",
-                "testSource",
+                "testAdd",
                 "testLocation",
                 Instant.now(),
-                DisasterStatus.FAKE);
+                DisasterStatus.FAKE,
+                "testUserEmail");
     }
 
     private DisasterDTO getDisasterDTO() {
-        return new DisasterDTO(UUID.randomUUID(),
+        return new DisasterDTO(
+                UUID.randomUUID(),
                 DisasterType.FLOOD,
-                "testSource",
+                "testDescription",
+                "testAdd",
                 "testLocation",
                 Instant.now(),
                 Instant.now().plusSeconds(10),
                 DisasterStatus.FAKE,
+                "testUserEmail",
                 null);
     }
 }

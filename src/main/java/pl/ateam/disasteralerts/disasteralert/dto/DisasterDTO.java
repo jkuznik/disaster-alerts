@@ -9,10 +9,12 @@ import java.util.UUID;
 
 public record DisasterDTO(UUID id,
                    DisasterType type,
+                   String description,
                    String source,
                    String location,
                    Instant disasterStartTime,
                    Instant disasterEndTime,
                    DisasterStatus status,
+                   String userEmail,
                    List<AlertDTO> alerts) {
 }

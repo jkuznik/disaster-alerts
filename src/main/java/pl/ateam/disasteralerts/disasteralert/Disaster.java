@@ -25,6 +25,9 @@ class Disaster extends EntityAudit {
     private DisasterType type;
 
     @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
     private String source;
 
     @Column(nullable = false)
@@ -37,6 +40,9 @@ class Disaster extends EntityAudit {
 
     @Column(nullable = false)
     private DisasterStatus status;
+
+    @Column(nullable = false)
+    private String userEmail;
 
     @OneToMany
     private List<Alert> alerts;

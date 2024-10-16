@@ -9,18 +9,13 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 @Service
 @RequiredArgsConstructor
 class DisasterServiceImpl implements DisasterService {
-
     private final DisasterRepository repository;
     private final DisasterMapper mapper;
 
     @Transactional
     public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO){
-
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
 
-        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(
-                repository.save(disaster));
-
-        return disasterDTO;
+        return mapper.mapDisasterToDisasterDto(repository.save(disaster));
     }
 }

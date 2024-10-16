@@ -12,7 +12,6 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 @Validated
 @RequiredArgsConstructor
 public class DisasterAlertFacade {
-
     private final DisasterService disasterService;
 
     public DisasterDTO addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO) {
