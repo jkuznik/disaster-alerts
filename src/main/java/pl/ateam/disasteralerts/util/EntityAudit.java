@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.UUID;
 
 @Getter
-@Setter
 @MappedSuperclass
 public class EntityAudit {
 

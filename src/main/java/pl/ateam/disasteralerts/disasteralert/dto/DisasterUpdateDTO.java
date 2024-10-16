@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-public record DisasterUpdateDTO(@NotNull UUID id,
+public record DisasterUpdateDTO(@NotNull UUID disasterId,
                                 Optional<DisasterType> disasterType,
                                 Optional<String> source,
                                 Optional<Instant> disasterEndTime,
