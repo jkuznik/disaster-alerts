@@ -21,11 +21,13 @@ CREATE TABLE disasters
     create_date         TIMESTAMP WITHOUT TIME ZONE,
     update_date         TIMESTAMP WITHOUT TIME ZONE,
     type                SMALLINT                    NOT NULL,
+    description         VARCHAR                             ,
     source              VARCHAR(255)                NOT NULL,
     location            VARCHAR(255)                NOT NULL,
     disaster_start_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     disaster_end_time   TIMESTAMP WITHOUT TIME ZONE,
     status              SMALLINT                    NOT NULL,
+    user_email          VARCHAR(255)                NOT NULL,
     CONSTRAINT pk_disasters PRIMARY KEY (id)
 );
 
