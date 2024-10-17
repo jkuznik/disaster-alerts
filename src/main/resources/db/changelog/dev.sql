@@ -1,5 +1,6 @@
 -- liquibase formatted sql
 
+
 -- changeset Slawek84PL:1728934675080-1
 CREATE TABLE alerts
 (
@@ -21,13 +22,11 @@ CREATE TABLE disasters
     create_date         TIMESTAMP WITHOUT TIME ZONE,
     update_date         TIMESTAMP WITHOUT TIME ZONE,
     type                SMALLINT                    NOT NULL,
-    description         VARCHAR                             ,
     source              VARCHAR(255)                NOT NULL,
     location            VARCHAR(255)                NOT NULL,
     disaster_start_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     disaster_end_time   TIMESTAMP WITHOUT TIME ZONE,
     status              SMALLINT                    NOT NULL,
-    user_email          VARCHAR(255)                NOT NULL,
     CONSTRAINT pk_disasters PRIMARY KEY (id)
 );
 
@@ -51,6 +50,7 @@ CREATE TABLE users
     phone_number VARCHAR(9),
     location     VARCHAR(255),
     role         VARCHAR(255),
+
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
@@ -78,3 +78,20 @@ ALTER TABLE disasters_alerts
 ALTER TABLE disasters_alerts
     ADD CONSTRAINT fk_disale_on_disaster FOREIGN KEY (disaster_id) REFERENCES disasters (id);
 
+-- changeset Slawek84PL:1728934675080-11
+insert into users
+(id,version, username, create_date, email, password, role, location, phone_number)
+values (gen_random_uuid(), 0, 'Disaster Admin', CURRENT_TIMESTAMP, 'admin@disaster.pl',
+        '$2a$10$g0Q0DJVcBKJQePkw1b/US.dOeTaVKFTQ3i5w6iKPNx1K8tT03LzlS',
+        'ROLE_ADMIN', 'Warszawa', '123456789'),
+       (gen_random_uuid(), 0, 'Disaster User', CURRENT_TIMESTAMP, 'user@disaster.pl',
+        '$2a$10$ZVw40XRuqbY115/bqwXjyuolLI0F4z76rTujUC1spcsH4JT/il.2S',
+        'ROLE_USER', 'Kraków', '987654321');
+
+-- changeset jkuznik:1728934675080-12
+ALTER TABLE disasters
+    ADD COLUMN description VARCHAR;
+
+-- changeset jkuznik:1728934675080-13
+ALTER TABLE disasters
+    ADD COLUMN user_email VARCHAR(255) NOT NULL;

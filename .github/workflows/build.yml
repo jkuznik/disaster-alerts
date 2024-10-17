@@ -1,4 +1,5 @@
-name: Java CI with Maven
+name: CI Pipeline
+
 on:
   push:
     branches: [ "master" ]

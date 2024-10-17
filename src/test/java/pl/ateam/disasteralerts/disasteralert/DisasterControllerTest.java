@@ -9,8 +9,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.ateam.disasteralerts._config.TestSecurityConfig;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
@@ -18,10 +19,11 @@ import java.time.Instant;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DisasterController.class)
-@Import(DisasterMapperImpl.class)
+@Import({DisasterMapperImpl.class, TestSecurityConfig.class})
 class DisasterControllerTest {
 
     @Autowired
@@ -48,23 +50,27 @@ class DisasterControllerTest {
             DisasterStatus.ACTIVE,
             "testEmail");
 
-//    @Nested
-//    class POSTMethodsTest{
-//        @Test
-//        void createDisaster() throws Exception {
-//            //given
-//            authentication.setAuthenticated(true);
-//            DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
-//
-//            //when
-//            when(authentication.getDetails()).thenReturn("testEmail");
-//            when(disasterService.addDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
-//
-//            //then
-//            mockMvc.perform(MockMvcRequestBuilders.post(DisasterController.DISASTERS_BASE_URL)
-//                    .contentType(MediaType.APPLICATION_JSON)
-//                    .content(objectMapper.writeValueAsString(disasterAddDTO)))
-//                        .andExpect(status().isCreated());
-//        }
-//    }
+    @Nested
+    class POSTMethodsTest{
+
+        @Test
+        @WithMockUser(username = "email", roles = "USER")
+        void createDisaster() throws Exception {
+            //given
+            authentication.setAuthenticated(true);
+            DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
+
+            //when
+            when(authentication.getDetails()).thenReturn("testEmail");
+            when(disasterService.addDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
+
+            //then
+            mockMvc.perform(post(DisasterController.DISASTERS_BASE_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(disasterAddDTO))
+                            .param("disasterType", DisasterType.FLOOD.toString())
+                            .param("description", "test"))
+                        .andExpect(status().isCreated());
+        }
+    }
 }
