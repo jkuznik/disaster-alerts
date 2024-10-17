@@ -78,3 +78,13 @@ ALTER TABLE disasters_alerts
 ALTER TABLE disasters_alerts
     ADD CONSTRAINT fk_disale_on_disaster FOREIGN KEY (disaster_id) REFERENCES disasters (id);
 
+-- changeset Slawek84PL:1728934675080-11
+insert into users
+(id,version, username, create_date, email, password, role, location, phone_number)
+values (gen_random_uuid(), 0, 'Disaster Admin', CURRENT_TIMESTAMP, 'admin@disaster.pl',
+        '$2a$10$g0Q0DJVcBKJQePkw1b/US.dOeTaVKFTQ3i5w6iKPNx1K8tT03LzlS',
+        'ROLE_ADMIN', 'Warszawa', '123456789'),
+       (gen_random_uuid(), 0, 'Disaster User', CURRENT_TIMESTAMP, 'user@disaster.pl',
+        '$2a$10$ZVw40XRuqbY115/bqwXjyuolLI0F4z76rTujUC1spcsH4JT/il.2S',
+        'ROLE_USER', 'Kraków', '987654321');
+
