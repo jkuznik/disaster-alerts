@@ -1,13 +1,12 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mail.MailException;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -74,7 +73,7 @@ class NotificationServiceTest {
         // when & then
         assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Problem with creating the message");
+                .hasMessageContaining("To address must not be null");
 
         verify(mailSender, never()).send(any(MimeMessage.class));
     }
@@ -94,12 +93,12 @@ class NotificationServiceTest {
     @Test
     void shouldThrowExceptionWhenMimeMessageCreationFails() {
         // given
-        doThrow(MessagingException.class).when(mailSender).createMimeMessage();
+        doThrow(new IllegalStateException("Mocked exception")).when(mailSender).createMimeMessage();
 
         // when & then
         assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Problem with creating the message");
+                .hasMessageContaining("Mocked exception");
 
         verify(mailSender, never()).send(any(MimeMessage.class));
     }
@@ -107,7 +106,7 @@ class NotificationServiceTest {
     @Test
     void shouldThrowExceptionWhenEmailSendingFails() {
         // given
-        doThrow(MailException.class).when(mailSender).send(any(MimeMessage.class));
+        doThrow(MailSendException.class).when(mailSender).send(any(MimeMessage.class));
 
         // when & then
         assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))

@@ -22,9 +22,6 @@ spring:
     change-log: db/changelog-dev.yaml
     contexts: dev
 
-server:
-  port: 8080
-
   mail:
     host: smtp.gmail.com
     port: 587
@@ -36,6 +33,11 @@ server:
           auth: true
           starttls:
             enable: true
+          ssl:
+            trust: smtp.gmail.com
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+
+server:
+  port: 8080
