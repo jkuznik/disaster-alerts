@@ -29,18 +29,22 @@ class NotificationServiceTest {
     @InjectMocks
     private NotificationService notificationService;
 
+    private String recipient;
+    private String subject;
+    private String content;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
+        recipient = "test@gmail.com";
+        subject = "Disaster Alert";
+        content = "Disaster Alert";
     }
 
     @Test
-    void shouldSendEmailSuccessfully() throws Exception {
+    void shouldSendEmailSuccessfully() {
         // given
-        String recipient = "test@example.com";
-        String subject = "Test Subject";
-        String content = "Test Content";
 
         // when
         notificationService.sendEmail(recipient, subject, content);
@@ -53,8 +57,6 @@ class NotificationServiceTest {
     void shouldThrowExceptionWhenRecipientIsEmpty() {
         // given
         String recipient = "";
-        String subject = "Test Subject";
-        String content = "Test Content";
 
         // when & then
         assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
@@ -68,8 +70,6 @@ class NotificationServiceTest {
     void shouldThrowExceptionWhenRecipientIsNull() {
         // given
         String recipient = null;
-        String subject = "Test Subject";
-        String content = "Test Content";
 
         // when & then
         assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
@@ -80,11 +80,9 @@ class NotificationServiceTest {
     }
 
     @Test
-    void shouldSendEmailWithEmptyContent() throws MessagingException {
+    void shouldSendEmailWithEmptyContent() {
         // given
-        String recipient = "test@example.com";
-        String subject = "Test Subject";
-        String content = "";  // Pusta treść
+        String content = "";
 
         // when
         notificationService.sendEmail(recipient, subject, content);
@@ -94,12 +92,8 @@ class NotificationServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenMimeMessageCreationFails() throws Exception {
+    void shouldThrowExceptionWhenMimeMessageCreationFails() {
         // given
-        String recipient = "test@example.com";
-        String subject = "Test Subject";
-        String content = "Test Content";
-
         doThrow(MessagingException.class).when(mailSender).createMimeMessage();
 
         // when & then
@@ -111,12 +105,8 @@ class NotificationServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenEmailSendingFails() throws Exception {
+    void shouldThrowExceptionWhenEmailSendingFails() {
         // given
-        String recipient = "test@example.com";
-        String subject = "Test Subject";
-        String content = "Test Content";
-
         doThrow(MailException.class).when(mailSender).send(any(MimeMessage.class));
 
         // when & then
@@ -130,14 +120,12 @@ class NotificationServiceTest {
     @Test
     void shouldThrowExceptionWhenSubjectIsNull() {
         // given
-        String recipient = "test@example.com";
-        String subject = null;  // Nullowy temat
-        String content = "Test Content";
+        String subject = null;
 
         // when & then
         assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Problem with creating the message");
+                .hasMessageContaining("Subject must not be null");
 
         verify(mailSender, never()).send(any(MimeMessage.class));
     }

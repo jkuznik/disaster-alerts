@@ -16,13 +16,13 @@ class NotificationService {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
 
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
-    void sendEmail(String sender, String subject, String content) {
+    void sendEmail(String recipient, String subject, String content) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setTo(sender);
+            helper.setTo(recipient);
             helper.setSubject(subject);
             helper.setText(content, true);
 
