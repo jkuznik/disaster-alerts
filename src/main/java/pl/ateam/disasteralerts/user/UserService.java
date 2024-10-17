@@ -1,6 +1,9 @@
 package pl.ateam.disasteralerts.user;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,13 +11,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserMapper userMapper;
 
     boolean existsById(UUID userId) {
         return userRepository.existsById(userId);
@@ -36,8 +37,14 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    private User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono użytkownika o adresie email: " + email));
+    }
+
+    public UserDTO findByEmail(String email) {
+        User user = findUserByEmail(email);
+        return userMapper.mapUserToUserDTO(user);
     }
 
     List<User> getAllUsers() {
