@@ -1,7 +1,7 @@
 package pl.ateam.disasteralerts.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 
@@ -37,11 +37,13 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    private User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono użytkownika o adresie email: " + email));
+    }
+
     public UserDTO findByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new BadCredentialsException(
-                ("Użytkownik nie istnieje lub hasło jest niepoprawne")));
-        user.setEmail(user.getEmail());
-        user.setPassword(user.getPassword());
+        User user = findUserByEmail(email);
         return userMapper.mapUserToUserDTO(user);
     }
 
