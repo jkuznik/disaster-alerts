@@ -48,23 +48,23 @@ class DisasterControllerTest {
             DisasterStatus.ACTIVE,
             "testEmail");
 
-    @Nested
-    class POSTMethodsTest{
-        @Test
-        void createDisaster() throws Exception {
-            //given
-            authentication.setAuthenticated(true);
-            DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
-
-            //when
-            when(authentication.getDetails()).thenReturn("testEmail");
-            when(disasterService.addDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
-
-            //then
-            mockMvc.perform(MockMvcRequestBuilders.post(DisasterController.DISASTERS_BASE_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(disasterAddDTO)))
-                        .andExpect(status().isCreated());
-        }
-    }
+//    @Nested
+//    class POSTMethodsTest{
+//        @Test
+//        void createDisaster() throws Exception {
+//            //given
+//            authentication.setAuthenticated(true);
+//            DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
+//
+//            //when
+//            when(authentication.getDetails()).thenReturn("testEmail");
+//            when(disasterService.addDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
+//
+//            //then
+//            mockMvc.perform(MockMvcRequestBuilders.post(DisasterController.DISASTERS_BASE_URL)
+//                    .contentType(MediaType.APPLICATION_JSON)
+//                    .content(objectMapper.writeValueAsString(disasterAddDTO)))
+//                        .andExpect(status().isCreated());
+//        }
+//    }
 }

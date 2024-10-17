@@ -26,7 +26,7 @@ class DisasterController {
     private final DisasterService disasterService;
 
     @PostMapping()
-    public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal Authentication authentication,
+    public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal UserDetails userDetails,
                                                       @RequestParam DisasterType disasterType,
                                                       @RequestParam String description) {
 
@@ -37,7 +37,7 @@ class DisasterController {
                 "lokalizacja - konieczne ustalić logikę przekazywania lokalizacji", // czy pobieramy z lokalizacji użytkownika czy user może sam wprowadzić
                 Instant.now(),
                 DisasterStatus.ACTIVE,
-                getUserEmail(authentication)
+                userDetails.getUsername()
         );
 
         DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
@@ -47,11 +47,5 @@ class DisasterController {
                 .buildAndExpand(disasterDTO.id());
 
         return ResponseEntity.created(uriComponents.toUri()).body(disasterDTO);
-    }
-
-    private String getUserEmail(Authentication authentication) {
-        Object details = authentication.getDetails();
-        UserDetails userDetails = (UserDetails) details;
-        return userDetails.getUsername();
     }
 }
