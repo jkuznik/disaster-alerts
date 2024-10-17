@@ -24,3 +24,18 @@ spring:
 
 server:
   port: 8080
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: disaster.alert1@gmail.com
+    password: ihrbtliplvclxosl
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
