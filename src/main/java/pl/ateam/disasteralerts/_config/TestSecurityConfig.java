@@ -19,8 +19,9 @@ public class TestSecurityConfig {
         http
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize ->
-                        authorize.anyRequest().authenticated())
+                .authorizeHttpRequests(authorize -> authorize
+                                .requestMatchers("/disasters").hasRole("USER")
+                                .anyRequest().authenticated())
                 .headers(headers ->
                         headers.frameOptions(Customizer.withDefaults()).disable())
                 .formLogin(Customizer.withDefaults());
