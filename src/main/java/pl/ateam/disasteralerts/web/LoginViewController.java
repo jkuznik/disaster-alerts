@@ -17,15 +17,15 @@ import java.util.List;
 @RequestMapping()
 @RequiredArgsConstructor
 @Slf4j
-public class IndexViewController {
+public class LoginViewController {
 
-    @GetMapping
     private final UserService userService;
 
-    public String indexView() {
+    @GetMapping("/login")
+    public String lginView() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info(authentication.getPrincipal().toString());
-        return "index";
+        return "login";
     }
 
     @GetMapping("test")
