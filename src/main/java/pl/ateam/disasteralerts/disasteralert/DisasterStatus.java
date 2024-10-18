@@ -1,5 +1,5 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-enum DisasterStatus {
+public enum DisasterStatus {
     ACTIVE, FINISHED, FAKE
 }

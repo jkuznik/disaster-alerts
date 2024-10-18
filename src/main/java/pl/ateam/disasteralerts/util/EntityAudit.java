@@ -6,6 +6,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Version;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
@@ -35,4 +36,21 @@ public class EntityAudit {
     public void setUpdateDate() {
         this.updateDate = new Date();
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
 }
+

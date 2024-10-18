@@ -1,10 +1,10 @@
-package pl.ateam.disasteralerts.disasteralert;
+package pl.ateam.disasteralerts.disasteralert.dto;
 
 import java.time.Instant;
 import java.util.UUID;
 
-record AlertDTO(UUID id,
-                Disaster disaster,
+public record AlertDTO(UUID id,
+                UUID disasterId,
                 String location,
                 Instant creationDate) {
 }
