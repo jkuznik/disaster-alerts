@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head th:replace="~{fragments :: head('Dodaj Zdarzenie')}"></head>
+
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+
+<div class="d-flex vh-100 align-items-center justify-content-center bg-body-tertiary">
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Dodaj Zdarzenie</h1>
+                <p class="col-lg-10 fs-4">Wprowadź informacje o nowym zdarzeniu</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+                <form action="/disasters/add" method="post" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
+                    <div class="form-floating mb-3">
+                        <select name="type" class="form-select" id="type" required>
+                            <option th:each="type : ${disasterType}"
+                                    th:value="${type}" th:text="${type}"></option>
+                        </select>
+                        <label for="type">Typ Zdarzenia</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input name="description" type="text" class="form-control" id="description" placeholder="Opis" required>
+                        <label for="description">Opis</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input name="source" type="text" class="form-control" id="source" placeholder="Źródło" required>
+                        <label for="source">Źródło</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input name="location" type="text" class="form-control" id="location" placeholder="Lokalizacja" required>
+                        <label for="location">Lokalizacja</label>
+                    </div>
+
+<!--                    <div class="form-floating mb-3">-->
+<!--                        <input name="disasterStartTime" type="datetime-local" class="form-control" id="disasterStartTime" required>-->
+<!--                        <label for="disasterStartTime">Czas rozpoczęcia zdarzenia</label>-->
+<!--                    </div>-->
+
+                    <div class="form-floating mb-3">
+                        <select name="status" class="form-select" id="status" required>
+                            <option th:each="status : ${disasterStatus}"
+                                    th:value="${status}" th:text="${status}"></option>
+                        </select>
+                        <label for="status">Status</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input th:value="${email}" name="userEmail" type="email" class="form-control" id="userEmail" placeholder="name@example.com" required disabled >
+                        <label for="userEmail">Email użytkownika</label>
+                    </div>
+
+                    <button class="w-100 btn btn-lg btn-success" type="submit">Dodaj Zdarzenie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
