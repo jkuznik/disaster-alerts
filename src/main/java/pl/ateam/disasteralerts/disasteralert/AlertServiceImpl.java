@@ -17,6 +17,7 @@ class AlertServiceImpl implements AlertService {
     @Override
     public AlertDTO addAlert(AlertAddDTO alertAddDTO) {
         Alert alert = mapper.mapAlertAddDtoToAlert(alertAddDTO);
+
         return mapper.mapAlertToAlertDto(repository.save(alert));
     }
 }

@@ -11,7 +11,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class DisasterAlertFacade {
+public class DisasterFacade {
     private final DisasterService disasterService;
 
     public DisasterDTO addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO) {

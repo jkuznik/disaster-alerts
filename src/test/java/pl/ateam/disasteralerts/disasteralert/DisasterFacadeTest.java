@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -17,11 +16,11 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig(classes = {DisasterAlertFacade.class, DisasterServiceImpl.class, MethodValidationPostProcessor.class})
-class DisasterAlertFacadeTest {
+@SpringJUnitConfig(classes = {DisasterFacade.class, DisasterServiceImpl.class, MethodValidationPostProcessor.class})
+class DisasterFacadeTest {
 
     @Autowired
-    DisasterAlertFacade disasterAlertFacade;
+    DisasterFacade disasterFacade;
 
     @MockBean
     DisasterService disasterService;
@@ -41,7 +40,7 @@ class DisasterAlertFacadeTest {
             when(disasterService.addDisaster(disasterAddDTO)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterAlertFacade.addDisaster(disasterAddDTO);
+            DisasterDTO result = disasterFacade.addDisaster(disasterAddDTO);
 
             Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
@@ -54,7 +53,7 @@ class DisasterAlertFacadeTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterFacade.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -72,7 +71,7 @@ class DisasterAlertFacadeTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 
