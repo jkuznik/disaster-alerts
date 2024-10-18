@@ -22,7 +22,10 @@ import java.util.List;
 class Disaster extends EntityAudit {
 
     @Column(nullable = false)
-    private DisasterType type;
+    private String userEmail;
+
+    @Column(nullable = false)
+    private DisasterType disasterType;
 
     @Column(nullable = false)
     private String description;
@@ -40,9 +43,6 @@ class Disaster extends EntityAudit {
 
     @Column(nullable = false)
     private DisasterStatus status;
-
-    @Column(nullable = false)
-    private String userEmail;
 
     @OneToMany
     private List<Alert> alerts;

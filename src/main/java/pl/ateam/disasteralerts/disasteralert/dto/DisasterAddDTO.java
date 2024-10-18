@@ -6,7 +6,6 @@ import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
 import pl.ateam.disasteralerts.disasteralert.DisasterType;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public record DisasterAddDTO(@NotNull DisasterType type,
                              @NotNull String description,

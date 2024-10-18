@@ -3,28 +3,21 @@ package pl.ateam.disasteralerts.disasteralert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.ateam.disasteralerts.util.EntityAudit;
 
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "alerts")
-class Alert extends EntityAudit {
+@Entity
+@Table(name = "alerts_users")
+public class AlertUser extends EntityAudit {
 
     @Column(nullable = false)
-    private UUID disasterId;
+    private UUID alertId;
 
     @Column(nullable = false)
-    private String description;
-
-    @Column(nullable = false)
-    private UUID alertUser;
+    private UUID userId;
 }
