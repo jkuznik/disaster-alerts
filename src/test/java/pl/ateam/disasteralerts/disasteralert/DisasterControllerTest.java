@@ -74,7 +74,7 @@ class DisasterControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "email", roles = "WRONG_ROLE")
+        @WithMockUser(username = "email", roles = "NOT_VALID")
         void shouldReturnStatus403When_UserIsUnAuthenticatedAndHasRoleNotValid_AndRequestParamsAreValid() throws Exception {
             //given
             authentication.setAuthenticated(true);
@@ -95,7 +95,7 @@ class DisasterControllerTest {
 
         @Test
         @WithMockUser(username = "email", roles = "USER")
-        void shouldReturnStatus201When_UserIsAuthenticatedAndHasRoleValid_AndRequestParamsAreNotValid() throws Exception {
+        void shouldReturnStatus201When_UserIsAuthenticatedAndHasRoleValid_AndRequestParamsAreValidAndDescriptionIsBlank() throws Exception {
             //given
             authentication.setAuthenticated(true);
             DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
@@ -108,8 +108,8 @@ class DisasterControllerTest {
             mockMvc.perform(post(DisasterController.DISASTERS_BASE_URL)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(disasterAddDTO))
-                            .param("disasterType", null)
-                            .param("description", "test"))
+                            .param("disasterType", DisasterType.FLOOD.toString())
+                            .param("description", ""))
                     .andExpect(status().isCreated());
         }
     }
