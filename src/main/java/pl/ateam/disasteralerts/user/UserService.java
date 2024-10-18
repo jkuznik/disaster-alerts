@@ -3,7 +3,9 @@ package pl.ateam.disasteralerts.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.ateam.disasteralerts.security.CustomPasswordEncoder;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
+import pl.ateam.disasteralerts.user.dto.UserRegisterDTO;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final CustomPasswordEncoder customPasswordEncoder;
 
     boolean existsById(UUID userId) {
         return userRepository.existsById(userId);
@@ -51,7 +54,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void save(User user) {
+    public void save(UserRegisterDTO userRegisterDTO) {
+        User user = userMapper.mapUserRegisterDTOToUser(userRegisterDTO);
+        user.setRole(Role.ROLE_USER);
+        user.setPassword(customPasswordEncoder.encode(user.getPassword()));
+
         userRepository.save(user);
     }
 
