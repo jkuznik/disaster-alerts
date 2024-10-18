@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
+import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
@@ -13,8 +14,18 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 @RequiredArgsConstructor
 public class DisasterFacade {
     private final DisasterService disasterService;
+    private final AlertFacade alertFacade;
 
     public DisasterDTO addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO) {
-        return disasterService.addDisaster(disasterAddDTO);
+        DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
+
+        AlertAddDTO alertAddDTO = new AlertAddDTO(
+                disasterDTO.id(),
+                disasterDTO.description(),
+                disasterDTO.location());
+
+        alertFacade.addAlert(alertAddDTO);
+
+        return disasterDTO;
     }
 }
