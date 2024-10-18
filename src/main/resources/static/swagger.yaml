@@ -18,3 +18,24 @@ info:
 externalDocs:
   description: Templatka do obsługi swagger z wykorzystaniem tego pliku
   url: https://editor.swagger.io/
+paths:
+  /disasters:
+    post:
+      tags:
+        - disaster
+      summary: Dodawanie zdarzenia
+      security:
+        - basicAuth: [ ]
+      responses:
+        201:
+          description: Dodano zdarzenie
+        401:
+          description: Brak uwierzytelnienia
+        403:
+          description: Brak uprawnień do tej operacji
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
