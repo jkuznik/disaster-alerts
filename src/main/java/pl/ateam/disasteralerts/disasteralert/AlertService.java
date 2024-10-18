@@ -1,12 +1,8 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
+import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
 
-@Service
-@RequiredArgsConstructor
-class AlertService {
-
-    private final AlertRepository alertRepository;
-
+public interface AlertService {
+    AlertDTO addAlert(AlertAddDTO alertAddDTO);
 }
