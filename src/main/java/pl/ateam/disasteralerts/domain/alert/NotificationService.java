@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts.domain.disaster;
+package pl.ateam.disasteralerts.domain.alert;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

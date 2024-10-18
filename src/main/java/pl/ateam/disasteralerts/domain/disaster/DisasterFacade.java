@@ -10,6 +10,8 @@ import pl.ateam.disasteralerts.domain.alert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.domain.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.domain.disaster.dto.DisasterDTO;
 
+import java.util.UUID;
+
 @Component
 @Validated
 @RequiredArgsConstructor
@@ -27,5 +29,9 @@ public class DisasterFacade {
         alertFacade.addAlert(alertAddDTO);
 
         return disasterDTO;
+    }
+
+    public DisasterDTO getDisasterById(@NotNull UUID id) {
+        return disasterService.getDisasterById(id);
     }
 }
