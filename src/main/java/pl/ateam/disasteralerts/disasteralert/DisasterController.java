@@ -23,7 +23,7 @@ class DisasterController {
 
     public static final String DISASTERS_BASE_URL = "/disasters";
 
-    private final DisasterService disasterService;
+    private final DisasterFacade disasterFacade;
 
     @PostMapping()
     public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal UserDetails userDetails,
@@ -40,7 +40,7 @@ class DisasterController {
                 userDetails.getUsername()
         );
 
-        DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
+        DisasterDTO disasterDTO = disasterFacade.addDisaster(disasterAddDTO);
 
         UriComponents uriComponents = UriComponentsBuilder
                 .fromUriString("http://localhost:8081" + DISASTERS_BASE_URL + "/{id}")

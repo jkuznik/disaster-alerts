@@ -22,7 +22,8 @@ public class DisasterFacade {
         AlertAddDTO alertAddDTO = new AlertAddDTO(
                 disasterDTO.id(),
                 disasterDTO.description(),
-                disasterDTO.location());
+                disasterDTO.location(),
+                disasterDTO.disasterStartTime());
 
         alertFacade.addAlert(alertAddDTO);
 
