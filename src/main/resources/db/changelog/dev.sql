@@ -95,3 +95,20 @@ ALTER TABLE disasters
 -- changeset jkuznik:1728934675080-13
 ALTER TABLE disasters
     ADD COLUMN user_email VARCHAR(255) NOT NULL;
+
+-- changeset jkuznik:1728934675080-14
+CREATE TABLE alerts_users
+(
+    id           UUID         NOT NULL,
+    version      BIGINT       NOT NULL,
+    create_date  TIMESTAMP WITHOUT TIME ZONE,
+    update_date  TIMESTAMP WITHOUT TIME ZONE,
+    alert_id     UUID        NOT NULL,
+    user_id      UUID        NOT NULL,
+
+    CONSTRAINT pk_alerts_users PRIMARY KEY (id)
+);
+
+-- changeset jkuznik:1728934675080-15
+ALTER TABLE alerts
+    ADD COLUMN alert_user UUID;
