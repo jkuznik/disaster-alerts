@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts.domain.alerUser;
+package pl.ateam.disasteralerts.domain.alertUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
