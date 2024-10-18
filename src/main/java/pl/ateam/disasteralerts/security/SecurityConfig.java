@@ -19,14 +19,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/signup").permitAll()
-//                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/", "/signup", "/login", "/images/**", "static/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(loginConfigurer -> loginConfigurer
-                        .loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/signup"))
-                .logout(logout -> logout.logoutSuccessUrl("/login"))
+                        .loginPage("/").permitAll()
+//                        .defaultSuccessUrl("/stronaPoLogowaniu")
+                        .loginProcessingUrl("/loginproc"))
+                .logout(logout -> logout.logoutSuccessUrl("/"))
                 .authenticationProvider(customDaoAuthenticationProvider);
         return http.build();
     }
