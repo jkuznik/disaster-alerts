@@ -13,33 +13,33 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class TestSecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http
-                .httpBasic(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/disasters").hasRole("USER")
-                                .anyRequest().authenticated())
-                .headers(headers ->
-                        headers.frameOptions(Customizer.withDefaults()).disable())
-                .formLogin(Customizer.withDefaults());
-
-        return http.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        var userDetailsManager = new InMemoryUserDetailsManager();
-
-        var user1 = User.withUsername("email")
-                .password("{noop}pass")
-                .roles("USER")
-                .build();
-
-        userDetailsManager.createUser(user1);
-
-        return userDetailsManager;
-    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        http
+//                .httpBasic(Customizer.withDefaults())
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(authorize -> authorize
+//                                .requestMatchers("/disasters").hasRole("USER")
+//                                .anyRequest().authenticated())
+//                .headers(headers ->
+//                        headers.frameOptions(Customizer.withDefaults()).disable())
+//                .formLogin(Customizer.withDefaults());
+//
+//        return http.build();
+//    }
+//
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        var userDetailsManager = new InMemoryUserDetailsManager();
+//
+//        var user1 = User.withUsername("email")
+//                .password("{noop}pass")
+//                .roles("USER")
+//                .build();
+//
+//        userDetailsManager.createUser(user1);
+//
+//        return userDetailsManager;
+//    }
 }
