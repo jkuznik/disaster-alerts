@@ -14,7 +14,7 @@
                 <p class="col-lg-10 fs-4">Wprowadź informacje o nowym zdarzeniu</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-                <form action="/disasters/add" method="post" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
+                <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
                     <div class="form-floating mb-3">
                         <select name="type" class="form-select" id="type" required>
                             <option th:each="type : ${disasterType}"
@@ -34,14 +34,14 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input name="location" type="text" class="form-control" id="location" placeholder="Lokalizacja" required>
+                        <input th:value="*{location()}" name="location" type="text" class="form-control" id="location" placeholder="Lokalizacja" required>
                         <label for="location">Lokalizacja</label>
                     </div>
 
-<!--                    <div class="form-floating mb-3">-->
-<!--                        <input name="disasterStartTime" type="datetime-local" class="form-control" id="disasterStartTime" required>-->
-<!--                        <label for="disasterStartTime">Czas rozpoczęcia zdarzenia</label>-->
-<!--                    </div>-->
+                    <div class="form-floating mb-3">
+                        <input name="disasterStartTime" type="datetime-local" class="form-control" id="disasterStartTime" required>
+                        <label for="disasterStartTime">Czas rozpoczęcia zdarzenia</label>
+                    </div>
 
                     <div class="form-floating mb-3">
                         <select name="status" class="form-select" id="status" required>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input th:value="${email}" name="userEmail" type="email" class="form-control" id="userEmail" placeholder="name@example.com" required disabled >
+                        <input th:value="${email}" name="userEmail" type="email" class="form-control" id="userEmail" placeholder="name@example.com" required readonly>
                         <label for="userEmail">Email użytkownika</label>
                     </div>
 

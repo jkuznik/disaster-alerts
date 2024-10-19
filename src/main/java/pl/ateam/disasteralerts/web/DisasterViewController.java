@@ -25,19 +25,27 @@ public class DisasterViewController {
 
     @GetMapping("add")
     public String showAddDisasterForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        model.addAttribute("email", userDetails.getUsername());
-        model.addAttribute("disasterType", DisasterType.values());
-        model.addAttribute("disasterStatus", DisasterStatus.values());
+        baseModel(model, userDetails);
         model.addAttribute("disasterAddDTO", new DisasterAddDTO(null, "", "", "", null, null, ""));
         return "addDisaster";
     }
 
     @PostMapping("add")
-    public String addDisaster(@Valid DisasterAddDTO disasterAddDTO, BindingResult result, Model model) {
+    public String addDisaster(@AuthenticationPrincipal UserDetails userDetails,
+                              @Valid DisasterAddDTO disasterAddDTO,
+                              BindingResult result, Model model) {
         if (result.hasErrors()) {
+            baseModel(model, userDetails);
+            model.addAttribute("disasterAddDTO", disasterAddDTO);
             return "addDisaster";
         }
         disasterService.addDisaster(disasterAddDTO);
         return "redirect:/disasters";
+    }
+
+    private void baseModel(Model model, UserDetails userDetails) {
+        model.addAttribute("email", userDetails.getUsername());
+        model.addAttribute("disasterType", DisasterType.values());
+        model.addAttribute("disasterStatus", DisasterStatus.values());
     }
 }
