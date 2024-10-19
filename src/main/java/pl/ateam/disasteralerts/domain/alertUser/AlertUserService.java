@@ -11,6 +11,6 @@ import java.util.UUID;
 public interface AlertUserService {
 
     AlertUserDTO addAlertUser(AlertUserAddDTO alertUser);
-    List<AlertUserDTO> getAllByAlertId(UUID id);
+    List<AlertUserDTO> getAllByAlertId(UUID alertId);
     List<AlertUserDTO> getAllByUserId(UUID userId);
 }
