@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Logowanie')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments :: nav}"></nav>
+
+<div class="d-flex vh-100 align-items-center justify-content-center bg-body-tertiary">
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">DisasterAlerts</h1>
+                <p class="col-lg-10 fs-4">Lorem ipsum dolor sit viverra</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+
+                <div th:replace="~{fragments :: message}"></div>
+                <div class="h4 text-danger" th:if="${param.error}">Niepoprawny login lub hasło</div>
+                <div class="h4" th:if="${param.logout}">Wylogowano</div>
+
+                <form action="/loginproc" method="post" class="p-4 p-md-5  rounded-3 bg-body-tertiary">
+                    <div class="form-floating mb-3">
+                        <input name="username" type="username" class="form-control" id="username" placeholder="name@example.com">
+                        <label for="username">Adres email</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+                        <label for="password">Hasło</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-success" type="submit">Zaloguj się</button>
+                    <a href="/signup" class="w-100 btn btn-lg btn-success my-2" type="submit">Utwórz konto</a>
+                    <hr class="my-4">
+                    <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

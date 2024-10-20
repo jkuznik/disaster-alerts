@@ -88,3 +88,10 @@ values (gen_random_uuid(), 0, 'Disaster Admin', CURRENT_TIMESTAMP, 'admin@disast
         '$2a$10$ZVw40XRuqbY115/bqwXjyuolLI0F4z76rTujUC1spcsH4JT/il.2S',
         'ROLE_USER', 'Kraków', '987654321');
 
+-- changeset jkuznik:1728934675080-12
+ALTER TABLE disasters
+    ADD COLUMN description VARCHAR;
+
+-- changeset jkuznik:1728934675080-13
+ALTER TABLE disasters
+    ADD COLUMN user_email VARCHAR(255) NOT NULL;
