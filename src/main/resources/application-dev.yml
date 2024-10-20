@@ -24,3 +24,8 @@ spring:
 
 server:
   port: 8080
+
+openweathermap:
+  api:
+    key: 3261c3b28f5aed55fcca580f4d7744d0
+    url: https://api.openweathermap.org/data/2.5/weather
