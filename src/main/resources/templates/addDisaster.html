@@ -14,45 +14,51 @@
                 <p class="col-lg-10 fs-4">Wprowadź informacje o nowym zdarzeniu</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
+                <div th:replace="~{fragments :: message}"></div>
                 <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
                     <div class="form-floating mb-3">
-                        <select name="type" class="form-select" id="type" required>
+                        <select th:value="${disasterTypSelected}" name="type" class="form-select" id="type" required>
+                            <option th:if="${disasterTypSelected == null}" value="" disabled selected>Wybierz typ zdarzenia</option>
                             <option th:each="type : ${disasterType}"
-                                    th:value="${type}" th:text="${type}"></option>
+                                    th:value="${type}"
+                                    th:selected="${type == disasterTypSelected}"
+                                    th:text="${type}"></option>
                         </select>
                         <label for="type">Typ Zdarzenia</label>
                     </div>
 
+<!--                    <div class="text-danger" th:if="${#fields.errors('description')}" th:errors="*{description}"></div>-->
                     <div class="form-floating mb-3">
-                        <input name="description" type="text" class="form-control" id="description" placeholder="Opis" required>
+                        <input th:value="*{description()}" name="description" type="text" class="form-control" id="description" placeholder="Opis" required>
                         <label for="description">Opis</label>
                     </div>
 
-                    <div class="form-floating mb-3">
-                        <input name="source" type="text" class="form-control" id="source" placeholder="Źródło" required>
-                        <label for="source">Źródło</label>
-                    </div>
+<!--                    <div class="form-floating mb-3">-->
+<!--                        <input name="source" type="text" class="form-control" id="source" placeholder="Źródło" required>-->
+<!--                        <label for="source">Źródło</label>-->
+<!--                    </div>-->
 
+<!--                    <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>-->
                     <div class="form-floating mb-3">
                         <input th:value="*{location()}" name="location" type="text" class="form-control" id="location" placeholder="Lokalizacja" required>
                         <label for="location">Lokalizacja</label>
                     </div>
 
-                    <div class="form-floating mb-3">
-                        <input name="disasterStartTime" type="datetime-local" class="form-control" id="disasterStartTime" required>
-                        <label for="disasterStartTime">Czas rozpoczęcia zdarzenia</label>
-                    </div>
+<!--                    <div class="form-floating mb-3">-->
+<!--                        <input name="disasterStartTime" type="datetime-local" class="form-control" id="disasterStartTime" required>-->
+<!--                        <label for="disasterStartTime">Czas rozpoczęcia zdarzenia</label>-->
+<!--                    </div>-->
+
+<!--                    <div class="form-floating mb-3">-->
+<!--                        <select name="status" class="form-select" id="status" required>-->
+<!--                            <option th:each="status : ${disasterStatus}"-->
+<!--                                    th:value="${status}" th:text="${status}"></option>-->
+<!--                        </select>-->
+<!--                        <label for="status">Status</label>-->
+<!--                    </div>-->
 
                     <div class="form-floating mb-3">
-                        <select name="status" class="form-select" id="status" required>
-                            <option th:each="status : ${disasterStatus}"
-                                    th:value="${status}" th:text="${status}"></option>
-                        </select>
-                        <label for="status">Status</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input th:value="${email}" name="userEmail" type="email" class="form-control" id="userEmail" placeholder="name@example.com" required readonly>
+                        <input th:value="${email}" name="userEmail" type="hidden" class="form-control" id="userEmail" placeholder="name@example.com" required readonly>
                         <label for="userEmail">Email użytkownika</label>
                     </div>
 
