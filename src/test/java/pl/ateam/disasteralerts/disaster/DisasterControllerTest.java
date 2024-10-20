@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts.disasteralert;
+package pl.ateam.disasteralerts.disaster;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Nested;
@@ -12,13 +12,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.ateam.disasteralerts._config.TestSecurityConfig;
-import pl.ateam.disasteralerts.disaster.DisasterService;
-import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
-import pl.ateam.disasteralerts.disaster.enums.DisasterType;
 import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
+import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.disaster.enums.DisasterType;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -39,7 +38,7 @@ class DisasterControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    DisasterService disasterService;
+    DisasterFacade disasterFacade;
 
     @MockBean
     Authentication authentication;
@@ -49,7 +48,7 @@ class DisasterControllerTest {
             "foo",
             "bar",
             "bazz",
-            Instant.now(),
+            LocalDateTime.now(),
             DisasterStatus.ACTIVE,
             "testEmail");
 
@@ -85,7 +84,7 @@ class DisasterControllerTest {
 
             //when
             when(authentication.getDetails()).thenReturn("testEmail");
-            when(disasterService.addDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
+            when(disasterFacade.addDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
 
             //then
             mockMvc.perform(post(DisasterController.DISASTERS_BASE_URL)

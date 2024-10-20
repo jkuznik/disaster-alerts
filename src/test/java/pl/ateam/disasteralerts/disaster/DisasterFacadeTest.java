@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts.disasteralert;
+package pl.ateam.disasteralerts.disaster;
 
 import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
@@ -8,49 +8,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import pl.ateam.disasteralerts.disaster.DisasterService;
+import pl.ateam.disasteralerts.alert.AlertFacade;
 import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
 import pl.ateam.disasteralerts.disaster.enums.DisasterType;
 import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig(classes = {DisasterServiceImpl.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
-class DisasterServiceImplTest {
+@SpringJUnitConfig(classes = {DisasterFacade.class, AlertFacade.class, DisasterServiceImpl.class, MethodValidationPostProcessor.class})
+class DisasterFacadeTest {
 
     @Autowired
+    DisasterFacade disasterFacade;
+
+    @MockBean
     DisasterService disasterService;
 
     @MockBean
-    DisasterRepository disasterRepository;
-
-    @MockBean
-    DisasterMapper disasterMapper;
+    AlertFacade alertFacade;
 
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
 
     private final DisasterDTO disasterDTO = getDisasterDTO();
 
-    Disaster disaster = new Disaster();
 
     @Nested
-    class PostMethodsTests {
+    class AddDisasterTests {
         @Test
-        void addDisaster_shouldReturnDisasterDtoWhenDisasterAddDtoIsValid() {
+        void addDisaster_shouldReturnDisasterWhenDisasterAddDtoIsValid() {
             //given
 
             //when
-            when(disasterMapper.mapDisasterAddDtoToDisaster(any(DisasterAddDTO.class))).thenReturn(disaster);
-            when(disasterRepository.save(any(Disaster.class))).thenReturn(disaster);
-            when(disasterMapper.mapDisasterToDisasterDto(disaster)).thenReturn(disasterDTO);
+            when(disasterService.addDisaster(disasterAddDTO)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterService.addDisaster(disasterAddDTO);
+            DisasterDTO result = disasterFacade.addDisaster(disasterAddDTO);
 
             Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
@@ -58,8 +55,12 @@ class DisasterServiceImplTest {
 
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
+            //given
+
+            //when
+
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterFacade.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -70,14 +71,14 @@ class DisasterServiceImplTest {
                     "testDescription",
                     null,
                     "testLocation",
-                    Instant.now(),
+                    LocalDateTime.now(),
                     DisasterStatus.FAKE,
                     "testUserEmail");
 
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 
@@ -87,7 +88,7 @@ class DisasterServiceImplTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
+                LocalDateTime.now(),
                 DisasterStatus.FAKE,
                 "testUserEmail");
     }
@@ -99,10 +100,9 @@ class DisasterServiceImplTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
-                Instant.now().plusSeconds(10),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusSeconds(10),
                 DisasterStatus.FAKE,
-                "testUserEmail",
-                null);
+                "testUserEmail");
     }
 }

@@ -31,7 +31,7 @@ class EmailService implements AlertListener{
 
     }
 
-    private void sendEmail(String recipient, String subject, String content) {
+    public void sendEmail(String recipient, String subject, String content) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
