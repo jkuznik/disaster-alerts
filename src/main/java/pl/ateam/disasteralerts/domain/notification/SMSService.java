@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts.domain.alert;
+package pl.ateam.disasteralerts.domain.notification;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -117,7 +117,7 @@ ALTER TABLE alerts
 ALTER TABLE alerts
     ADD COLUMN username VARCHAR;
 
--- changeset Slawek84PL:1728934675080-17
+-- changeset jkuznik:1728934675080-17
 insert into users
 (id,version, username, create_date, email, password, role, location, phone_number)
 values (gen_random_uuid(), 0, 'test1', CURRENT_TIMESTAMP, 'disaster.alert1@gmail.pl',

@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.domain.alert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.domain.alert.dto.AlertDTO;
-import pl.ateam.disasteralerts.domain.alertUser.AlertUserFacade;
-import pl.ateam.disasteralerts.domain.disaster.DisasterFacade;
-import pl.ateam.disasteralerts.domain.disaster.dto.DisasterDTO;
+import pl.ateam.disasteralerts.domain.notification.NofificationFacade;
 import pl.ateam.disasteralerts.domain.user.UserFacadeWydmuszka;
 import pl.ateam.disasteralerts.domain.user.dto.UserDTO;
 
@@ -19,11 +17,8 @@ class AlertServiceImpl implements AlertService {
 
     private final AlertRepository repository;
     private final UserFacadeWydmuszka userFacadeWydmuszka;
+    private final NofificationFacade nofificationFacade;
     private final AlertMapper mapper;
-
-    private final AlertManager alertManager;
-    private final SMSService smsService;
-    private final EmailService emailService;
 
     @Transactional
     @Override
@@ -39,8 +34,8 @@ class AlertServiceImpl implements AlertService {
         String hardCodeLocationForTest = "Warszawa";
         Set<UserDTO> interestedUsers = userFacadeWydmuszka.getInterestedUsers( /*alertAddDTO.location()*/ hardCodeLocationForTest);
 
-        alertManager.addAlertListener(smsService);
-        alertManager.addAlertListener(emailService);
-        alertManager.createAlert(alertAddDTO, interestedUsers);
+        nofificationFacade.addEmailNotification();
+        nofificationFacade.addSMSNotification();
+        nofificationFacade.sendNotification(alertAddDTO, interestedUsers);
     }
 }
