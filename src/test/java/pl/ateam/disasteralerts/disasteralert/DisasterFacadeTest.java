@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import pl.ateam.disasteralerts.domain.disaster.DisasterFacade;
-import pl.ateam.disasteralerts.domain.disaster.DisasterService;
-import pl.ateam.disasteralerts.domain.disaster.enums.DisasterStatus;
-import pl.ateam.disasteralerts.domain.disaster.enums.DisasterType;
-import pl.ateam.disasteralerts.domain.disaster.dto.DisasterAddDTO;
-import pl.ateam.disasteralerts.domain.disaster.dto.DisasterDTO;
+import pl.ateam.disasteralerts.disaster.DisasterFacade;
+import pl.ateam.disasteralerts.disaster.DisasterService;
+import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.disaster.enums.DisasterType;
+import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
+import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
 
 import java.time.Instant;
 import java.util.UUID;

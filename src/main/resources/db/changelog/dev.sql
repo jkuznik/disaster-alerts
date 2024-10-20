@@ -126,3 +126,8 @@ values (gen_random_uuid(), 0, 'test1', CURRENT_TIMESTAMP, 'disaster.alert1@gmail
        (gen_random_uuid(), 0, 'test2', CURRENT_TIMESTAMP, 'kjchallanger@gmail.com',
         '$2a$10$ZVw40XRuqbY115/bqwXjyuolLI0F4z76rTujUC1spcsH4JT/il.2S',
         'ROLE_USER', 'Kraków', '987654321');
+
+-- changeset jkuznik:1728934675080-18
+ALTER TABLE disasters
+ALTER COLUMN status TYPE VARCHAR(255),
+    ALTER COLUMN type TYPE VARCHAR(255);
