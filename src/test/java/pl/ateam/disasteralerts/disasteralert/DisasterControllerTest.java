@@ -12,11 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.ateam.disasteralerts._config.TestSecurityConfig;
-import pl.ateam.disasteralerts.domain.disaster.DisasterService;
-import pl.ateam.disasteralerts.domain.disaster.enums.DisasterStatus;
-import pl.ateam.disasteralerts.domain.disaster.enums.DisasterType;
-import pl.ateam.disasteralerts.domain.disaster.dto.DisasterAddDTO;
-import pl.ateam.disasteralerts.domain.disaster.dto.DisasterDTO;
+import pl.ateam.disasteralerts.disasteralert.enums.DisasterStatus;
+import pl.ateam.disasteralerts.disasteralert.enums.DisasterType;
+import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
+import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
 

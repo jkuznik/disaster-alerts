@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import pl.ateam.disasteralerts.domain.user.UserService;
-import pl.ateam.disasteralerts.domain.user.dto.UserDTO;
+import pl.ateam.disasteralerts.user.UserService;
+import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 @Component
 @RequiredArgsConstructor
