@@ -116,3 +116,13 @@ ALTER TABLE alerts
 -- changeset jkuznik:1728934675080-16
 ALTER TABLE alerts
     ADD COLUMN username VARCHAR;
+
+-- changeset Slawek84PL:1728934675080-17
+insert into users
+(id,version, username, create_date, email, password, role, location, phone_number)
+values (gen_random_uuid(), 0, 'test1', CURRENT_TIMESTAMP, 'disaster.alert1@gmail.pl',
+        '$2a$10$g0Q0DJVcBKJQePkw1b/US.dOeTaVKFTQ3i5w6iKPNx1K8tT03LzlS',
+        'ROLE_ADMIN', 'Warszawa', '123456789'),
+       (gen_random_uuid(), 0, 'test2', CURRENT_TIMESTAMP, 'kjchallanger@gmail.com',
+        '$2a$10$ZVw40XRuqbY115/bqwXjyuolLI0F4z76rTujUC1spcsH4JT/il.2S',
+        'ROLE_USER', 'Kraków', '987654321');
