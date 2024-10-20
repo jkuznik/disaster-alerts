@@ -40,6 +40,7 @@ class AlertServiceImpl implements AlertService {
         Set<UserDTO> interestedUsers = userFacadeWydmuszka.getInterestedUsers( /*alertAddDTO.location()*/ hardCodeLocationForTest);
 
         alertManager.addAlertListener(smsService);
+        alertManager.addAlertListener(emailService);
         alertManager.createAlert(alertAddDTO, interestedUsers);
     }
 }
