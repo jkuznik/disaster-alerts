@@ -19,5 +19,5 @@ public class AlertUser extends EntityAudit {
     private UUID alertId;
 
     @Column(nullable = false)
-    private UUID userId;
+    private String username;
 }

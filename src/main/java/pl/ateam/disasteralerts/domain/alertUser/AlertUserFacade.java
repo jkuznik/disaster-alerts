@@ -22,7 +22,7 @@ public class AlertUserFacade {
         return alertUserService.getAllByAlertId(alertId);
     }
 
-    public List<AlertUserDTO> getAlertUserByUserId(UUID userId) {
-        return alertUserService.getAllByUserId(userId);
+    public List<AlertUserDTO> getAlertUserByUsername(String username) {
+        return alertUserService.getAllByUsername(username);
     }
 }

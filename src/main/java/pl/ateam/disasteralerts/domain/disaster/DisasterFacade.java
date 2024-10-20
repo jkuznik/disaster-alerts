@@ -10,6 +10,7 @@ import pl.ateam.disasteralerts.domain.alert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.domain.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.domain.disaster.dto.DisasterDTO;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -23,8 +24,11 @@ public class DisasterFacade {
         DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
 
         AlertAddDTO alertAddDTO = new AlertAddDTO(
+                UUID.randomUUID(),
                 disasterDTO.id(),
-                disasterDTO.description());
+                disasterDTO.description(),
+                disasterDTO.location(),
+                LocalDateTime.now());
 
         alertFacade.addAlert(alertAddDTO);
 

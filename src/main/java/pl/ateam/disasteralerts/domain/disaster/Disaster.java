@@ -12,6 +12,8 @@ import pl.ateam.disasteralerts.domain.disaster.enums.DisasterType;
 import pl.ateam.disasteralerts.util.EntityAudit;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -37,9 +39,9 @@ class Disaster extends EntityAudit {
     private String location;
 
     @Column(nullable = false)
-    private Instant disasterStartTime;
+    private LocalDateTime disasterStartTime;
 
-    private Instant disasterEndTime;
+    private LocalDateTime disasterEndTime;
 
     @Column(nullable = false)
     private DisasterStatus status;

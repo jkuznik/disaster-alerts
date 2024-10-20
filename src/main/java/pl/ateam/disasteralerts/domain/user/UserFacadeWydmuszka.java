@@ -7,6 +7,7 @@ import pl.ateam.disasteralerts.domain.user.dto.UserDTO;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -15,13 +16,17 @@ public class UserFacadeWydmuszka {
 
     private final UserService userService;
 
-    public Set<UserDTO> getInterestedUsers(DisasterType disasterType, String location) {
-        Set<UserDTO> usersByDisasterType = getUsersByDisasterType(disasterType);
+    private final UserRepository repository; // korzystam z repo dla testów, jak będą gotowe metody w serwisie to się przerzuci tylko na userservice
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
+    public Set<UserDTO> getInterestedUsers(/*DisasterType disasterType,*/ String location) {
+//        Set<UserDTO> usersByDisasterType = getUsersByDisasterType(disasterType);
         Set<UserDTO> usersByLocation = getUsersByLocation(location);
 
         Set<UserDTO> interestedUsers = new HashSet<>();
 
-        interestedUsers.addAll(usersByDisasterType);
+//        interestedUsers.addAll(usersByDisasterType);
         interestedUsers.addAll(usersByLocation);
         return interestedUsers;
     }
@@ -41,8 +46,8 @@ public class UserFacadeWydmuszka {
 
     private Set<UserDTO> getUsersByLocation(String location) {
 
-//        userService.findAllByLocation(location);
-//        ta metoda analogicznie do powyższej
-        return Set.of();
+        Optional<User> disasterAdmin = userRepository.findByUsername("Disaster Admin");
+        UserDTO userDTO = userMapper.mapUserToUserDTO(disasterAdmin.get());
+        return Set.of(userDTO);
     }
 }

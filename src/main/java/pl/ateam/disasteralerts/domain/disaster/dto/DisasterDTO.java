@@ -5,6 +5,8 @@ import pl.ateam.disasteralerts.domain.disaster.enums.DisasterStatus;
 import pl.ateam.disasteralerts.domain.disaster.enums.DisasterType;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,8 +15,8 @@ public record DisasterDTO(UUID id,
                    String description,
                    String source,
                    String location,
-                   Instant disasterStartTime,
-                   Instant disasterEndTime,
+                   LocalDateTime disasterStartTime,
+                   LocalDateTime disasterEndTime,
                    DisasterStatus status,
                    String userEmail) {
 }

@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.ateam.disasteralerts.util.EntityAudit;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -22,9 +25,15 @@ class Alert extends EntityAudit {
     @Column(nullable = false)
     private UUID disasterId;
 
+    @Column
+    private String username;
+
     @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
-    private UUID alertUser;
+    private String location;
+
+    @Column(nullable = false)
+    private LocalDateTime creationDate;
 }

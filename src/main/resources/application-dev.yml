@@ -1,3 +1,16 @@
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+        orm:
+          jdbc:
+            bind: TRACE
+
 spring:
   application:
     name: Disaster Alerts
@@ -25,8 +38,10 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: disaster.alert1@gmail.com
-    password: ihrbtliplvclxosl
+#    username: disaster.alert1@gmail.com
+#    password: ihrbtliplvclxosl
+    username: kjchallanger@gmail.com
+    password: kosq rkac aexu xrtx
     properties:
       mail:
         smtp:

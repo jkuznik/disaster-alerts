@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface AlertUserRepository extends JpaRepository<AlertUser, UUID> {
     Optional<AlertUser> findAllByAlertId(UUID alertId);
-    Optional<AlertUser> findAllByUserId(UUID userId);
+    Optional<AlertUser> findAllByUsername(String  userId);
 }

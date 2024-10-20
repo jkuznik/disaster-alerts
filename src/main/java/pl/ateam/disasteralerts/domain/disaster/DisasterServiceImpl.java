@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.domain.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.domain.disaster.dto.DisasterDTO;
+import pl.ateam.disasteralerts.domain.disaster.enums.DisasterStatus;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -18,6 +19,7 @@ class DisasterServiceImpl implements DisasterService {
     @Transactional
     public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO){
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
+        disaster.setStatus(DisasterStatus.ACTIVE);
 
         return mapper.mapDisasterToDisasterDto(repository.save(disaster));
     }

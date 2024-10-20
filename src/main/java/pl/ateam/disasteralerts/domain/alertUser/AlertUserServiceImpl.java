@@ -33,8 +33,8 @@ public class AlertUserServiceImpl implements AlertUserService {
     }
 
     @Override
-    public List<AlertUserDTO> getAllByUserId(UUID userId) {
-        return repository.findAllByUserId(userId).stream()
+    public List<AlertUserDTO> getAllByUsername(String username) {
+        return repository.findAllByUsername(username).stream()
                 .map(mapper::mapAlertUserToAlertUserDTO)
                 .collect(Collectors.toList());
     }

@@ -9,16 +9,29 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import pl.ateam.disasteralerts.domain.alert.dto.AlertAddDTO;
+import pl.ateam.disasteralerts.domain.user.dto.UserDTO;
+
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-class NotificationService {
+class EmailService implements AlertListener{
 
-    private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender mailSender;
 
-    void sendEmail(String recipient, String subject, String content) {
+    @Override
+    public void addedAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
+
+        interestedUsers.forEach(interestedUser -> {
+            sendEmail(interestedUser.email(),"Alert", alertAddDTO.description());
+        });
+
+    }
+
+    private void sendEmail(String recipient, String subject, String content) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
