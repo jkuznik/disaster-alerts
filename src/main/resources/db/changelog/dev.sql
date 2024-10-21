@@ -1,6 +1,5 @@
 -- liquibase formatted sql
 
-
 -- changeset Slawek84PL:1728934675080-1
 CREATE TABLE alerts
 (

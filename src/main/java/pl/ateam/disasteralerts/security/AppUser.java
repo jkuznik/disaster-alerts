@@ -12,9 +12,13 @@ import java.util.List;
 
 @Builder
 @ToString
-class AppUser implements UserDetails {
+public class AppUser implements UserDetails {
 
     private UserDTO userDTO;
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
