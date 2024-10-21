@@ -46,9 +46,8 @@ public class DisasterViewController {
             model.addAttribute("disasterAddDTO", disasterAddWebDTO);
             return "addDisaster";
         }
-        disasterService.addDisaster(disasterAddDTO);
-        return "redirect:/disasters";
 
+        disasterService.addDisasterFromWeb(disasterAddWebDTO);
         redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
         return "redirect:/disasters/add";
     }
