@@ -1,6 +1,5 @@
 -- liquibase formatted sql
 
-
 -- changeset Slawek84PL:1728934675080-1
 CREATE TABLE alerts
 (
@@ -95,3 +94,11 @@ ALTER TABLE disasters
 -- changeset jkuznik:1728934675080-13
 ALTER TABLE disasters
     ADD COLUMN user_email VARCHAR(255) NOT NULL;
+
+-- changeset Slawek84PL:1728934675080-14
+alter table disasters
+    alter column type type VARCHAR using type::VARCHAR;
+
+-- changeset Slawek84PL:1728934675080-15
+alter table disasters
+    alter column status type VARCHAR using status::VARCHAR;

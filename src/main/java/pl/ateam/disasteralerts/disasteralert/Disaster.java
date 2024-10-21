@@ -2,6 +2,8 @@ package pl.ateam.disasteralerts.disasteralert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.List;
 class Disaster extends EntityAudit {
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private DisasterType type;
 
     @Column(nullable = false)
@@ -39,6 +42,7 @@ class Disaster extends EntityAudit {
     private Instant disasterEndTime;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private DisasterStatus status;
 
     @Column(nullable = false)
