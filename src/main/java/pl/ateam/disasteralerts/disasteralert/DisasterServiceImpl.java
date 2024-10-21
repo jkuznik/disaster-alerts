@@ -8,6 +8,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddWebDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ class DisasterServiceImpl implements DisasterService {
         Disaster disaster = mapper.mapDisasterAddWebDTOtoDisaster(disasterAddWebDTO);
         disaster.setSource("user");
         disaster.setStatus(DisasterStatus.ACTIVE);
-        disaster.setDisasterStartTime(Instant.now());
+        disaster.setDisasterStartTime(LocalDateTime.now());
         repository.save(disaster);
     }
 }
