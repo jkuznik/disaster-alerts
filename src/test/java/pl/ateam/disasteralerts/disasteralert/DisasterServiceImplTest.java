@@ -12,6 +12,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -67,7 +68,7 @@ class DisasterServiceImplTest {
                     "testDescription",
                     null,
                     "testLocation",
-                    Instant.now(),
+                    LocalDateTime.now(),
                     DisasterStatus.FAKE,
                     "testUserEmail");
 
@@ -84,7 +85,7 @@ class DisasterServiceImplTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
+                LocalDateTime.now(),
                 DisasterStatus.FAKE,
                 "testUserEmail");
     }
@@ -96,10 +97,9 @@ class DisasterServiceImplTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
-                Instant.now().plusSeconds(10),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusSeconds(10),
                 DisasterStatus.FAKE,
-                "testUserEmail",
-                null);
+                "testUserEmail");
     }
 }

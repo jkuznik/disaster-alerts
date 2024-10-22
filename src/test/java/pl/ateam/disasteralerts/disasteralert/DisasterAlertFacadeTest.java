@@ -13,11 +13,12 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig(classes = {DisasterAlertFacade.class, DisasterServiceImpl.class, MethodValidationPostProcessor.class})
+@SpringJUnitConfig(classes = {DisasterAlertFacade.class, AlertServiceImpl.class, DisasterServiceImpl.class, MethodValidationPostProcessor.class})
 class DisasterAlertFacadeTest {
 
     @Autowired
@@ -65,7 +66,7 @@ class DisasterAlertFacadeTest {
                     "testDescription",
                     null,
                     "testLocation",
-                    Instant.now(),
+                    LocalDateTime.now(),
                     DisasterStatus.FAKE,
                     "testUserEmail");
 
@@ -82,7 +83,7 @@ class DisasterAlertFacadeTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
+                LocalDateTime.now(),
                 DisasterStatus.FAKE,
                 "testUserEmail");
     }
@@ -94,10 +95,9 @@ class DisasterAlertFacadeTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
-                Instant.now().plusSeconds(10),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusSeconds(10),
                 DisasterStatus.FAKE,
-                "testUserEmail",
-                null);
+                "testUserEmail");
     }
 }

@@ -16,6 +16,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -46,7 +47,7 @@ class DisasterControllerTest {
             "foo",
             "bar",
             "bazz",
-            Instant.now(),
+            LocalDateTime.now(),
             DisasterStatus.ACTIVE,
             "testEmail");
 
