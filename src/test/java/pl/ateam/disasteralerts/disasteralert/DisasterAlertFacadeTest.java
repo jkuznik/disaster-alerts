@@ -27,6 +27,9 @@ class DisasterAlertFacadeTest {
     @MockBean
     DisasterService disasterService;
 
+    @MockBean
+    AlertService alertService;
+
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
 
     private final DisasterDTO disasterDTO = getDisasterDTO();
