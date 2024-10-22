@@ -20,6 +20,7 @@ public record UserDTO(
                         @Size(min=9,max=9)
                         String phoneNumber,
                         @Max(255)
+                        @NotBlank
                         String location,
                         String role) {
 }
