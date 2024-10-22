@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,18 +24,18 @@ public class EntityAudit {
     @Version
     private long version;
 
-    private Date createDate;
+    private LocalDateTime createDate;
 
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
     @PrePersist
     public void setCreateDate() {
-        this.createDate = new Date();
+        this.createDate = LocalDateTime.now();
     }
 
     @PreUpdate
     public void setUpdateDate() {
-        this.updateDate = new Date();
+        this.updateDate = LocalDateTime.now();
     }
 
     public UUID getId() {
@@ -45,11 +46,11 @@ public class EntityAudit {
         return version;
     }
 
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public Date getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 }

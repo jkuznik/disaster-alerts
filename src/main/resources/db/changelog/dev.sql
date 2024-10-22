@@ -94,3 +94,39 @@ ALTER TABLE disasters
 -- changeset jkuznik:1728934675080-13
 ALTER TABLE disasters
     ADD COLUMN user_email VARCHAR(255) NOT NULL;
+
+-- changeset jkuznik:1728934675080-14
+CREATE TABLE alerts_users
+(
+    id           UUID               NOT NULL,
+    version      BIGINT             NOT NULL,
+    create_date  TIMESTAMP WITHOUT TIME ZONE,
+    update_date  TIMESTAMP WITHOUT TIME ZONE,
+    alert_id     UUID               NOT NULL,
+    username     VARCHAR(255)        NOT NULL,
+
+    CONSTRAINT pk_alerts_users PRIMARY KEY (id)
+);
+
+-- changeset jkuznik:1728934675080-15
+ALTER TABLE alerts
+    ADD COLUMN location VARCHAR;
+
+-- changeset jkuznik:1728934675080-16
+ALTER TABLE alerts
+    ADD COLUMN username VARCHAR;
+
+-- changeset jkuznik:1728934675080-17
+insert into users
+(id,version, username, create_date, email, password, role, location, phone_number)
+values (gen_random_uuid(), 0, 'test1', CURRENT_TIMESTAMP, 'disaster.alert1@gmail.pl',
+        '$2a$10$g0Q0DJVcBKJQePkw1b/US.dOeTaVKFTQ3i5w6iKPNx1K8tT03LzlS',
+        'ROLE_ADMIN', 'Warszawa', '123456789'),
+       (gen_random_uuid(), 0, 'test2', CURRENT_TIMESTAMP, 'kjchallanger@gmail.com',
+        '$2a$10$ZVw40XRuqbY115/bqwXjyuolLI0F4z76rTujUC1spcsH4JT/il.2S',
+        'ROLE_USER', 'Kraków', '987654321');
+
+-- changeset jkuznik:1728934675080-18
+ALTER TABLE disasters
+    ALTER COLUMN status TYPE VARCHAR(255),
+    ALTER COLUMN type TYPE VARCHAR(255);

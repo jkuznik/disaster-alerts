@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.ateam.disasteralerts.disasteralert.DisasterAlertFacade;
-import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
-import pl.ateam.disasteralerts.disasteralert.DisasterType;
-import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddWebDTO;
+
+import pl.ateam.disasteralerts.disaster.DisasterFacade;
+import pl.ateam.disasteralerts.disaster.dto.DisasterAddWebDTO;
+import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.disaster.enums.DisasterType;
 import pl.ateam.disasteralerts.security.AppUser;
 
 @Controller
@@ -22,8 +23,7 @@ import pl.ateam.disasteralerts.security.AppUser;
 @RequestMapping("/disasters")
 public class DisasterViewController {
 
-    private final DisasterAlertFacade disasterService;
-
+    private final DisasterFacade disasterService;
 
     @GetMapping("add")
     public String showAddDisasterForm(Model model, @AuthenticationPrincipal AppUser userDetails) {
