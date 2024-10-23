@@ -8,6 +8,8 @@ import lombok.Setter;
 import pl.ateam.disasteralerts.util.EntityAudit;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,12 +19,18 @@ import java.time.Instant;
 @Table(name = "alerts")
 class Alert extends EntityAudit {
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Disaster disaster;
+    @Column(nullable = false)
+    private UUID disasterId;
+
+    @Column
+    private String username;
 
     @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
-    private Instant creationDate;
+    private String location;
+
+    @Column(nullable = false)
+    private LocalDateTime creationDate;
 }

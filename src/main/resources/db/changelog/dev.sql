@@ -95,3 +95,16 @@ ALTER TABLE disasters
 -- changeset jkuznik:1728934675080-13
 ALTER TABLE disasters
     ADD COLUMN user_email VARCHAR(255) NOT NULL;
+
+-- changeset jkuznik:1728934675080-15
+ALTER TABLE alerts
+    ADD COLUMN location VARCHAR;
+
+-- changeset jkuznik:1728934675080-16
+ALTER TABLE alerts
+    ADD COLUMN username VARCHAR;
+
+-- changeset jkuznik:1728934675080-18
+ALTER TABLE disasters
+ALTER COLUMN status TYPE VARCHAR(255),
+    ALTER COLUMN type TYPE VARCHAR(255);
