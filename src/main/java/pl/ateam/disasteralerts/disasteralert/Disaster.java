@@ -10,6 +10,7 @@ import pl.ateam.disasteralerts.util.EntityAudit;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -20,7 +21,7 @@ import java.util.List;
 class Disaster extends EntityAudit {
 
     @Column(nullable = false)
-    private String userEmail;
+    private UUID userId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

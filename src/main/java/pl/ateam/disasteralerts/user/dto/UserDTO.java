@@ -2,7 +2,10 @@ package pl.ateam.disasteralerts.user.dto;
 
 import pl.ateam.disasteralerts.user.Role;
 
-public record UserDTO(String username,
+import java.util.UUID;
+
+public record UserDTO(UUID id,
+                      String username,
                       String email,
                       String password,
                       String phoneNumber,

@@ -1,6 +1,7 @@
 package pl.ateam.disasteralerts.security;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,9 +11,10 @@ import pl.ateam.disasteralerts.user.dto.UserDTO;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 @Builder
 @ToString
-class AppUser implements UserDetails {
+public class AppUser implements UserDetails {
 
     private UserDTO userDTO;
 
