@@ -112,3 +112,7 @@ ALTER COLUMN status TYPE VARCHAR(255),
 -- changeset jkuznik:1728934675080-17
 ALTER TABLE disasters
     ADD COLUMN user_id UUID;
+
+-- changeset jkuznik:1728934675080-18
+ALTER TABLE disasters
+    DROP COLUMN user_email;
