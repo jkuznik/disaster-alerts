@@ -1,12 +1,12 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
+import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
+import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
 
-@Service
-@RequiredArgsConstructor
-class AlertService {
-
-    private final AlertRepository alertRepository;
-
+@Validated
+interface AlertService {
+    AlertDTO addAlert(@NotNull @Valid AlertAddDTO alertAddDTO);
 }
