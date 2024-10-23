@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
 import pl.ateam.disasteralerts.user.UserFacade;
-import pl.ateam.disasteralerts.user.UserFacadeWydmuszka;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 import java.util.Set;
@@ -32,8 +31,7 @@ class AlertServiceImpl implements AlertService {
     }
 
     private void sendNotifications(AlertAddDTO alertAddDTO) {
-        String hardCodeLocationForTest = "Warszawa";
-        Set<UserDTO> interestedUsers = userFacade.getInterestedUsers( /*alertAddDTO.location()*/ hardCodeLocationForTest);
+        Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
         alertManager.addAlertListener(notificationService);
         alertManager.createAlert(alertAddDTO, interestedUsers);
