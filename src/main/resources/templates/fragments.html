@@ -22,5 +22,38 @@
         <p class="h4 text-success " th:if="${message} != null" th:text="${message}"></p>
     </div>
 
+    <div th:fragment="citiesList" class="col-12">
+        <h2>Wybierz miasto:</h2>
+        <div class="form-group">
+            <input th:value="${selectedLocation}" type="text" class="form-control" id="cityInput" placeholder="Wpisz nazwę miasta..." onkeyup="filterCities()">
+
+            <select class="form-select" id="location" name="location" size="5">
+                <option value="" disabled th:if="${selectedLocation == null}" selected>Choose...</option>
+                <option th:each="location : ${cities}"
+                        th:value="${location}"
+                        th:text="${location}"
+                        th:selected="${location == selectedLocation}">
+                </option>
+            </select>
+        </div>
+
+        <script>
+            function filterCities() {
+                let input = document.getElementById('cityInput').value.toLowerCase();
+                let dropdown = document.getElementById('location');
+                let options = dropdown.getElementsByTagName('option');
+
+                for (let i = 0; i < options.length; i++) {
+                    let txtValue = options[i].textContent || options[i].innerText;
+                    if (txtValue.toLowerCase().indexOf(input) > -1) {
+                        options[i].style.display = "";
+                    } else {
+                        options[i].style.display = "none";
+                    }
+                }
+            }
+        </script>
+    </div>
+
 </body>
 </html>
