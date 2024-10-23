@@ -23,12 +23,12 @@
     </div>
 
     <div th:fragment="citiesList" class="col-12">
-        <h2>Wybierz miasto:</h2>
+        <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>
+        <h2>Wybierz miejscowość:</h2>
         <div class="form-group">
-            <input th:value="${selectedLocation}" type="text" class="form-control" id="cityInput" placeholder="Wpisz nazwę miasta..." onkeyup="filterCities()">
+            <input th:value="${selectedLocation}" type="text" class="form-control" id="cityInput" placeholder="Zacznij wpisywać" onkeyup="filterCities()">
 
             <select class="form-select" id="location" name="location" size="5">
-                <option value="" disabled th:if="${selectedLocation == null}" selected>Choose...</option>
                 <option th:each="location : ${cities}"
                         th:value="${location}"
                         th:text="${location}"

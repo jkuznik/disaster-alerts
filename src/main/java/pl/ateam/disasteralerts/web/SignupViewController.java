@@ -27,21 +27,20 @@ public class SignupViewController {
     @GetMapping
     public String signupView(Model model) {
         model.addAttribute("userDto",
-                new UserRegisterDTO(null, null, null));
+                new UserRegisterDTO(null, null, null, null));
         citiesList(model);
         return "signup";
     }
 
     @PostMapping
     public String signupView(@RequestParam(value = "confirmPassword") String confirmPassword,
-                             @RequestParam(value = "location") String location,
                              @Valid @ModelAttribute("userDto") UserRegisterDTO userDto,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
                              Model model) {
 
         citiesList(model);
-        model.addAttribute("selectedLocation", location);
+        model.addAttribute("selectedLocation", userDto.location());
 
         if (bindingResult.hasErrors()) {
             return "signup";
