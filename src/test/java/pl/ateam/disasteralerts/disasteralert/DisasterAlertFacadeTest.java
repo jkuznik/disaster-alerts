@@ -30,9 +30,9 @@ class DisasterAlertFacadeTest {
     @MockBean
     AlertService alertService;
 
+    private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
     private final DisasterDTO disasterDTO = getDisasterDTO();
-    private final UUID testUserId = UUID.randomUUID();
 
 
     @Nested
