@@ -13,6 +13,6 @@ public class UserFacade {
     private final UserService userService;
 
     public List<UserDTO> getAllUsersByLocation(String location) {
-        return null;
+        return userService.findAllByLocation(location);
     }
 }

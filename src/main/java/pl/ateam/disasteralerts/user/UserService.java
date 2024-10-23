@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,9 @@ public class UserService {
     }
 
     List<UserDTO> findAllByLocation(String location) {
-        return null;
+        return userRepository.findAllByLocation(location).stream()
+                .map(userMapper::mapUserToUserDTO)
+                .collect(Collectors.toList());
     }
 
     private User findUserByEmail(String email) {
