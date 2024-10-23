@@ -15,6 +15,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping(DisasterController.DISASTERS_BASE_URL)
@@ -35,7 +36,7 @@ class DisasterController {
                 description,
                 "user",
                 "lokalizacja - konieczne ustalić logikę przekazywania lokalizacji", // czy pobieramy z lokalizacji użytkownika czy user może sam wprowadzić
-                Instant.now(),
+                LocalDateTime.now(),
                 DisasterStatus.ACTIVE,
                 userDetails.getUsername()
         );

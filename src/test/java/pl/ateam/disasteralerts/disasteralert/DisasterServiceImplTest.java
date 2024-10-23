@@ -12,12 +12,13 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig(classes = {DisasterServiceImpl.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
+@SpringJUnitConfig(classes = {DisasterServiceImpl.class, AlertServiceImpl.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
 class DisasterServiceImplTest {
 
     @Autowired
@@ -25,6 +26,9 @@ class DisasterServiceImplTest {
 
     @MockBean
     DisasterRepository disasterRepository;
+
+    @MockBean
+    AlertService alertService;
 
     @MockBean
     DisasterMapper disasterMapper;
@@ -67,7 +71,7 @@ class DisasterServiceImplTest {
                     "testDescription",
                     null,
                     "testLocation",
-                    Instant.now(),
+                    LocalDateTime.now(),
                     DisasterStatus.FAKE,
                     "testUserEmail");
 
@@ -84,7 +88,7 @@ class DisasterServiceImplTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
+                LocalDateTime.now(),
                 DisasterStatus.FAKE,
                 "testUserEmail");
     }
@@ -96,10 +100,9 @@ class DisasterServiceImplTest {
                 "testDescription",
                 "testAdd",
                 "testLocation",
-                Instant.now(),
-                Instant.now().plusSeconds(10),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusSeconds(10),
                 DisasterStatus.FAKE,
-                "testUserEmail",
-                null);
+                "testUserEmail");
     }
 }

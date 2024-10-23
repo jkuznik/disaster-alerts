@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,5 +46,4 @@ class Disaster extends EntityAudit {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DisasterStatus status;
-
 }
