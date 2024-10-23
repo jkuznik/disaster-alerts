@@ -11,7 +11,7 @@ public record UserDTO(
                         @Email @NotBlank
                         @Max(255)
                         String email,
-                        @NotBlank @Size(min = 6, max = 255)
+                        @NotBlank @Size(min = 6, max = 25)
                         @Pattern(
                                 regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{6,25}$",
                                 message = "Hasło musi zawierać co najmniej jedną cyfrę, małą literę, wielką literę, znak specjalny oraz mieścić się w przedziale 6-25 znaków"
