@@ -17,6 +17,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -42,6 +43,8 @@ class DisasterControllerTest {
     @MockBean
     Authentication authentication;
 
+    private final UUID testUserId = UUID.randomUUID();
+
     private final DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
             DisasterType.FLOOD,
             "foo",
@@ -49,7 +52,7 @@ class DisasterControllerTest {
             "bazz",
             LocalDateTime.now(),
             DisasterStatus.ACTIVE,
-            "testEmail");
+            testUserId);
 
     @Nested
     class POSTMethodsTest{

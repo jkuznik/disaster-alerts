@@ -33,8 +33,8 @@ class DisasterServiceImplTest {
     @MockBean
     DisasterMapper disasterMapper;
 
+    private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
-
     private final DisasterDTO disasterDTO = getDisasterDTO();
 
     Disaster disaster = new Disaster();
@@ -73,7 +73,7 @@ class DisasterServiceImplTest {
                     "testLocation",
                     LocalDateTime.now(),
                     DisasterStatus.FAKE,
-                    "testUserEmail");
+                    testUserId);
 
             //when
 
@@ -90,7 +90,7 @@ class DisasterServiceImplTest {
                 "testLocation",
                 LocalDateTime.now(),
                 DisasterStatus.FAKE,
-                "testUserEmail");
+                testUserId);
     }
 
     private DisasterDTO getDisasterDTO() {
@@ -103,6 +103,6 @@ class DisasterServiceImplTest {
                 LocalDateTime.now(),
                 LocalDateTime.now().plusSeconds(10),
                 DisasterStatus.FAKE,
-                "testUserEmail");
+                testUserId);
     }
 }
