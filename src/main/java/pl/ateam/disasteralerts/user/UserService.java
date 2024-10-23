@@ -40,6 +40,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    List<UserDTO> findAllByLocation(String location) {
+        return null;
+    }
+
     private User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono użytkownika o adresie email: " + email));
