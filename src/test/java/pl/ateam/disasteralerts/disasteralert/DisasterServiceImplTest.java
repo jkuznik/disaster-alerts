@@ -34,8 +34,8 @@ class DisasterServiceImplTest {
     DisasterMapper disasterMapper;
 
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
-
     private final DisasterDTO disasterDTO = getDisasterDTO();
+    private final UUID testUserId = UUID.randomUUID();
 
     Disaster disaster = new Disaster();
 
@@ -73,7 +73,7 @@ class DisasterServiceImplTest {
                     "testLocation",
                     LocalDateTime.now(),
                     DisasterStatus.FAKE,
-                    "testUserEmail");
+                    testUserId);
 
             //when
 
@@ -90,7 +90,7 @@ class DisasterServiceImplTest {
                 "testLocation",
                 LocalDateTime.now(),
                 DisasterStatus.FAKE,
-                "testUserEmail");
+                testUserId);
     }
 
     private DisasterDTO getDisasterDTO() {
@@ -103,6 +103,6 @@ class DisasterServiceImplTest {
                 LocalDateTime.now(),
                 LocalDateTime.now().plusSeconds(10),
                 DisasterStatus.FAKE,
-                "testUserEmail");
+                testUserId);
     }
 }

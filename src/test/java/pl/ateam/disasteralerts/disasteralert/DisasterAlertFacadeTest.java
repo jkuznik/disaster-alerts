@@ -31,8 +31,8 @@ class DisasterAlertFacadeTest {
     AlertService alertService;
 
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
-
     private final DisasterDTO disasterDTO = getDisasterDTO();
+    private final UUID testUserId = UUID.randomUUID();
 
 
     @Nested
@@ -71,7 +71,7 @@ class DisasterAlertFacadeTest {
                     "testLocation",
                     LocalDateTime.now(),
                     DisasterStatus.FAKE,
-                    "testUserEmail");
+                    testUserId);
 
             //when
 
@@ -88,7 +88,7 @@ class DisasterAlertFacadeTest {
                 "testLocation",
                 LocalDateTime.now(),
                 DisasterStatus.FAKE,
-                "testUserEmail");
+                testUserId);
     }
 
     private DisasterDTO getDisasterDTO() {
@@ -101,6 +101,6 @@ class DisasterAlertFacadeTest {
                 LocalDateTime.now(),
                 LocalDateTime.now().plusSeconds(10),
                 DisasterStatus.FAKE,
-                "testUserEmail");
+                testUserId);
     }
 }
