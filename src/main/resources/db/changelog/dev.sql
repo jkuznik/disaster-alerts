@@ -96,15 +96,19 @@ ALTER TABLE disasters
 ALTER TABLE disasters
     ADD COLUMN user_email VARCHAR(255) NOT NULL;
 
--- changeset jkuznik:1728934675080-15
+-- changeset jkuznik:1728934675080-14
 ALTER TABLE alerts
     ADD COLUMN location VARCHAR;
 
--- changeset jkuznik:1728934675080-16
+-- changeset jkuznik:1728934675080-15
 ALTER TABLE alerts
     ADD COLUMN username VARCHAR;
 
--- changeset jkuznik:1728934675080-18
+-- changeset jkuznik:1728934675080-16
 ALTER TABLE disasters
 ALTER COLUMN status TYPE VARCHAR(255),
     ALTER COLUMN type TYPE VARCHAR(255);
+
+-- changeset jkuznik:1728934675080-17
+ALTER TABLE disasters
+    ADD COLUMN user_id UUID;
