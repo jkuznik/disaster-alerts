@@ -1,7 +1,5 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,17 +23,7 @@ class DisasterServiceImpl implements DisasterService {
     public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO){
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
 
-        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(repository.save(disaster));
-
-        AlertAddDTO alertAddDTO = new AlertAddDTO(
-                UUID.randomUUID(),
-                disasterDTO.id(),
-                disasterDTO.description(),
-                disasterDTO.location(),
-                LocalDateTime.now());
-
-        alertService.addAlert(alertAddDTO);
-        return disasterDTO;
+        return saveDisaster(disaster);
     }
 
     @Override
@@ -44,6 +32,24 @@ class DisasterServiceImpl implements DisasterService {
         disaster.setSource("user");
         disaster.setStatus(DisasterStatus.ACTIVE);
         disaster.setDisasterStartTime(LocalDateTime.now());
-        repository.save(disaster);
+
+        saveDisaster(disaster);
+    }
+
+    private DisasterDTO saveDisaster(Disaster disaster) {
+        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(repository.save(disaster));
+        sendAlert(disasterDTO);
+        return disasterDTO;
+    }
+
+    private void sendAlert(DisasterDTO disasterDTO) {
+        AlertAddDTO alertAddDTO = new AlertAddDTO(
+                UUID.randomUUID(),
+                disasterDTO.id(),
+                disasterDTO.description(),
+                disasterDTO.location(),
+                LocalDateTime.now()) ;
+
+        alertService.addAlert(alertAddDTO);
     }
 }
