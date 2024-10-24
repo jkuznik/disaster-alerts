@@ -24,7 +24,7 @@ public class SecurityConfig {
                 )
                 .formLogin(loginConfigurer -> loginConfigurer
                         .loginPage("/").permitAll()
-//                        .defaultSuccessUrl("/stronaPoLogowaniu")
+                        .defaultSuccessUrl("/disasters/add")
                         .loginProcessingUrl("/loginproc"))
                 .logout(logout -> logout.logoutSuccessUrl("/"))
                 .authenticationProvider(customDaoAuthenticationProvider);
