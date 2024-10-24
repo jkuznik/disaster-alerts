@@ -6,6 +6,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,7 @@ class User extends EntityAudit {
     @Size(min = 5, max = 15)
     @Column(unique = true, length = 15)
     private String username;
-
+    @Min(6)
     private String password;
 
     @Email
