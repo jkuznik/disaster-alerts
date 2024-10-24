@@ -16,6 +16,7 @@ import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
 import pl.ateam.disasteralerts.disasteralert.DisasterType;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddWebDTO;
 import pl.ateam.disasteralerts.security.AppUser;
+import pl.ateam.disasteralerts.util.CitiesInPoland;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,11 +27,12 @@ public class DisasterViewController {
 
 
     @GetMapping("add")
-    public String showAddDisasterForm(Model model, @AuthenticationPrincipal AppUser userDetails) {
+    public String showAddDisasterForm(Model model, @AuthenticationPrincipal AppUser appUser) {
 
-        baseModel(model, userDetails);
+        baseModel(model, appUser);
         model.addAttribute("disasterTypSelected", null);
         model.addAttribute("disasterAddDTO", new DisasterAddWebDTO(null, null, null, null));
+        model.addAttribute("selectedLocation", appUser.getUserDTO().location());
 
         return "addDisaster";
     }
@@ -44,6 +46,7 @@ public class DisasterViewController {
             baseModel(model, userDetails);
             model.addAttribute("disasterTypSelected", disasterAddWebDTO.type());
             model.addAttribute("disasterAddDTO", disasterAddWebDTO);
+            model.addAttribute("selectedLocation", disasterAddWebDTO.location());
             return "addDisaster";
         }
 
@@ -56,5 +59,6 @@ public class DisasterViewController {
         model.addAttribute("email", userDetails.getUsername());
         model.addAttribute("disasterType", DisasterType.values());
         model.addAttribute("disasterStatus", DisasterStatus.values());
+        model.addAttribute("cities", CitiesInPoland.getList());
     }
 }
