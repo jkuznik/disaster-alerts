@@ -3,7 +3,7 @@ spring:
     name: Disaster Alerts
 
   datasource:
-    url: jdbc:h2:file:./disasterdbtest
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
   jpa:
     hibernate:
