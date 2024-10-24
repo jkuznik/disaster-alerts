@@ -39,10 +39,7 @@
 <!--                    </div>-->
 
 <!--                    <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>-->
-                    <div class="form-floating mb-3">
-                        <input th:value="*{location()}" name="location" type="text" class="form-control" id="location" placeholder="Lokalizacja" required>
-                        <label for="location">Lokalizacja</label>
-                    </div>
+                    <div th:replace="~{fragments :: citiesList}"></div>
 
 <!--                    <div class="form-floating mb-3">-->
 <!--                        <input name="disasterStartTime" type="datetime-local" class="form-control" id="disasterStartTime" required>-->
