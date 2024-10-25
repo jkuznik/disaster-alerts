@@ -18,6 +18,10 @@ public class AppUser implements UserDetails {
 
     private UserDTO userDTO;
 
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(userDTO.role()));

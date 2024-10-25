@@ -1,6 +1,5 @@
 -- liquibase formatted sql
 
-
 -- changeset Slawek84PL:1728934675080-1
 CREATE TABLE alerts
 (
@@ -106,7 +105,7 @@ ALTER TABLE alerts
 
 -- changeset jkuznik:1728934675080-16
 ALTER TABLE disasters
-ALTER COLUMN status TYPE VARCHAR(255),
+    ALTER COLUMN status TYPE VARCHAR(255),
     ALTER COLUMN type TYPE VARCHAR(255);
 
 -- changeset jkuznik:1728934675080-17
