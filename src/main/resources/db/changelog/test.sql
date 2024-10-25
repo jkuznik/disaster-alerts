@@ -93,7 +93,7 @@ ALTER TABLE alerts
 ALTER TABLE alerts
     ADD COLUMN username VARCHAR;
 
--- changeset jkuznik:1728934675080-18
+-- changeset jkuznik:1728934675080-17
 ALTER TABLE disasters
-ALTER COLUMN status TYPE VARCHAR(255),
+    ALTER COLUMN status TYPE VARCHAR(255),
     ALTER COLUMN type TYPE VARCHAR(255);
