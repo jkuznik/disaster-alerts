@@ -55,28 +55,7 @@
                             </div>
                         </div>
 
-<!--                        <div class="col-md-7">-->
-<!--                            <label for="country" class="form-label">Województwo</label>-->
-<!--                            <select class="form-select" id="country" required>-->
-<!--                                <option value="">Choose...</option>-->
-<!--                                <option>Województwo 1</option>-->
-<!--                            </select>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                Nie wybrano województwa-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="col-md-5">-->
-<!--                            <label for="state" class="form-label">Miasto</label>-->
-<!--                            <select class="form-select" id="state" required>-->
-<!--                                <option value="">Choose...</option>-->
-<!--                                <option>Miasto 1</option>-->
-<!--                            </select>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                Nie wybrano miasta-->
-<!--                            </div>-->
-<!--                        </div>-->
-                    </div>
+                        <div th:replace="~{fragments :: citiesList}"></div>
 
 <!--                    <hr class="my-4">-->
 
@@ -121,5 +100,22 @@
             <li class="list-inline-item"><a href="#">Pomoc</a></li>
         </ul>
     </footer>
+
+    <script>
+        function filterCities() {
+            let input = document.getElementById('cityInput').value.toLowerCase();
+            let dropdown = document.getElementById('location');
+            let options = dropdown.getElementsByTagName('option');
+
+            for (let i = 0; i < options.length; i++) {
+                let txtValue = options[i].textContent || options[i].innerText;
+                if (txtValue.toLowerCase().indexOf(input) > -1) {
+                    options[i].style.display = "";
+                } else {
+                    options[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </div>
 </body>
