@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.ateam.disasteralerts.user.UserService;
 import pl.ateam.disasteralerts.user.dto.UserRegisterDTO;
+import pl.ateam.disasteralerts.util.CitiesInPoland;
 
 @Controller
 @RequestMapping("/signup")
@@ -26,7 +27,8 @@ public class SignupViewController {
     @GetMapping
     public String signupView(Model model) {
         model.addAttribute("userDto",
-                new UserRegisterDTO(null, null, null));
+                new UserRegisterDTO(null, null, null, null));
+        citiesList(model);
         return "signup";
     }
 
@@ -36,6 +38,9 @@ public class SignupViewController {
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
                              Model model) {
+
+        citiesList(model);
+        model.addAttribute("selectedLocation", userDto.location());
 
         if (bindingResult.hasErrors()) {
             return "signup";
@@ -50,5 +55,9 @@ public class SignupViewController {
 
         redirectAttributes.addFlashAttribute("message", "Konto zostało utworzone. Zaloguj się.");
         return "redirect:/";
+    }
+
+    private void citiesList(Model model) {
+        model.addAttribute("cities", CitiesInPoland.getList());
     }
 }
