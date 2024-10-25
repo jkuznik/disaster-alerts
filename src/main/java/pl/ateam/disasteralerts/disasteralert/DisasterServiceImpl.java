@@ -34,4 +34,11 @@ class DisasterServiceImpl implements DisasterService {
         alertService.addAlert(alertAddDTO);
         return disasterDTO;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(DisasterType type, String location) {
+        return repository.findFirstByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE)
+                .map(mapper::mapDisasterToDisasterDto);
+    }
 }
