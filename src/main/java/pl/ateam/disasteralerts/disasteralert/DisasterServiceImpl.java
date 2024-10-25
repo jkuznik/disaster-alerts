@@ -1,7 +1,5 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +8,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,7 +19,7 @@ class DisasterServiceImpl implements DisasterService {
     private final DisasterMapper mapper;
 
     @Transactional
-    public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO){
+    public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
         DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(repository.save(disaster));
 
