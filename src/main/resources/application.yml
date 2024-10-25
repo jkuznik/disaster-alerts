@@ -3,4 +3,21 @@ spring:
     banner-mode: log
 
   profiles:
-    active: dev
+    active: test
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: disaster.alert1@gmail.com
+    password: ihrbtliplvclxosl
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000

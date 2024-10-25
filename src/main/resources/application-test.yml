@@ -3,7 +3,7 @@ spring:
     name: Disaster Alerts
 
   datasource:
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -17,11 +17,6 @@ spring:
   liquibase:
     change-log: db/changelog-test.yaml
     contexts: test
-
-  h2:
-    console:
-      enabled: true
-      path: /disasterdbtest
 
 server:
   port: 8082
