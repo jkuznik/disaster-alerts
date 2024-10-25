@@ -4,6 +4,8 @@ import jakarta.validation.constraints.*;
 
 import pl.ateam.disasteralerts.user.Role;
 
+import java.util.UUID;
+
 public record UserDTO(
                         @NotNull
                         UUID id,
