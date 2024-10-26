@@ -7,8 +7,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
+import pl.ateam.disasteralerts.util.CitiesInPoland;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,62 +25,65 @@ class WeatherMonitoringService {
     private final OpenWeatherClient openWeatherClient;
     private final DisasterService disasterService;
 
-    private final String monitoredLocation = "Warszawa";
+    private final List<String> monitoredLocations = CitiesInPoland.getList();
 
     @Scheduled(fixedRate = ONE_HOUR)
     void monitorWeather() {
-        log.info("Monitoring weather for location: {}", monitoredLocation);
+        for (String location : monitoredLocations) {
+            log.info("Monitoring weather for location: {}", location);
 
-        JsonNode weatherData = openWeatherClient.getWeatherData(monitoredLocation);
-        if (weatherData != null) {
-            log.error("No weather data received for location {}", monitoredLocation);
+            JsonNode weatherData = openWeatherClient.getWeatherData(location);
+            if (weatherData == null) {
+                log.error("No weather data received for location {}", location);
+                continue;
+            }
+
+            double windSpeed = weatherData.path("wind").path("speed").asDouble();
+            double temperature = weatherData.path("main").path("temp").asDouble();
+
+            handleWindDisaster(windSpeed, location);
+            handleHeatDisaster(temperature, location);
         }
-
-        double windSpeed = weatherData.path("wind").path("speed").asDouble();
-        double temperature = weatherData.path("main").path("temp").asDouble();
-
-        handleWindDisaster(windSpeed);
-        handleHeatDisaster(temperature);
     }
 
-    private void handleWindDisaster(double windSpeed) {
+    private void handleWindDisaster(double windSpeed, String location) {
         if (windSpeed > 2.0) {
-            Optional<DisasterDTO> existingDisaster = disasterService.getActiveDisasterForTypeAndLocation(DisasterType.HURRICANE, monitoredLocation);
+            Optional<DisasterDTO> existingDisaster = disasterService.getActiveDisasterForTypeAndLocation(DisasterType.HURRICANE, location);
             if (existingDisaster.isEmpty()) {
                 DisasterAddDTO disaster = new DisasterAddDTO(
                         DisasterType.HURRICANE,
                         DESCRIPTION_HURRICANE,
                         OPEN_WEATHER_API,
-                        monitoredLocation,
+                        location,
                         LocalDateTime.now(),
                         DisasterStatus.ACTIVE,
-                        null
+                        "a@gmail.com"
                 );
                 disasterService.addDisaster(disaster);
-                log.info("New wind disaster recorded for location: {}", monitoredLocation);
+                log.info("New wind disaster recorded for location: {}", location);
             } else {
-                log.info("Wind disaster already exists for location: {}. Skipping.", monitoredLocation);
+                log.info("Wind disaster already exists for location: {}. Skipping.", location);
             }
         }
     }
 
-    private void handleHeatDisaster(double temperature) {
-        if (temperature > 35.0) {
-            Optional<DisasterDTO> existingDisaster = disasterService.getActiveDisasterForTypeAndLocation(DisasterType.HEAT, monitoredLocation);
+    private void handleHeatDisaster(double temperature, String location) {
+        if (temperature > 5.0) {
+            Optional<DisasterDTO> existingDisaster = disasterService.getActiveDisasterForTypeAndLocation(DisasterType.HEAT, location);
             if (existingDisaster.isEmpty()) {
                 DisasterAddDTO disaster = new DisasterAddDTO(
                         DisasterType.DROUGHT,
                         DESCRIPTION_HEAT,
                         OPEN_WEATHER_API,
-                        monitoredLocation,
+                        location,
                         LocalDateTime.now(),
                         DisasterStatus.ACTIVE,
-                        null
+                        "a@gmail.com"
                 );
                 disasterService.addDisaster(disaster);
-                log.info("New heat disaster recorded for location: {}", monitoredLocation);
+                log.info("New heat disaster recorded for location: {}", location);
             } else {
-                log.info("Heat disaster already exists for location: {}. Skipping.", monitoredLocation);
+                log.info("Heat disaster already exists for location: {}. Skipping.", location);
             }
         }
     }
