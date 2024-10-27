@@ -16,8 +16,6 @@ class AlertServiceImpl implements AlertService {
 
     private final AlertRepository repository;
     private final NotificationManager notificationManager;
-    private final EmailService emailService;
-    private final SMSService smsService;
     private final UserFacadeWydmuszka userFacadeWydmuszka;
     private final AlertMapper mapper;
 
@@ -35,8 +33,8 @@ class AlertServiceImpl implements AlertService {
         String hardCodeLocationForTest = "Warszawa";
         Set<UserDTO> interestedUsers = userFacadeWydmuszka.getInterestedUsers( /*alertAddDTO.location()*/ hardCodeLocationForTest);
 
-        notificationManager.addAlertListener(emailService);
-        notificationManager.addAlertListener(smsService);
+        notificationManager.addEmailService();
+        notificationManager.addSMSService();
         notificationManager.createAlert(alertAddDTO, interestedUsers);
     }
 }

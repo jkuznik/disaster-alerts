@@ -13,6 +13,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 class NotificationManager {
 
+    private final EmailService emailService;
+    private final SMSService smsService;
+
     private final List<AlertListener> alertListeners = new ArrayList<>();
     void createAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
         alertListeners.forEach(alertListener -> alertListener.addedAlert(alertAddDTO, interestedUsers));
@@ -24,5 +27,21 @@ class NotificationManager {
 
     void removeAlertListener(AlertListener alertListener) {
         alertListeners.remove(alertListener);
+    }
+
+    void addEmailService() {
+        alertListeners.add(emailService);
+    }
+
+    void addSMSService() {
+        alertListeners.add(smsService);
+    }
+
+    void removeEmailService() {
+        alertListeners.remove(emailService);
+    }
+
+    void removeSMSService() {
+        alertListeners.remove(smsService);
     }
 }
