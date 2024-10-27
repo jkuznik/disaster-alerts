@@ -15,8 +15,8 @@ import java.util.Set;
 class AlertServiceImpl implements AlertService {
 
     private final AlertRepository repository;
-    private final AlertManager alertManager;
-    private final NotificationService notificationService;
+    private final NotificationManager notificationManager;
+    private final EmailService emailService;
     private final UserFacadeWydmuszka userFacadeWydmuszka;
     private final AlertMapper mapper;
 
@@ -34,7 +34,7 @@ class AlertServiceImpl implements AlertService {
         String hardCodeLocationForTest = "Warszawa";
         Set<UserDTO> interestedUsers = userFacadeWydmuszka.getInterestedUsers( /*alertAddDTO.location()*/ hardCodeLocationForTest);
 
-        alertManager.addAlertListener(notificationService);
-        alertManager.createAlert(alertAddDTO, interestedUsers);
+        notificationManager.addAlertListener(emailService);
+        notificationManager.createAlert(alertAddDTO, interestedUsers);
     }
 }

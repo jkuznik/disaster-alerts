@@ -17,7 +17,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class NotificationServiceTest {
+class EmailServiceTest {
 
     @Mock
     private JavaMailSender mailSender;
@@ -26,7 +26,7 @@ class NotificationServiceTest {
     private MimeMessage mimeMessage;
 
     @InjectMocks
-    private NotificationService notificationService;
+    private EmailService emailService;
 
     private String recipient;
     private String subject;
@@ -46,7 +46,7 @@ class NotificationServiceTest {
         // given
 
         // when
-        notificationService.sendEmail(recipient, subject, content);
+        emailService.sendEmail(recipient, subject, content);
 
         // then
         verify(mailSender, times(1)).send(any(MimeMessage.class));
@@ -58,7 +58,7 @@ class NotificationServiceTest {
         String recipient = "";
 
         // when & then
-        assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
+        assertThatThrownBy(() -> emailService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Problem with creating the message");
 
@@ -71,7 +71,7 @@ class NotificationServiceTest {
         String recipient = null;
 
         // when & then
-        assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
+        assertThatThrownBy(() -> emailService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("To address must not be null");
 
@@ -84,7 +84,7 @@ class NotificationServiceTest {
         String content = "";
 
         // when
-        notificationService.sendEmail(recipient, subject, content);
+        emailService.sendEmail(recipient, subject, content);
 
         // then
         verify(mailSender, times(1)).send(any(MimeMessage.class));
@@ -96,7 +96,7 @@ class NotificationServiceTest {
         doThrow(new IllegalStateException("Mocked exception")).when(mailSender).createMimeMessage();
 
         // when & then
-        assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
+        assertThatThrownBy(() -> emailService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Mocked exception");
 
@@ -109,7 +109,7 @@ class NotificationServiceTest {
         doThrow(MailSendException.class).when(mailSender).send(any(MimeMessage.class));
 
         // when & then
-        assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
+        assertThatThrownBy(() -> emailService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Problem with sending the message");
 
@@ -122,7 +122,7 @@ class NotificationServiceTest {
         String subject = null;
 
         // when & then
-        assertThatThrownBy(() -> notificationService.sendEmail(recipient, subject, content))
+        assertThatThrownBy(() -> emailService.sendEmail(recipient, subject, content))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Subject must not be null");
 

@@ -16,9 +16,9 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-class NotificationService implements AlertListener{
+class EmailService implements AlertListener{
 
-    private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender mailSender;
 

@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-class AlertManager {
+class NotificationManager {
 
     private final List<AlertListener> alertListeners = new ArrayList<>();
     void createAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
