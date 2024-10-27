@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
+import pl.ateam.disasteralerts.security.AppUser;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ class DisasterController {
     private final DisasterService disasterService;
 
     @PostMapping()
-    public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal AppUser appUser,
                                                       @RequestParam DisasterType disasterType,
                                                       @RequestParam String description) {
 
@@ -38,7 +39,7 @@ class DisasterController {
                 "lokalizacja - konieczne ustalić logikę przekazywania lokalizacji", // czy pobieramy z lokalizacji użytkownika czy user może sam wprowadzić
                 LocalDateTime.now(),
                 DisasterStatus.ACTIVE,
-                userDetails.getUsername()
+                appUser.getUserDTO().id()
         );
 
         DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
