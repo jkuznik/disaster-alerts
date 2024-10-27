@@ -43,7 +43,16 @@ class DisasterServiceImpl implements DisasterService {
         disaster.setSource("user");
         disaster.setStatus(DisasterStatus.ACTIVE);
         disaster.setDisasterStartTime(LocalDateTime.now());
-        repository.save(disaster);
+        Disaster savedDisaster = repository.save(disaster);
+
+        AlertAddDTO alertAddDTO = new AlertAddDTO(
+                UUID.randomUUID(),
+                savedDisaster.getId(),
+                savedDisaster.getDescription(),
+                savedDisaster.getLocation(),
+                LocalDateTime.now());
+
+        alertService.addAlert(alertAddDTO);
     }
 
     @Override
