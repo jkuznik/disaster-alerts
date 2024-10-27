@@ -21,12 +21,12 @@ class SMSService implements AlertListener {
 
     @Override
     public void addedAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
-//        interestedUsers.forEach(userDTO -> {
-//            sendSMS(alertAddDTO.description(), userDTO.phoneNumber());
-//        });
-        // TODO: docelowo powinna zadziałać powyższa zakomentowana część kodu, poniżej do testu podaję swój nr
+        interestedUsers.forEach(userDTO -> {
+            sendSMS(alertAddDTO.description(), userDTO.phoneNumber());
+        });
 
-        sendSMS(alertAddDTO.description(), MY_PHONE_NUMBER);
+        // TODO: docelowo powinna zadziałać powyższa część kodu, poniżej do testu podaję swój nr
+        // sendSMS(alertAddDTO.description(), MY_PHONE_NUMBER);
     }
 
     public static void sendSMS(String alertDescription, String phoneNumber) {
