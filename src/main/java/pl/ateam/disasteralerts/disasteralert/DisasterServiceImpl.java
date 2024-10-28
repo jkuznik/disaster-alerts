@@ -52,27 +52,8 @@ class DisasterServiceImpl implements DisasterService {
                 LocalDateTime.now()) ;
 
         alertService.addAlert(alertAddDTO);
-
-        return disasterDTO;
     }
 
-    @Override
-    public void addDisasterFromWeb(DisasterAddWebDTO disasterAddWebDTO) {
-        Disaster disaster = mapper.mapDisasterAddWebDTOtoDisaster(disasterAddWebDTO);
-        disaster.setSource("user");
-        disaster.setStatus(DisasterStatus.ACTIVE);
-        disaster.setDisasterStartTime(LocalDateTime.now());
-        Disaster savedDisaster = repository.save(disaster);
-
-        AlertAddDTO alertAddDTO = new AlertAddDTO(
-                UUID.randomUUID(),
-                savedDisaster.getId(),
-                savedDisaster.getDescription(),
-                savedDisaster.getLocation(),
-                LocalDateTime.now());
-
-        alertService.addAlert(alertAddDTO);
-    }
 
     @Override
     @Transactional(readOnly = true)
