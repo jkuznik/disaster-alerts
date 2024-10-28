@@ -119,3 +119,7 @@ ALTER TABLE disasters
 -- changeset jkuznik:1728934675080-19
 ALTER TABLE disasters
     DROP COLUMN disaster_start_time;
+
+-- changeset jkuznik:1728934675080-20
+ALTER TABLE users
+    ALTER COLUMN phone_number TYPE VARCHAR(12);

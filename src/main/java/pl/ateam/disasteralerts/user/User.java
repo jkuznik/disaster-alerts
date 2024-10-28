@@ -32,7 +32,7 @@ class User extends EntityAudit {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Size(min = 9, max = 9)
+    @Size(min = 9, max = 12)
     private String phoneNumber;
 
     private String location;

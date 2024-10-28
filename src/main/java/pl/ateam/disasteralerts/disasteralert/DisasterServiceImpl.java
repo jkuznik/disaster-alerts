@@ -33,9 +33,9 @@ class DisasterServiceImpl implements DisasterService {
         return mapper.mapDisasterToDisasterDto(disaster);
     }
 
-    @Transactional
     void generateAlert(UUID disasterId) {
-        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(disasterRepository.findById(disasterId).get());
+        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(
+                disasterRepository.findById(disasterId).get());
 
         AlertAddDTO alertAddDTO = new AlertAddDTO(
                 UUID.randomUUID(),
