@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
-import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddWebDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.LocalDateTime;
@@ -35,7 +34,7 @@ public class DisasterAlertFacade {
         return disasterDTO;
     }
 
-    public void addDisasterFromWeb(DisasterAddWebDTO disasterAddWebDTO) {
+    public void addDisasterFromWeb(DisasterAddDTO disasterAddWebDTO) {
         disasterService.addDisasterFromWeb(disasterAddWebDTO);
     }
 }

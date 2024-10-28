@@ -35,10 +35,7 @@ class DisasterController {
         DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
                 disasterType,
                 description,
-                "user",
                 "lokalizacja - konieczne ustalić logikę przekazywania lokalizacji", // czy pobieramy z lokalizacji użytkownika czy user może sam wprowadzić
-                LocalDateTime.now(),
-                DisasterStatus.ACTIVE,
                 appUser.getUserDTO().id()
         );
 

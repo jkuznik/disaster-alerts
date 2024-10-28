@@ -20,7 +20,6 @@ import java.util.UUID;
 class WeatherMonitoringService {
 
     public static final int ONE_HOUR = 3600000;
-    public static final String OPEN_WEATHER_API = "OpenWeatherAPI";
     public static final String DESCRIPTION_HURRICANE = "Uwaga! Silne wichury";
     public static final String DESCRIPTION_HEAT = "Uwaga! Upały";
     private final OpenWeatherClient openWeatherClient;
@@ -54,12 +53,8 @@ class WeatherMonitoringService {
                 DisasterAddDTO disaster = new DisasterAddDTO(
                         DisasterType.HURRICANE,
                         DESCRIPTION_HURRICANE,
-                        OPEN_WEATHER_API,
                         location,
-                        LocalDateTime.now(),
-                        DisasterStatus.ACTIVE,
-//                        "a@gmail.com"
-                        UUID.randomUUID()
+                        UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
                 disasterService.addDisaster(disaster);
                 log.info("New wind disaster recorded for location: {}", location);
@@ -76,12 +71,8 @@ class WeatherMonitoringService {
                 DisasterAddDTO disaster = new DisasterAddDTO(
                         DisasterType.DROUGHT,
                         DESCRIPTION_HEAT,
-                        OPEN_WEATHER_API,
                         location,
-                        LocalDateTime.now(),
-                        DisasterStatus.ACTIVE,
-//                        "a@gmail.com"
-                        UUID.randomUUID()
+                        UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
                 disasterService.addDisaster(disaster);
                 log.info("New heat disaster recorded for location: {}", location);
