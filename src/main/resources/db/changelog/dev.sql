@@ -123,3 +123,7 @@ ALTER TABLE disasters
 -- changeset jkuznik:1728934675080-20
 ALTER TABLE users
     ALTER COLUMN phone_number TYPE VARCHAR(12);
+
+-- changeset jkuznik:1728934675080-21
+ALTER TABLE alerts
+    DROP COLUMN creation_date;

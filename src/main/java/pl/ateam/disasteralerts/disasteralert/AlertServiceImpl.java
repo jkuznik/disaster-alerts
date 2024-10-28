@@ -15,7 +15,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 class AlertServiceImpl implements AlertService {
 
-    private final AlertRepository repository;
+    private final AlertRepository alertRepository;
     private final NotificationManager notificationManager;
     private final UserFacade userFacade;
     private final AlertMapper mapper;
@@ -24,9 +24,11 @@ class AlertServiceImpl implements AlertService {
     @Override
     public AlertDTO addAlert(AlertAddDTO alertAddDTO) {
         Alert alert = mapper.mapAlertAddDtoToAlert(alertAddDTO);
-        AlertDTO alertDTO = mapper.mapAlertToAlertDto(repository.save(alert));
+        AlertDTO alertDTO = mapper.mapAlertToAlertDto(alertRepository.save(alert));
+        alertRepository.save(alert);
 
         sendNotifications(alertAddDTO);
+
         return alertDTO;
     }
 
