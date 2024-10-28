@@ -22,7 +22,7 @@ class AlertServiceImpl implements AlertService {
 
     @Transactional
     @Override
-    public AlertDTO addAlert(AlertAddDTO alertAddDTO) {
+    public AlertDTO createAlert(AlertAddDTO alertAddDTO) {
         Alert alert = mapper.mapAlertAddDtoToAlert(alertAddDTO);
         AlertDTO alertDTO = mapper.mapAlertToAlertDto(alertRepository.save(alert));
         alertRepository.save(alert);

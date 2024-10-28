@@ -8,5 +8,5 @@ import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
 
 @Validated
 interface AlertService {
-    AlertDTO addAlert(@NotNull @Valid AlertAddDTO alertAddDTO);
+    AlertDTO createAlert(@NotNull @Valid AlertAddDTO alertAddDTO);
 }

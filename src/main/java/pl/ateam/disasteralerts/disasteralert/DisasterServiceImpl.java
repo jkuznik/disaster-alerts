@@ -44,7 +44,7 @@ class DisasterServiceImpl implements DisasterService {
                 disasterDTO.description(),
                 disasterDTO.location()) ;
 
-        alertService.addAlert(alertAddDTO);
+        alertService.createAlert(alertAddDTO);
     }
 
     @Override
