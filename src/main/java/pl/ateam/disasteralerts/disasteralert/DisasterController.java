@@ -2,9 +2,7 @@ package pl.ateam.disasteralerts.disasteralert;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,9 +12,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import pl.ateam.disasteralerts.security.AppUser;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping(DisasterController.DISASTERS_BASE_URL)
@@ -40,7 +35,7 @@ class DisasterController {
                 appUser.getUserDTO().id()
         );
 
-        DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
+        DisasterDTO disasterDTO = disasterService.createDisaster(disasterAddDTO);
 
         UriComponents uriComponents = UriComponentsBuilder
                 .fromUriString("http://localhost:8081" + DISASTERS_BASE_URL + "/{id}")

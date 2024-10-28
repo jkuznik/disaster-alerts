@@ -38,9 +38,9 @@ public class DisasterViewController {
     }
 
     @PostMapping("add")
-    public String addDisaster(Model model, @AuthenticationPrincipal AppUser userDetails,
-                              @Valid @ModelAttribute DisasterAddDTO disasterAddDTO,
-                              BindingResult result, RedirectAttributes redirectAttributes) {
+    public String createDisaster(Model model, @AuthenticationPrincipal AppUser userDetails,
+                                 @Valid @ModelAttribute DisasterAddDTO disasterAddDTO,
+                                 BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             baseModel(model, userDetails);
@@ -50,7 +50,7 @@ public class DisasterViewController {
             return "addDisaster";
         }
 
-        disasterAlertFacade.addDisaster(disasterAddDTO);
+        disasterAlertFacade.createDisaster(disasterAddDTO);
         redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
         return "redirect:/disasters/add";
     }

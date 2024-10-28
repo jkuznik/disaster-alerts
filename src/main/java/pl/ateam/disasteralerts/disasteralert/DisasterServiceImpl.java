@@ -21,7 +21,7 @@ class DisasterServiceImpl implements DisasterService {
 
     @Transactional
     @Override
-    public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO) {
+    public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
         disaster.setSource(USER_AS_DISASTER_SOURCE);
         disaster.setStatus(DisasterStatus.ACTIVE);

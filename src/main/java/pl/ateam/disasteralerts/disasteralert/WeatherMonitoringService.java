@@ -55,7 +55,7 @@ class WeatherMonitoringService {
                         location,
                         UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
-                disasterService.addDisaster(disaster);
+                disasterService.createDisaster(disaster);
                 log.info("New wind disaster recorded for location: {}", location);
             } else {
                 log.info("Wind disaster already exists for location: {}. Skipping.", location);
@@ -73,7 +73,7 @@ class WeatherMonitoringService {
                         location,
                         UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
-                disasterService.addDisaster(disaster);
+                disasterService.createDisaster(disaster);
                 log.info("New heat disaster recorded for location: {}", location);
             } else {
                 log.info("Heat disaster already exists for location: {}. Skipping.", location);

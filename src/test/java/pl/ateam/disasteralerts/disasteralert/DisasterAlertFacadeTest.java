@@ -42,10 +42,10 @@ class DisasterAlertFacadeTest {
             //given
 
             //when
-            when(disasterService.addDisaster(disasterAddDTO)).thenReturn(disasterDTO);
+            when(disasterService.createDisaster(disasterAddDTO)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterAlertFacade.addDisaster(disasterAddDTO);
+            DisasterDTO result = disasterAlertFacade.createDisaster(disasterAddDTO);
 
             assertThat(result.id()).isEqualTo(disasterDTO.id());
             assertThat(result.location()).isEqualTo(disasterDTO.location());
@@ -58,7 +58,7 @@ class DisasterAlertFacadeTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -73,7 +73,7 @@ class DisasterAlertFacadeTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 

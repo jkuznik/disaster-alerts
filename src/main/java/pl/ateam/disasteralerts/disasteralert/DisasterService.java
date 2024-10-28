@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Validated
 interface DisasterService {
-    DisasterDTO addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO);
+    DisasterDTO createDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO);
     Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(@NotNull @Valid DisasterType type, String location);
 }

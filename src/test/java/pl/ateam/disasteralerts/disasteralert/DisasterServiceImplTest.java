@@ -11,13 +11,11 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = {DisasterServiceImpl.class, AlertServiceImpl.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
@@ -54,7 +52,7 @@ class DisasterServiceImplTest {
             when(disasterMapper.mapDisasterToDisasterDto(disaster)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterService.addDisaster(disasterAddDTO);
+            DisasterDTO result = disasterService.createDisaster(disasterAddDTO);
 
             Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
@@ -63,7 +61,7 @@ class DisasterServiceImplTest {
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(null)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -78,7 +76,7 @@ class DisasterServiceImplTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 

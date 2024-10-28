@@ -70,6 +70,6 @@ class WeatherMonitoringServiceTest {
         weatherMonitoringService.monitorWeather();
 
         // Then
-        verify(disasterService, never()).addDisaster(any(DisasterAddDTO.class));
+        verify(disasterService, never()).createDisaster(any(DisasterAddDTO.class));
     }
 }
