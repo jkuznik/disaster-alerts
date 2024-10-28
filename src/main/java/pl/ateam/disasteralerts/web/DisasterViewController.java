@@ -56,7 +56,7 @@ public class DisasterViewController {
     }
 
     private void baseModel(Model model, AppUser userDetails) {
-        model.addAttribute("email", userDetails.getUsername());
+        model.addAttribute("userId", userDetails.getUserDTO().id());
         model.addAttribute("disasterType", DisasterType.values());
         model.addAttribute("disasterStatus", DisasterStatus.values());
         model.addAttribute("cities", CitiesInPoland.getList());
