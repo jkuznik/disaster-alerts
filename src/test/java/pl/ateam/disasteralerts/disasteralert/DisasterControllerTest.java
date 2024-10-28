@@ -49,9 +49,6 @@ class DisasterControllerTest {
             DisasterType.FLOOD,
             "foo",
             "bar",
-            "bazz",
-            LocalDateTime.now(),
-            DisasterStatus.ACTIVE,
             testUserId);
 
     @Nested

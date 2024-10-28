@@ -13,9 +13,11 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = {DisasterServiceImpl.class, AlertServiceImpl.class, DisasterMapperImpl.class, MethodValidationPostProcessor.class})
@@ -48,6 +50,7 @@ class DisasterServiceImplTest {
             //when
             when(disasterMapper.mapDisasterAddDtoToDisaster(any(DisasterAddDTO.class))).thenReturn(disaster);
             when(disasterRepository.save(any(Disaster.class))).thenReturn(disaster);
+            when(disasterRepository.findById(disaster.getId())).thenReturn(Optional.of(disaster));
             when(disasterMapper.mapDisasterToDisasterDto(disaster)).thenReturn(disasterDTO);
 
             //then
@@ -70,9 +73,6 @@ class DisasterServiceImplTest {
                     DisasterType.FLOOD,
                     "testDescription",
                     null,
-                    "testLocation",
-                    LocalDateTime.now(),
-                    DisasterStatus.FAKE,
                     testUserId);
 
             //when
@@ -86,10 +86,7 @@ class DisasterServiceImplTest {
         return new DisasterAddDTO(
                 DisasterType.FLOOD,
                 "testDescription",
-                "testAdd",
                 "testLocation",
-                LocalDateTime.now(),
-                DisasterStatus.FAKE,
                 testUserId);
     }
 
