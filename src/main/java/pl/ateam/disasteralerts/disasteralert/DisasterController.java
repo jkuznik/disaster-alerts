@@ -30,12 +30,13 @@ class DisasterController {
     @PostMapping()
     public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal AppUser appUser,
                                                       @RequestParam DisasterType disasterType,
-                                                      @RequestParam String description) {
+                                                      @RequestParam String description,
+                                                      @RequestParam String location) {
 
         DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
                 disasterType,
                 description,
-                "lokalizacja - konieczne ustalić logikę przekazywania lokalizacji", // czy pobieramy z lokalizacji użytkownika czy user może sam wprowadzić
+                location,
                 appUser.getUserDTO().id()
         );
 

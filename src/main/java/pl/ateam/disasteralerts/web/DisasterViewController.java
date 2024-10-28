@@ -23,7 +23,7 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 @RequestMapping("/disasters")
 public class DisasterViewController {
 
-    private final DisasterAlertFacade disasterService;
+    private final DisasterAlertFacade disasterAlertFacade;
 
 
     @GetMapping("add")
@@ -50,7 +50,7 @@ public class DisasterViewController {
             return "addDisaster";
         }
 
-        disasterService.addDisasterFromWeb(disasterAddDTO);
+        disasterAlertFacade.addDisaster(disasterAddDTO);
         redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
         return "redirect:/disasters/add";
     }

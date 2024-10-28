@@ -9,9 +9,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import java.util.Optional;
 
 @Validated
-public interface DisasterService {
+interface DisasterService {
     DisasterDTO addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO);
     Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(@NotNull @Valid DisasterType type, String location);
-
-    void addDisasterFromWeb(DisasterAddDTO disasterAddWebDTO);
 }

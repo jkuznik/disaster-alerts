@@ -11,37 +11,32 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-
 @Service
 @RequiredArgsConstructor
 class DisasterServiceImpl implements DisasterService {
-    private final DisasterRepository repository;
+    private final DisasterRepository disasterRepository;
     private final AlertService alertService;
     private final DisasterMapper mapper;
 
+    private final String USER_AS_DISASTER_SOURCE = "user";
+
     @Transactional
+    @Override
     public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
-
-        return saveDisaster(disaster);
-    }
-
-    @Override
-    public void addDisasterFromWeb(DisasterAddDTO disasterAddDTO) {
-        Disaster disaster = mapper.mapDisasterAddWebDTOtoDisaster(disasterAddDTO);
-        disaster.setSource("user");
+        disaster.setSource(USER_AS_DISASTER_SOURCE);
         disaster.setStatus(DisasterStatus.ACTIVE);
+        disasterRepository.save(disaster);
 
-        saveDisaster(disaster);
+        generateAlert(disaster.getId());
+
+        return mapper.mapDisasterToDisasterDto(disaster);
     }
 
-    private DisasterDTO saveDisaster(Disaster disaster) {
-        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(repository.save(disaster));
-        sendAlert(disasterDTO);
-        return disasterDTO;
-    }
+    @Transactional
+    void generateAlert(UUID disasterId) {
+        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(disasterRepository.findById(disasterId).get());
 
-    private void sendAlert(DisasterDTO disasterDTO) {
         AlertAddDTO alertAddDTO = new AlertAddDTO(
                 UUID.randomUUID(),
                 disasterDTO.id(),
@@ -52,11 +47,10 @@ class DisasterServiceImpl implements DisasterService {
         alertService.addAlert(alertAddDTO);
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(DisasterType type, String location) {
-        return repository.findFirstByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE)
+        return disasterRepository.findFirstByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE)
                 .map(mapper::mapDisasterToDisasterDto);
     }
 }

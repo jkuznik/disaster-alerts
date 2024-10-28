@@ -19,22 +19,7 @@ public class DisasterAlertFacade {
     private final DisasterService disasterService;
     private final AlertService alertService;
 
-    public DisasterDTO addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO) {
-        DisasterDTO disasterDTO = disasterService.addDisaster(disasterAddDTO);
-
-        AlertAddDTO alertAddDTO = new AlertAddDTO(
-                UUID.randomUUID(),
-                disasterDTO.id(),
-                disasterDTO.description(),
-                disasterDTO.location(),
-                LocalDateTime.now());
-
-        alertService.addAlert(alertAddDTO);
-
-        return disasterDTO;
-    }
-
-    public void addDisasterFromWeb(DisasterAddDTO disasterAddWebDTO) {
-        disasterService.addDisasterFromWeb(disasterAddWebDTO);
+    public void addDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO) {
+        disasterService.addDisaster(disasterAddDTO);
     }
 }
