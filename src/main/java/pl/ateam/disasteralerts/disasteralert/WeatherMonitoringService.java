@@ -12,6 +12,7 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +58,8 @@ class WeatherMonitoringService {
                         location,
                         LocalDateTime.now(),
                         DisasterStatus.ACTIVE,
-                        "a@gmail.com"
+//                        "a@gmail.com"
+                        UUID.randomUUID()
                 );
                 disasterService.addDisaster(disaster);
                 log.info("New wind disaster recorded for location: {}", location);
@@ -78,7 +80,8 @@ class WeatherMonitoringService {
                         location,
                         LocalDateTime.now(),
                         DisasterStatus.ACTIVE,
-                        "a@gmail.com"
+//                        "a@gmail.com"
+                        UUID.randomUUID()
                 );
                 disasterService.addDisaster(disaster);
                 log.info("New heat disaster recorded for location: {}", location);

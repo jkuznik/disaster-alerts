@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class DisasteralertIT extends PSQLTestConatiner{
 
@@ -42,7 +43,7 @@ public class DisasteralertIT extends PSQLTestConatiner{
 
             disaster.setDisasterStartTime(LocalDateTime.now()); //TODO: usunąć pole disaster_start_time
             disaster.setType(DisasterType.FLOOD);
-            disaster.setUserEmail("testEmail" + i + "@test.test");
+            disaster.setUserId(UUID.randomUUID());
             disaster.setDescription("testDescription" + i);
             disaster.setLocation("testLocation" + i);
             disaster.setSource("testSource" + i);

@@ -11,7 +11,10 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-class AlertManager {
+class NotificationManager {
+
+    private final EmailService emailService;
+    private final SMSService smsService;
 
     private final List<AlertListener> alertListeners = new ArrayList<>();
     void createAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
@@ -24,5 +27,21 @@ class AlertManager {
 
     void removeAlertListener(AlertListener alertListener) {
         alertListeners.remove(alertListener);
+    }
+
+    void addEmailService() {
+        alertListeners.add(emailService);
+    }
+
+    void addSMSService() {
+        alertListeners.add(smsService);
+    }
+
+    void removeEmailService() {
+        alertListeners.remove(emailService);
+    }
+
+    void removeSMSService() {
+        alertListeners.remove(smsService);
     }
 }
