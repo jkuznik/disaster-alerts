@@ -34,7 +34,9 @@ class DisasterServiceImpl implements DisasterService {
 
     void generateAlert(UUID disasterId) {
         DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(
-                disasterRepository.findById(disasterId).get());
+                disasterRepository.findById(disasterId).orElseThrow(
+                        () -> new IllegalArgumentException("Disaster not found")
+                ));
 
         AlertAddDTO alertAddDTO = new AlertAddDTO(
                 UUID.randomUUID(),

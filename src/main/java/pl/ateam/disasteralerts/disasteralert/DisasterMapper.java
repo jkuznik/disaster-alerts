@@ -9,6 +9,5 @@ interface DisasterMapper {
     Disaster mapDisasterDtoToDisasterEntity(DisasterDTO dto);
     Disaster mapDisasterAddDtoToDisaster(DisasterAddDTO dto);
     DisasterDTO mapDisasterToDisasterDto(Disaster disaster);
-    Disaster mapDisasterAddWebDTOtoDisaster(DisasterAddDTO disasterAddDTO);
 }
 
