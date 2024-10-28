@@ -22,23 +22,6 @@ spring:
     change-log: db/changelog-dev.yaml
     contexts: dev
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: disaster.alert1@gmail.com
-    password: ihrbtliplvclxosl
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-          ssl:
-            trust: smtp.gmail.com
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-
 server:
   port: 8080
 
