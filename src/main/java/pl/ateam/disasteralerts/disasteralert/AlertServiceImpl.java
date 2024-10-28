@@ -33,7 +33,7 @@ class AlertServiceImpl implements AlertService {
         Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
         notificationManager.addEmailService();
-        notificationManager.addSMSService();
+//        notificationManager.addSMSService();  //TODO: temporary mute after test functionality
         notificationManager.createAlert(alertAddDTO, interestedUsers);
     }
 }
