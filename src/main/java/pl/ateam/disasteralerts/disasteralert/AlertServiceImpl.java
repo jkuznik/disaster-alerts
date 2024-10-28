@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.disasteralert;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
@@ -29,7 +30,8 @@ class AlertServiceImpl implements AlertService {
         return alertDTO;
     }
 
-    private void sendNotifications(AlertAddDTO alertAddDTO) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    void sendNotifications(AlertAddDTO alertAddDTO) {
         Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
         notificationManager.addEmailService();

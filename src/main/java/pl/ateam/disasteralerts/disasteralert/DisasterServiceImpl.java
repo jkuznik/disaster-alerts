@@ -7,7 +7,6 @@ import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,8 +40,7 @@ class DisasterServiceImpl implements DisasterService {
                 UUID.randomUUID(),
                 disasterDTO.id(),
                 disasterDTO.description(),
-                disasterDTO.location(),
-                LocalDateTime.now()) ;
+                disasterDTO.location()) ;
 
         alertService.addAlert(alertAddDTO);
     }
