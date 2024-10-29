@@ -10,7 +10,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@Service(value = "prototype")
 @RequiredArgsConstructor
 class DisasterServiceImpl implements DisasterService {
     private final DisasterRepository disasterRepository;
