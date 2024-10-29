@@ -17,13 +17,11 @@ class DisasterServiceImpl implements DisasterService {
     private final AlertService alertService;
     private final DisasterMapper mapper;
 
-    private final String USER_AS_DISASTER_SOURCE = "user";
-
     @Transactional
     @Override
-    public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO) {
+    public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO, String source) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
-        disaster.setSource(USER_AS_DISASTER_SOURCE);
+        disaster.setSource(source);
         disaster.setStatus(DisasterStatus.ACTIVE);
         disasterRepository.save(disaster);
 

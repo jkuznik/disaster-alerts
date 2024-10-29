@@ -1,6 +1,7 @@
 package pl.ateam.disasteralerts.disasteralert;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 public class DisasterAlertFacade {
     private final DisasterService disasterService;
 
-    public DisasterDTO createDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO) {
-        return disasterService.createDisaster(disasterAddDTO);
+    public DisasterDTO createDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO, @NotNull @NotBlank String source) {
+        return disasterService.createDisaster(disasterAddDTO, source);
     }
 }

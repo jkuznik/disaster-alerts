@@ -81,7 +81,7 @@ class DisasterControllerTest {
 
             //when
             when(authentication.getDetails()).thenReturn("testEmail");
-            when(disasterService.createDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
+            when(disasterService.createDisaster(any(DisasterAddDTO.class), any(String.class))).thenReturn(disasterDTO);
 
             //then
             mockMvc.perform(post(DisasterController.DISASTERS_BASE_URL)

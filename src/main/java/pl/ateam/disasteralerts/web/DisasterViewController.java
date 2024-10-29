@@ -24,6 +24,7 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 public class DisasterViewController {
 
     private final DisasterAlertFacade disasterAlertFacade;
+    private final String USER_AS_DISASTER_SOURCE = "user";
 
 
     @GetMapping("add")
@@ -50,7 +51,7 @@ public class DisasterViewController {
             return "addDisaster";
         }
 
-        disasterAlertFacade.createDisaster(disasterAddDTO);
+        disasterAlertFacade.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
         redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
         return "redirect:/disasters/add";
     }

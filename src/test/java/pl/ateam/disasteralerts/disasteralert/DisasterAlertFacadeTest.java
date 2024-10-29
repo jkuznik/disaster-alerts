@@ -33,6 +33,7 @@ class DisasterAlertFacadeTest {
     private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
     private final DisasterDTO disasterDTO = getDisasterDTO();
+    private final String USER_AS_DISASTER_SOURCE = "testUser";
 
 
     @Nested
@@ -42,10 +43,10 @@ class DisasterAlertFacadeTest {
             //given
 
             //when
-            when(disasterService.createDisaster(disasterAddDTO)).thenReturn(disasterDTO);
+            when(disasterService.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterAlertFacade.createDisaster(disasterAddDTO);
+            DisasterDTO result = disasterAlertFacade.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
 
             assertThat(result.id()).isEqualTo(disasterDTO.id());
             assertThat(result.location()).isEqualTo(disasterDTO.location());
@@ -58,7 +59,7 @@ class DisasterAlertFacadeTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(null, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -73,7 +74,7 @@ class DisasterAlertFacadeTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(notValidDTO, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 

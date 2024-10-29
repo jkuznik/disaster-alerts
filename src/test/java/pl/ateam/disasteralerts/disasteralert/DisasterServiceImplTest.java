@@ -36,6 +36,7 @@ class DisasterServiceImplTest {
     private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
     private final DisasterDTO disasterDTO = getDisasterDTO();
+    private final String USER_AS_DISASTER_SOURCE = "testUser";
 
     Disaster disaster = new Disaster();
 
@@ -52,7 +53,7 @@ class DisasterServiceImplTest {
             when(disasterMapper.mapDisasterToDisasterDto(disaster)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterService.createDisaster(disasterAddDTO);
+            DisasterDTO result = disasterService.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
 
             Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
@@ -61,7 +62,7 @@ class DisasterServiceImplTest {
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(null, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -76,7 +77,7 @@ class DisasterServiceImplTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(notValidDTO, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 

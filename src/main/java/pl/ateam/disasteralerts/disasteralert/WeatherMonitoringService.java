@@ -23,6 +23,7 @@ class WeatherMonitoringService {
     public static final String DESCRIPTION_HEAT = "Uwaga! Upały";
     private final OpenWeatherClient openWeatherClient;
     private final DisasterService disasterService;
+    private final String API_AS_DISASTER_SOURCE = "Weather Monitoring System";
 
     private final List<String> monitoredLocations = CitiesInPoland.getList();
 
@@ -55,7 +56,7 @@ class WeatherMonitoringService {
                         location,
                         UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
-                disasterService.createDisaster(disaster);
+                disasterService.createDisaster(disaster, API_AS_DISASTER_SOURCE);
                 log.info("New wind disaster recorded for location: {}", location);
             } else {
                 log.info("Wind disaster already exists for location: {}. Skipping.", location);
@@ -73,7 +74,7 @@ class WeatherMonitoringService {
                         location,
                         UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
-                disasterService.createDisaster(disaster);
+                disasterService.createDisaster(disaster, API_AS_DISASTER_SOURCE);
                 log.info("New heat disaster recorded for location: {}", location);
             } else {
                 log.info("Heat disaster already exists for location: {}. Skipping.", location);

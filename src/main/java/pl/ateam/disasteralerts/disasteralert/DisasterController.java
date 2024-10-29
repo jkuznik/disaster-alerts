@@ -21,6 +21,7 @@ class DisasterController {
     public static final String DISASTERS_BASE_URL = "/disasters";
 
     private final DisasterService disasterService;
+    private final String USER_AS_DISASTER_SOURCE = "user";
 
     @PostMapping()
     public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal AppUser appUser,
@@ -35,7 +36,7 @@ class DisasterController {
                 appUser.getUserDTO().id()
         );
 
-        DisasterDTO disasterDTO = disasterService.createDisaster(disasterAddDTO);
+        DisasterDTO disasterDTO = disasterService.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
 
         UriComponents uriComponents = UriComponentsBuilder
                 .fromUriString("http://localhost:8081" + DISASTERS_BASE_URL + "/{id}")
