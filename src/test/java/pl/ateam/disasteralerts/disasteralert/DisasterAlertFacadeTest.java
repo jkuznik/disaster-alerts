@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -12,11 +11,12 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+
 
 @SpringJUnitConfig(classes = {DisasterAlertFacade.class, AlertServiceImpl.class, DisasterServiceImpl.class, MethodValidationPostProcessor.class})
 class DisasterAlertFacadeTest {
@@ -33,6 +33,7 @@ class DisasterAlertFacadeTest {
     private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
     private final DisasterDTO disasterDTO = getDisasterDTO();
+    private final String USER_AS_DISASTER_SOURCE = "testUser";
 
 
     @Nested
@@ -42,13 +43,13 @@ class DisasterAlertFacadeTest {
             //given
 
             //when
-            when(disasterService.addDisaster(disasterAddDTO)).thenReturn(disasterDTO);
+            when(disasterService.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterAlertFacade.addDisaster(disasterAddDTO);
+            DisasterDTO result = disasterAlertFacade.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
 
-            Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
-            Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
+            assertThat(result.id()).isEqualTo(disasterDTO.id());
+            assertThat(result.location()).isEqualTo(disasterDTO.location());
         }
 
         @Test
@@ -58,7 +59,7 @@ class DisasterAlertFacadeTest {
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(null, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -68,15 +69,12 @@ class DisasterAlertFacadeTest {
                     DisasterType.FLOOD,
                     "testDescription",
                     null,
-                    "testLocation",
-                    LocalDateTime.now(),
-                    DisasterStatus.FAKE,
                     testUserId);
 
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterAlertFacade.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(notValidDTO, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 
@@ -84,10 +82,7 @@ class DisasterAlertFacadeTest {
         return new DisasterAddDTO(
                 DisasterType.FLOOD,
                 "testDescription",
-                "testAdd",
                 "testLocation",
-                LocalDateTime.now(),
-                DisasterStatus.FAKE,
                 testUserId);
     }
 

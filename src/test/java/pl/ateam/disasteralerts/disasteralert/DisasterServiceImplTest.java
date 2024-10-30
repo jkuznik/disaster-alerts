@@ -11,8 +11,8 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -36,6 +36,7 @@ class DisasterServiceImplTest {
     private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
     private final DisasterDTO disasterDTO = getDisasterDTO();
+    private final String USER_AS_DISASTER_SOURCE = "testUser";
 
     Disaster disaster = new Disaster();
 
@@ -48,10 +49,11 @@ class DisasterServiceImplTest {
             //when
             when(disasterMapper.mapDisasterAddDtoToDisaster(any(DisasterAddDTO.class))).thenReturn(disaster);
             when(disasterRepository.save(any(Disaster.class))).thenReturn(disaster);
+            when(disasterRepository.findById(disaster.getId())).thenReturn(Optional.of(disaster));
             when(disasterMapper.mapDisasterToDisasterDto(disaster)).thenReturn(disasterDTO);
 
             //then
-            DisasterDTO result = disasterService.addDisaster(disasterAddDTO);
+            DisasterDTO result = disasterService.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
 
             Assertions.assertThat(result.id()).isEqualTo(disasterDTO.id());
             Assertions.assertThat(result.location()).isEqualTo(disasterDTO.location());
@@ -60,7 +62,7 @@ class DisasterServiceImplTest {
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(null)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(null, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
 
         @Test
@@ -70,15 +72,12 @@ class DisasterServiceImplTest {
                     DisasterType.FLOOD,
                     "testDescription",
                     null,
-                    "testLocation",
-                    LocalDateTime.now(),
-                    DisasterStatus.FAKE,
                     testUserId);
 
             //when
 
             //then
-            Assertions.assertThatThrownBy(() -> disasterService.addDisaster(notValidDTO)).isInstanceOf(ConstraintViolationException.class);
+            Assertions.assertThatThrownBy(() -> disasterService.createDisaster(notValidDTO, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 
@@ -86,10 +85,7 @@ class DisasterServiceImplTest {
         return new DisasterAddDTO(
                 DisasterType.FLOOD,
                 "testDescription",
-                "testAdd",
                 "testLocation",
-                LocalDateTime.now(),
-                DisasterStatus.FAKE,
                 testUserId);
     }
 

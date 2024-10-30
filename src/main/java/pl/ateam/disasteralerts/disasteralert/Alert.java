@@ -22,15 +22,9 @@ class Alert extends EntityAudit {
     @Column(nullable = false)
     private UUID disasterId;
 
-    @Column
-    private String username;
-
     @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
     private String location;
-
-    @Column(nullable = false)
-    private LocalDateTime creationDate;
 }

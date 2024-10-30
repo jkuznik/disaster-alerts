@@ -39,9 +39,6 @@ class Disaster extends EntityAudit {
     @Column(nullable = false)
     private String location;
 
-    @Column(nullable = false)
-    private LocalDateTime disasterStartTime;
-
     private LocalDateTime disasterEndTime;
 
     @Column(nullable = false)

@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.disasteralert;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
@@ -14,26 +15,29 @@ import java.util.Set;
 @RequiredArgsConstructor
 class AlertServiceImpl implements AlertService {
 
-    private final AlertRepository repository;
+    private final AlertRepository alertRepository;
     private final NotificationManager notificationManager;
     private final UserFacade userFacade;
     private final AlertMapper mapper;
 
     @Transactional
     @Override
-    public AlertDTO addAlert(AlertAddDTO alertAddDTO) {
+    public AlertDTO createAlert(AlertAddDTO alertAddDTO) {
         Alert alert = mapper.mapAlertAddDtoToAlert(alertAddDTO);
-        AlertDTO alertDTO = mapper.mapAlertToAlertDto(repository.save(alert));
+        AlertDTO alertDTO = mapper.mapAlertToAlertDto(alertRepository.save(alert));
+        alertRepository.save(alert);
 
         sendNotifications(alertAddDTO);
+
         return alertDTO;
     }
 
-    private void sendNotifications(AlertAddDTO alertAddDTO) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    void sendNotifications(AlertAddDTO alertAddDTO) {
         Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
         notificationManager.addEmailService();
-        notificationManager.addSMSService();
+//        notificationManager.addSMSService();  //TODO: temporary mute after test functionality
         notificationManager.createAlert(alertAddDTO, interestedUsers);
     }
 }

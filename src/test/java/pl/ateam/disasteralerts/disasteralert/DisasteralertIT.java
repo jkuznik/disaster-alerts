@@ -41,7 +41,6 @@ public class DisasteralertIT extends PSQLTestConatiner{
         for (int i=0; i<10; i++) {
             Disaster disaster = new Disaster();
 
-            disaster.setDisasterStartTime(LocalDateTime.now()); //TODO: usunąć pole disaster_start_time
             disaster.setType(DisasterType.FLOOD);
             disaster.setUserId(UUID.randomUUID());
             disaster.setDescription("testDescription" + i);

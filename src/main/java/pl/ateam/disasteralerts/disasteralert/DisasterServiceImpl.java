@@ -5,60 +5,50 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
-import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddWebDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-
-@Service
+@Service(value = "prototype")
 @RequiredArgsConstructor
 class DisasterServiceImpl implements DisasterService {
-    private final DisasterRepository repository;
+    private final DisasterRepository disasterRepository;
     private final AlertService alertService;
     private final DisasterMapper mapper;
 
     @Transactional
-    public DisasterDTO addDisaster(DisasterAddDTO disasterAddDTO) {
-        Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
-
-        return saveDisaster(disaster);
-    }
-
     @Override
-    public void addDisasterFromWeb(DisasterAddWebDTO disasterAddWebDTO) {
-        Disaster disaster = mapper.mapDisasterAddWebDTOtoDisaster(disasterAddWebDTO);
-        disaster.setSource("user");
+    public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO, String source) {
+        Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
+        disaster.setSource(source);
         disaster.setStatus(DisasterStatus.ACTIVE);
-        disaster.setDisasterStartTime(LocalDateTime.now());
+        disasterRepository.save(disaster);
 
-        saveDisaster(disaster);
+        generateAlert(disaster.getId());
+
+        return mapper.mapDisasterToDisasterDto(disaster);
     }
 
-    private DisasterDTO saveDisaster(Disaster disaster) {
-        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(repository.save(disaster));
-        sendAlert(disasterDTO);
-        return disasterDTO;
-    }
+    void generateAlert(UUID disasterId) {
+        DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(
+                disasterRepository.findById(disasterId).orElseThrow(
+                        () -> new IllegalArgumentException("Disaster not found")
+                ));
 
-    private void sendAlert(DisasterDTO disasterDTO) {
         AlertAddDTO alertAddDTO = new AlertAddDTO(
                 UUID.randomUUID(),
                 disasterDTO.id(),
                 disasterDTO.description(),
-                disasterDTO.location(),
-                LocalDateTime.now()) ;
+                disasterDTO.location()) ;
 
-        alertService.addAlert(alertAddDTO);
+        alertService.createAlert(alertAddDTO);
     }
-
 
     @Override
     @Transactional(readOnly = true)
     public Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(DisasterType type, String location) {
-        return repository.findFirstByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE)
+        return disasterRepository.findFirstByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE)
                 .map(mapper::mapDisasterToDisasterDto);
     }
 }

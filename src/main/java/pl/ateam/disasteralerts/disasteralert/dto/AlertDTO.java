@@ -4,6 +4,5 @@ import java.util.UUID;
 
 public record AlertDTO(UUID disasterId,
                        String description,
-                       String location,
-                       UUID userId) {
+                       String location) {
 }

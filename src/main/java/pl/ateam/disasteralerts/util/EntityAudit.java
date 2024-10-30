@@ -37,21 +37,5 @@ public class EntityAudit {
     public void setUpdateDate() {
         this.updateDate = LocalDateTime.now();
     }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public long getVersion() {
-        return version;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public LocalDateTime getUpdateDate() {
-        return updateDate;
-    }
 }
 

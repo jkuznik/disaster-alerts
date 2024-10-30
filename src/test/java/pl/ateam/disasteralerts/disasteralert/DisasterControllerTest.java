@@ -15,8 +15,6 @@ import pl.ateam.disasteralerts._config.TestSecurityConfig;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -49,9 +47,6 @@ class DisasterControllerTest {
             DisasterType.FLOOD,
             "foo",
             "bar",
-            "bazz",
-            LocalDateTime.now(),
-            DisasterStatus.ACTIVE,
             testUserId);
 
     @Nested
@@ -86,7 +81,7 @@ class DisasterControllerTest {
 
             //when
             when(authentication.getDetails()).thenReturn("testEmail");
-            when(disasterService.addDisaster(any(DisasterAddDTO.class))).thenReturn(disasterDTO);
+            when(disasterService.createDisaster(any(DisasterAddDTO.class), any(String.class))).thenReturn(disasterDTO);
 
             //then
             mockMvc.perform(post(DisasterController.DISASTERS_BASE_URL)

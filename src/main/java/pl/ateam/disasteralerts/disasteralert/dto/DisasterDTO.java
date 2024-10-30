@@ -11,7 +11,7 @@ public record DisasterDTO(UUID id,
                           String description,
                           String source,
                           String location,
-                          LocalDateTime disasterStartTime,
+                          LocalDateTime creationDate,
                           LocalDateTime disasterEndTime,
                           DisasterStatus status,
                           UUID userId) {

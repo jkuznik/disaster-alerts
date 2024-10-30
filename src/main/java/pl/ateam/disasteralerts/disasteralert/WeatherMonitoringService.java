@@ -9,7 +9,6 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,11 +19,11 @@ import java.util.UUID;
 class WeatherMonitoringService {
 
     public static final int ONE_HOUR = 3600000;
-    public static final String OPEN_WEATHER_API = "OpenWeatherAPI";
     public static final String DESCRIPTION_HURRICANE = "Uwaga! Silne wichury";
     public static final String DESCRIPTION_HEAT = "Uwaga! Upały";
     private final OpenWeatherClient openWeatherClient;
     private final DisasterService disasterService;
+    private final String API_AS_DISASTER_SOURCE = "Weather Monitoring System";
 
     private final List<String> monitoredLocations = CitiesInPoland.getList();
 
@@ -54,14 +53,10 @@ class WeatherMonitoringService {
                 DisasterAddDTO disaster = new DisasterAddDTO(
                         DisasterType.HURRICANE,
                         DESCRIPTION_HURRICANE,
-                        OPEN_WEATHER_API,
                         location,
-                        LocalDateTime.now(),
-                        DisasterStatus.ACTIVE,
-//                        "a@gmail.com"
-                        UUID.randomUUID()
+                        UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
-                disasterService.addDisaster(disaster);
+                disasterService.createDisaster(disaster, API_AS_DISASTER_SOURCE);
                 log.info("New wind disaster recorded for location: {}", location);
             } else {
                 log.info("Wind disaster already exists for location: {}. Skipping.", location);
@@ -76,14 +71,10 @@ class WeatherMonitoringService {
                 DisasterAddDTO disaster = new DisasterAddDTO(
                         DisasterType.DROUGHT,
                         DESCRIPTION_HEAT,
-                        OPEN_WEATHER_API,
                         location,
-                        LocalDateTime.now(),
-                        DisasterStatus.ACTIVE,
-//                        "a@gmail.com"
-                        UUID.randomUUID()
+                        UUID.randomUUID()   //TODO: wygenerować uuid dedykowane dla WeatherMonitoring i na sztywno przypisać
                 );
-                disasterService.addDisaster(disaster);
+                disasterService.createDisaster(disaster, API_AS_DISASTER_SOURCE);
                 log.info("New heat disaster recorded for location: {}", location);
             } else {
                 log.info("Heat disaster already exists for location: {}. Skipping.", location);
