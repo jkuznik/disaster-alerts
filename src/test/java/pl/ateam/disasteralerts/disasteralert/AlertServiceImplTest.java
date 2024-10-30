@@ -1,10 +1,13 @@
 package pl.ateam.disasteralerts.disasteralert;
 
+import jakarta.validation.ConstraintViolationException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
 import pl.ateam.disasteralerts.user.UserFacade;
@@ -17,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig(classes = {AlertServiceImpl.class, NotificationManager.class, UserFacade.class, AlertMapper.class})
+@SpringJUnitConfig(classes = {AlertServiceImpl.class, NotificationManager.class, UserFacade.class, AlertMapper.class, MethodValidationPostProcessor.class})
 class AlertServiceImplTest {
 
     @Autowired
@@ -64,6 +67,38 @@ class AlertServiceImplTest {
             assertThat(result.disasterId()).isEqualTo(disasterId);
             assertThat(result.description()).isEqualTo(alertDescription);
             assertThat(result.location()).isEqualTo(alertLocation);
+        }
+
+        @Test
+        void shouldThrowException_whenAlertAddDtoIsNull() {
+            //when
+            Assertions.assertThatThrownBy(() -> alertService.createAlert(null)).isInstanceOf(ConstraintViolationException.class);
+        }
+
+        @Test
+        void shouldThrowException_whenAlertAddDtoDisasterIdIsNotValid() {
+            //given
+            var alertAddDto = new AlertAddDTO(
+                    null,
+                    alertDescription,
+                    alertLocation
+            );
+
+            //when
+            Assertions.assertThatThrownBy(() -> alertService.createAlert(alertAddDto)).isInstanceOf(ConstraintViolationException.class);
+        }
+
+        @Test
+        void shouldThrowException_whenAlertAddDtoLocationIsNotValid() {
+            //given
+            var alertAddDto = new AlertAddDTO(
+                    disasterId,
+                    alertDescription,
+                    ""
+            );
+
+            //when
+            Assertions.assertThatThrownBy(() -> alertService.createAlert(alertAddDto)).isInstanceOf(ConstraintViolationException.class);
         }
     }
 
