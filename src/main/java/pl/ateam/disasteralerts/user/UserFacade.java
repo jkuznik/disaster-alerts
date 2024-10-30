@@ -3,10 +3,11 @@ package pl.ateam.disasteralerts.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
+import pl.ateam.disasteralerts.user.dto.UserUpdateDTO;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,5 +24,13 @@ public class UserFacade {
 
     public Set<UserDTO> getAllUsersByLocation(String location) {
         return userService.findAllByLocation(location);
+    }
+
+    public UserUpdateDTO getUserForUpdate(UUID userId) {
+        return userService.findUserUpdateDto(userId);
+    }
+
+    public void updateUser(UserUpdateDTO userUpdateDto, UUID userId) {
+        userService.updateUserEntity(userUpdateDto, userId);
     }
 }
