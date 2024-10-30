@@ -21,7 +21,7 @@ public class UserFacade {
         return new HashSet<>(getAllUsersByLocation(location));
     }
 
-    public List<UserDTO> getAllUsersByLocation(String location) {
+    public Set<UserDTO> getAllUsersByLocation(String location) {
         return userService.findAllByLocation(location);
     }
 }

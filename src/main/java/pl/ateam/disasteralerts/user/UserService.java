@@ -7,10 +7,7 @@ import pl.ateam.disasteralerts.security.CustomPasswordEncoder;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 import pl.ateam.disasteralerts.user.dto.UserRegisterDTO;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,10 +38,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    List<UserDTO> findAllByLocation(String location) {
+    Set<UserDTO> findAllByLocation(String location) {
         return userRepository.findAllByLocation(location).stream()
                 .map(userMapper::mapUserToUserDTO)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     private User findUserByEmail(String email) {
