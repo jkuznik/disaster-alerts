@@ -36,7 +36,7 @@ class EmailService implements AlertListener {
         interestedUsers.forEach(interestedUser -> {
             executor.submit(() -> {
                 try {
-                    sendEmailWithRetry(interestedUser.email(), "Alert for " + alertAddDTO.location(), alertAddDTO.description());
+                    sendEmail(interestedUser.email(), "Alert for " + alertAddDTO.location(), alertAddDTO.description());
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -47,15 +47,6 @@ class EmailService implements AlertListener {
         executor.shutdown();
     }
 
-    @Retryable(
-            retryFor = SMTPSenderFailedException.class,
-            maxAttempts = 4,
-            backoff = @Backoff(delay = 3000)
-    )
-    public void sendEmailWithRetry(String to, String subject, String body){
-        sendEmail(to, subject, body);
-    }
-
     @Recover
     public String handleMessagingException(MessagingException e) {
         logger.error("Max attempts reached. Failed to send email after 4 attempts.");
@@ -64,6 +55,11 @@ class EmailService implements AlertListener {
         return "Max attempts reached. Failed to send email";
     }
 
+    @Retryable(
+            retryFor = SMTPSenderFailedException.class,
+            maxAttempts = 4,
+            backoff = @Backoff(delay = 3000)
+    )
     public void sendEmail(String recipient, String subject, String content) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
