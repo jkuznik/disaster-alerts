@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.security.CustomPasswordEncoder;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 import pl.ateam.disasteralerts.user.dto.UserRegisterDTO;
@@ -97,6 +98,7 @@ public class UserService {
         return userRepository.count();
     }
 
+    @Transactional
     public void updateUserEntity(UserUpdateDTO userUpdateDto, UUID userId) {
         User user = findById(userId);
         user.setLocation(userUpdateDto.location());
