@@ -22,20 +22,12 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
-    boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
-    }
-
     boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
     Optional<User> findById(UUID id) {
         return userRepository.findById(id);
-    }
-
-    Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
     }
 
     Set<UserDTO> findAllByLocation(String location) {
