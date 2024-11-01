@@ -11,8 +11,8 @@ spring:
     port: 587
     username: disaster.alert1@gmail.com
     password: ihrbtliplvclxosl
-#    username: disaster.alert2@gmail.com
-#    password: mevizsenjlcrivvg
+#    username: ${DISASTER_EMAIL_ACCOUNT}
+#    password: ${DISASTER_EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
