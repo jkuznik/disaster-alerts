@@ -6,9 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UserRegisterDTO(@Size(min=5, max=15)
-                              @NotBlank
-                              String username,
+public record UserRegisterDTO(@NotBlank(message = "Podaj poprawne imię")
+                              @Size(min = 2, max = 255)
+                              String firstName,
+                              String lastName,
                               @Email @NotBlank
                               String email,
                               @NotNull(message = "Wybierz  miejscowość")
