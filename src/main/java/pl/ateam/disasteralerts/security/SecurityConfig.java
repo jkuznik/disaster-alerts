@@ -3,6 +3,7 @@ package pl.ateam.disasteralerts.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,6 +14,7 @@ public class SecurityConfig {
 
     private final CustomDaoAuthenticationProvider customDaoAuthenticationProvider;
 
+    @Primary
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
