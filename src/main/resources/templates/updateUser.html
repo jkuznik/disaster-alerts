@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Aktualizacja danych')}"></head>
+<body class="bg-body-tertiary">
+
+<nav th:replace="~{fragments :: nav}"></nav>
+
+<div class="d-flex vh-100 align-items-center justify-content-center bg-body-tertiary">
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Aktualizacja danych</h1>
+                <p class="col-lg-10 fs-4">Aktualizuj informacje</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+                <div th:replace="~{fragments :: message}"></div>
+                <form th:action="@{/users/update}" method="post" th:object="${userUpdateDto}">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="text-danger" th:if="${#fields.errors('username')}" th:errors="*{username}"></div>
+                            <label for="username" class="form-label">Nazwa użytkownika</label>
+                            <input th:value="*{username}" name="username" type="text" class="form-control" id="username">
+                            <div class="invalid-feedback">
+                                Nazwa użytkownika jest wymagana
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="text-danger" th:if="${#fields.errors('email')}" th:errors="*{email}"></div>
+                            <label for="email" class="form-label">Adres e-mail</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">@</span>
+                                <input th:value="*{email}" name="email" type="text" class="form-control" id="email" placeholder="you@example.com" required>
+                                <div class="invalid-feedback">
+                                    Niewłaściwy format adresu e-mail
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="text-danger" th:if="${#fields.errors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                            <label for="phoneNumber" class="form-label">Numer Telefonu</label>
+                            <div class="input-group">
+                                <input th:value="*{phoneNumber}" name="phoneNumber" type="text" class="form-control" id="phoneNumber" placeholder="+48.........">
+                            </div>
+                            <div class="invalid-feedback">
+                                Nieprawidłowy format numeru telefonu
+                            </div>
+                        </div>
+
+                        <div th:replace="~{fragments :: citiesList}"></div>
+                    </div>
+
+                    <button class="w-100 btn btn-success btn-lg my-md-4" type="submit">Aktualizuj dane</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
