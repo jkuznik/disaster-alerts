@@ -6,9 +6,11 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UserUpdateDTO(
-        @Size(min = 5, max = 15)
-        @NotBlank
-        String username,
+        @Size(min = 2, max = 15)
+        String firstName,
+
+        @Size(min = 2, max = 255)
+        String lastName,
 
         @Email
         @NotBlank
@@ -23,5 +25,5 @@ public record UserUpdateDTO(
         @Size(max = 255)
         @NotBlank
         String location
-        ) {
+) {
 }
