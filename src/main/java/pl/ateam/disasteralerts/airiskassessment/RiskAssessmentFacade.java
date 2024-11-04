@@ -1,15 +1,16 @@
 package pl.ateam.disasteralerts.airiskassessment;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 
+@Component
 @RequiredArgsConstructor
 public class RiskAssessmentFacade {
 
     private final RiskAssessmentService riskAssessmentService;
 
-    public DisasterAddDTO assessRisk(DisasterAddDTO disasterAddDTO) {
-        riskAssessmentService.assessRisk(disasterAddDTO);
-        return disasterAddDTO;
+    public boolean assessRisk(DisasterAddDTO disasterAddDTO) {
+        return riskAssessmentService.assessRisk(disasterAddDTO);
     }
 }
