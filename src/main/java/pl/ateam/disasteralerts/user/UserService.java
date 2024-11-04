@@ -95,7 +95,8 @@ public class UserService {
         User user = findById(userId);
         user.setLocation(userUpdateDto.location());
         user.setEmail(userUpdateDto.email());
-        user.setUsername(userUpdateDto.username());
+        user.setFirstName(userUpdateDto.firstName());
+        user.setLastName(userUpdateDto.lastName());
         user.setPhoneNumber(userUpdateDto.phoneNumber());
 
         userRepository.save(user);
