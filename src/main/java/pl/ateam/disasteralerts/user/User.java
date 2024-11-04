@@ -23,7 +23,7 @@ import pl.ateam.disasteralerts.util.EntityAudit;
 @Table(name = "users")
 class User extends EntityAudit {
 
-    @Size(min = 2, max = 15)
+    @Size(min = 2, max = 255)
     @Column(nullable = false)
     private String firstName;
 

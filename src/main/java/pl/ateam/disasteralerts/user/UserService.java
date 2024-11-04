@@ -3,9 +3,11 @@ package pl.ateam.disasteralerts.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.security.CustomPasswordEncoder;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 import pl.ateam.disasteralerts.user.dto.UserRegisterDTO;
+import pl.ateam.disasteralerts.user.dto.UserUpdateDTO;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -80,6 +82,20 @@ public class UserService {
 
     public long userCount() {
         return userRepository.count();
+    }
+
+    @Transactional
+    public void updateUserEntity(UserUpdateDTO userUpdateDto, UUID userId) {
+        User user = findById(userId).orElseThrow(
+                () -> new NoSuchElementException("User not found")
+        );
+        user.setLocation(userUpdateDto.location());
+        user.setEmail(userUpdateDto.email());
+        user.setFirstName(userUpdateDto.firstName());
+        user.setLastName(userUpdateDto.lastName());
+        user.setPhoneNumber(userUpdateDto.phoneNumber());
+
+        userRepository.save(user);
     }
 
 }
