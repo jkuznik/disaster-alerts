@@ -93,9 +93,7 @@ public class UserService {
     @Transactional
     public void updateUserEntity(UserUpdateDTO userUpdateDto, UUID userId) {
 
-        User user = findById(userId).orElseThrow(
-                () -> new NoSuchElementException("User not found")
-        );
+        User user = findById(userId);
         user.setLocation(userUpdateDto.location());
         user.setEmail(userUpdateDto.email());
         user.setFirstName(userUpdateDto.firstName());
