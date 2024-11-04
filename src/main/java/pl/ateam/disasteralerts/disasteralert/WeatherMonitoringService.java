@@ -47,7 +47,7 @@ class WeatherMonitoringService {
     }
 
     private void handleWindDisaster(double windSpeed, String location) {
-        if (windSpeed > 2.0) {
+        if (windSpeed > 10.0) {
             Optional<DisasterDTO> existingDisaster = disasterService.getActiveDisasterForTypeAndLocation(DisasterType.HURRICANE, location);
             if (existingDisaster.isEmpty()) {
                 DisasterAddDTO disaster = new DisasterAddDTO(
@@ -65,7 +65,7 @@ class WeatherMonitoringService {
     }
 
     private void handleHeatDisaster(double temperature, String location) {
-        if (temperature > 5.0) {
+        if (temperature > 35.0) {
             Optional<DisasterDTO> existingDisaster = disasterService.getActiveDisasterForTypeAndLocation(DisasterType.HEAT, location);
             if (existingDisaster.isEmpty()) {
                 DisasterAddDTO disaster = new DisasterAddDTO(
