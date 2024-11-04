@@ -1,28 +1,44 @@
 package pl.ateam.disasteralerts.disasteralert;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
+import pl.ateam.disasteralerts.security.AppUser;
+import pl.ateam.disasteralerts.user.UserService;
+import pl.ateam.disasteralerts.user.dto.UserRegisterDTO;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DisasteralertIT extends PSQLTestConatiner{
 
     @Autowired
     DisasterRepository disasterRepository;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    AppUser appUser;
+
+    @MockBean
+    WeatherMonitoringService weatherMonitoringService;
+
     @BeforeEach
     public void setUp() {
-        bootStrapDB();
-    }
-
-    @AfterEach
-    public void tearDown() {
         disasterRepository.deleteAll();
+        bootStrapDB();
     }
 
     @Test
@@ -35,6 +51,26 @@ public class DisasteralertIT extends PSQLTestConatiner{
 
         //then
         Assertions.assertThat(disasters.size()).isEqualTo(10);
+    }
+
+    @Test
+    void shouldReturnDisasterByIdFromDb_afterCreateDisasterByHttpPostMethod() throws Exception {
+        //given
+        List<Disaster> before = disasterRepository.findAll();
+
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.post("/disasters")
+                .with(user(appUser))
+                .param("disasterType", DisasterType.FLOOD.name())
+                .param("description", "test")
+                .param("location", "test"))
+                .andExpect(status().isCreated());
+
+        //then
+        List<Disaster> after = disasterRepository.findAll();
+
+        Assertions.assertThat(after.size()).isEqualTo((before.size() + 1));
+
     }
 
     private void bootStrapDB() {
