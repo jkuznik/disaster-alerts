@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 public record UserRegisterDTO(@NotBlank(message = "Podaj poprawne imię")
                               @Size(min = 2, max = 255)
                               String firstName,
+                              @Size(min = 2, max = 255)
                               String lastName,
                               @Email @NotBlank
                               String email,
