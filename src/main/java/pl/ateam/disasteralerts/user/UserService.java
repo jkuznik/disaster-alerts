@@ -1,5 +1,6 @@
 package pl.ateam.disasteralerts.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,12 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    Optional<User> findById(UUID id) {
-        return userRepository.findById(id);
+    User findById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
+    UserUpdateDTO findUserUpdateDto(UUID userId) {
+        return userMapper.mapUserToUserUpdateDto(findById(userId));
     }
 
     Set<UserDTO> findAllByLocation(String location) {
@@ -58,6 +63,7 @@ public class UserService {
         user.setPassword(customPasswordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
+
     }
 
     public void saveAll(Collection<User> users) {
@@ -86,6 +92,7 @@ public class UserService {
 
     @Transactional
     public void updateUserEntity(UserUpdateDTO userUpdateDto, UUID userId) {
+
         User user = findById(userId).orElseThrow(
                 () -> new NoSuchElementException("User not found")
         );
@@ -97,5 +104,4 @@ public class UserService {
 
         userRepository.save(user);
     }
-
 }

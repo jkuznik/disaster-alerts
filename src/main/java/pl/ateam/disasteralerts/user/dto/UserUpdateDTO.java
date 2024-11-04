@@ -12,7 +12,6 @@ public record UserUpdateDTO(
         @Size(min = 5, max = 255)
         @NotBlank
         String lastName,
-
         @Email
         @NotBlank
         @Size(max = 255)
