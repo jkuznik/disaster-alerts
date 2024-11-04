@@ -2,21 +2,22 @@ spring:
   application:
     name: Disaster Alerts
 
-  datasource:
-    driver-class-name: org.postgresql.Driver
+  docker:
+    compose:
+      file: compose-test.yaml
 
   jpa:
-    hibernate:
-      ddl-auto: create-drop
+#    hibernate:
+#      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
     show-sql: true
 
-  liquibase:
-    change-log: db/changelog-test.yaml
-    contexts: test
+#  liquibase:
+#    change-log: db/changelog-test.yaml
+#    contexts: test
 
 server:
   port: 8082

@@ -2,7 +2,7 @@ package pl.ateam.disasteralerts._config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -17,12 +17,12 @@ import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 import java.util.UUID;
 
-@Profile("test")
 @Configuration
-public class TestSecurityConfig {
+public class TestProfileConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Order(2)
+    public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .httpBasic(Customizer.withDefaults())
@@ -39,7 +39,7 @@ public class TestSecurityConfig {
     }
 
     @Bean
-    public UserDTO testUser() {
+    public UserDTO testUserDTO() {
         return new UserDTO(
                 UUID.randomUUID(),
                 "username",
@@ -52,9 +52,9 @@ public class TestSecurityConfig {
     }
 
     @Bean
-    public AppUser appUser() {
+    public AppUser testAppUser() {
         return AppUser.builder()
-                .userDTO(testUser())
+                .userDTO(testUserDTO())
                 .build();
     }
 
@@ -63,7 +63,7 @@ public class TestSecurityConfig {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
 
         var user = User
-                .withUserDetails(appUser())
+                .withUserDetails(testAppUser())
                 .build();
 
         manager.createUser(user);

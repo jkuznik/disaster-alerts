@@ -4,7 +4,6 @@ spring:
 
   profiles:
     active: dev
-    include: test
 
   mail:
     host: smtp.gmail.com
@@ -22,3 +21,14 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/disasterdb
+    username: user
+    password: pass
+
+openweathermap:
+  api:
+    key: 3261c3b28f5aed55fcca580f4d7744d0
+    url: https://api.openweathermap.org/data/2.5/weather

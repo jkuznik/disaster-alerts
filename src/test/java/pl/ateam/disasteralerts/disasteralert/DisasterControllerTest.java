@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.ateam.disasteralerts._config.TestSecurityConfig;
+import pl.ateam.disasteralerts._config.TestProfileConfig;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import pl.ateam.disasteralerts.security.AppUser;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DisasterController.class)
-@Import({DisasterMapperImpl.class, TestSecurityConfig.class})
+@Import({DisasterMapperImpl.class, TestProfileConfig.class})
 class DisasterControllerTest {
 
     @MockBean
