@@ -1,11 +1,14 @@
 package pl.ateam.disasteralerts.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.security.CustomPasswordEncoder;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 import pl.ateam.disasteralerts.user.dto.UserRegisterDTO;
+import pl.ateam.disasteralerts.user.dto.UserUpdateDTO;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,8 +29,12 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    Optional<User> findById(UUID id) {
-        return userRepository.findById(id);
+    User findById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
+    UserUpdateDTO findUserUpdateDto(UUID userId) {
+        return userMapper.mapUserToUserUpdateDto(findById(userId));
     }
 
     Set<UserDTO> findAllByLocation(String location) {
@@ -56,6 +63,7 @@ public class UserService {
         user.setPassword(customPasswordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
+
     }
 
     public void saveAll(Collection<User> users) {
@@ -82,4 +90,14 @@ public class UserService {
         return userRepository.count();
     }
 
+    @Transactional
+    public void updateUserEntity(UserUpdateDTO userUpdateDto, UUID userId) {
+        User user = findById(userId);
+        user.setLocation(userUpdateDto.location());
+        user.setEmail(userUpdateDto.email());
+        user.setUsername(userUpdateDto.username());
+        user.setPhoneNumber(userUpdateDto.phoneNumber());
+
+        userRepository.save(user);
+    }
 }
