@@ -7,8 +7,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +20,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -51,8 +50,6 @@ class DisasterControllerTest {
         @WithUserDetails(userDetailsServiceBeanName = "testUserDetailsService", value = "username")
         void shouldReturnStatus201When_UserIsAuthenticatedAndHasRoleValid_AndRequestParamsAreValid() throws Exception {
             //given
-            SecurityContextHolder.getContext().setAuthentication(
-                    new UsernamePasswordAuthenticationToken(appUser, null, appUser.getAuthorities()));
             DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
 
             //when
@@ -60,6 +57,7 @@ class DisasterControllerTest {
 
             //then
             mockMvc.perform(post(DisasterController.DISASTERS_BASE_URL)
+                            .with(user(appUser))
                             .param("disasterType", DisasterType.FLOOD.toString())
                             .param("description", "testDescription")
                             .param("location", "testLocation"))
@@ -73,7 +71,7 @@ class DisasterControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "email", roles = "NOT_VALID")
+        @WithMockUser(username = "username", roles = "NOT_VALID")
         void shouldReturnStatus403When_UserIsUnAuthenticatedAndHasRoleNotValid_AndRequestParamsAreValid() throws Exception {
             //given
             DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
