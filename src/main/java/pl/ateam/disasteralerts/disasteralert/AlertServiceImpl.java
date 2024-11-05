@@ -26,7 +26,7 @@ class AlertServiceImpl implements AlertService {
         Alert alert = alertRepository.save(
                 mapper.mapAlertAddDtoToAlert(alertAddDTO));
 
-//        sendNotifications(alertAddDTO);
+        sendNotifications(alertAddDTO);
 
         return mapper.mapAlertToAlertDto(alert);
     }
