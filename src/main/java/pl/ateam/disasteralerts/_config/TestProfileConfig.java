@@ -41,26 +41,6 @@ public class TestProfileConfig {
     }
 
     @Bean
-    public UserDTO testUserDTO() {
-        return new UserDTO(
-                UUID.randomUUID(),
-                "username",
-                "email@email.emial",
-                "password",
-                "+481233456789",
-                "location",
-                "ROLE_USER"
-        );
-    }
-
-    @Bean
-    public AppUser testAppUser() {
-        return AppUser.builder()
-                .userDTO(testUserDTO())
-                .build();
-    }
-
-    @Bean
     public UserDetailsService testUserDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
 
@@ -77,5 +57,23 @@ public class TestProfileConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(testUserDetailsService());
         return provider;
+    }
+
+    private AppUser testAppUser() {
+        return AppUser.builder()
+                .userDTO(testUserDTO())
+                .build();
+    }
+
+    private UserDTO testUserDTO() {
+        return new UserDTO(
+                UUID.randomUUID(),
+                "username",
+                "email@email.emial",
+                "password",
+                "+481233456789",
+                "location",
+                "ROLE_USER"
+        );
     }
 }

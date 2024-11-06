@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.user.UserService;
+import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +28,7 @@ public class DisasteralertIT extends PSQLTestConatiner{
     @Autowired
     MockMvc mockMvc;
 
-    @Autowired
-    AppUser appUser;
+    AppUser appUser = getTestAppUser();
 
     @MockBean
     WeatherMonitoringService weatherMonitoringService;
@@ -84,5 +84,23 @@ public class DisasteralertIT extends PSQLTestConatiner{
 
             disasterRepository.save(disaster);
         }
+    }
+
+    private AppUser getTestAppUser() {
+        return AppUser.builder()
+                .userDTO(testUserDTO())
+                .build();
+    }
+
+    private UserDTO testUserDTO() {
+        return new UserDTO(
+                UUID.randomUUID(),
+                "username",
+                "email@email.emial",
+                "password",
+                "+481233456789",
+                "location",
+                "ROLE_USER"
+        );
     }
 }

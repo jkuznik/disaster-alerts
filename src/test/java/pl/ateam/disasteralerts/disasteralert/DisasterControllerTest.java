@@ -37,8 +37,7 @@ class DisasterControllerTest {
     @Autowired
     DisasterMapper mapper;
 
-    @Autowired
-    AppUser appUser;
+    AppUser appUser = getTestAppUser();
 
     private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
@@ -47,8 +46,8 @@ class DisasterControllerTest {
     class POSTMethodsTest {
 
         @Test
-        @WithUserDetails(userDetailsServiceBeanName = "testUserDetailsService", value = "username")
-        void shouldReturnStatus201When_UserIsAuthenticatedAndHasRoleValid_AndRequestParamsAreValid() throws Exception {
+        @WithUserDetails("username")
+        void shouldReturnStatus201_whenUserIsAuthenticatedAndHasRoleValid_AndRequestParamsAreValid() throws Exception {
             //given
             DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
 
@@ -58,9 +57,9 @@ class DisasterControllerTest {
             //then
             mockMvc.perform(post(DisasterController.DISASTERS_BASE_URL)
                             .with(user(appUser))
-                            .param("disasterType", DisasterType.FLOOD.toString())
-                            .param("description", "testDescription")
-                            .param("location", "testLocation"))
+                            .param("disasterType", disasterDTO.type().name())
+                            .param("description", disasterDTO.description())
+                            .param("location", disasterDTO.location()))
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", "http://localhost:8081/disasters/"))
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -96,7 +95,13 @@ class DisasterControllerTest {
                 testUserId);
     }
 
-    private UserDTO getUserDTO() {
+    private AppUser getTestAppUser() {
+        return AppUser.builder()
+                .userDTO(testUserDTO())
+                .build();
+    }
+
+    private UserDTO testUserDTO() {
         return new UserDTO(
                 UUID.randomUUID(),
                 "username",
@@ -104,7 +109,7 @@ class DisasterControllerTest {
                 "password",
                 "+481233456789",
                 "location",
-                "USER"
+                "ROLE_USER"
         );
     }
 }
