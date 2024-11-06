@@ -9,9 +9,6 @@ import java.util.UUID;
 public record UserDTO(
                         @NotNull
                         UUID id,
-                        @Size(min=5, max=15)
-                        @NotBlank
-                        String username,
                         @Email @NotBlank
                         @Max(255)
                         String email,
