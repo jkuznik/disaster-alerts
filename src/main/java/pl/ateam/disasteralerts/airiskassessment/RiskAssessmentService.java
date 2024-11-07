@@ -1,13 +1,16 @@
 package pl.ateam.disasteralerts.airiskassessment;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 class RiskAssessmentService {
 
+    public static final double RISK_THRESHOLD = 0.7;
     private final OpenAIClient openAIClient;
 
     boolean assessRisk(DisasterAddDTO disasterAddDTO) {
@@ -20,11 +23,12 @@ class RiskAssessmentService {
                 disasterAddDTO.type()
         );
 
-        double riskScore = openAIClient.getRiskScore(riskEvaluationPrompt);
-
-        if (riskScore > 0.7) {
-            return true;
+        try {
+            double riskScore = openAIClient.getRiskScore(riskEvaluationPrompt);
+            return riskScore > RISK_THRESHOLD;
+        } catch (Exception e) {
+            log.error("Error assessing risk with OpenAIClient: {}", e.getMessage());
+            return false;
         }
-        return false;
     }
 }
