@@ -22,6 +22,14 @@ spring:
     change-log: db/changelog-dev.yaml
     contexts: dev
 
+  ai:
+    openai:
+      api-key: "${{ secrets.OPENAI_API_KEY }}"
+      chat:
+        options:
+          model: gpt-4o
+          temperature: 0.5
+
 server:
   port: 8080
 
