@@ -43,4 +43,6 @@ jobs:
           done
 
       - name: Build and Run Tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: mvn clean install
