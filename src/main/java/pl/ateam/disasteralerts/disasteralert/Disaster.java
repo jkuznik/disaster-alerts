@@ -5,12 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.ateam.disasteralerts.util.EntityAudit;
+import pl.ateam.disasteralerts.util.levelofrisk.RiskLevel;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,6 +29,10 @@ class Disaster extends EntityAudit {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DisasterType type;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RiskLevel riskLevel;
 
     @Column(nullable = false)
     private String description;
