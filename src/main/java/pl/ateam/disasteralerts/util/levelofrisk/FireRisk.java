@@ -5,6 +5,7 @@ import java.util.HashMap;
 class FireRisk {
 
     private static final HashMap<RiskLevel, String> FIRE_RISKS = new HashMap<>();
+
     static {
         FIRE_RISKS.put(RiskLevel.HIGH,
                 "Rozprzestrzeniający się pożar lasu lub dużego budynku, zagrażający bezpośrednio życiu ludzi");

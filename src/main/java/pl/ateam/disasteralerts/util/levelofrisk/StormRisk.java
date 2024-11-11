@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class StormRisk {
 
     private static final HashMap<RiskLevel, String> STORM_RISKS = new HashMap<>();
+
     static {
         STORM_RISKS.put(RiskLevel.HIGH,
                 "Silne porywy wiatru, intensywne opady deszczu lub gradu");
