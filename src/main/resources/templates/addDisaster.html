@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
-
-<head th:replace="~{fragments :: head('Dodaj Zdarzenie')}"></head>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Chat Zgłaszania Zdarzeń')}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
 
 <body>
 <nav th:replace="~{fragments :: nav}"></nav>
 
 <div class="d-flex vh-100 align-items-center justify-content-center bg-body-tertiary">
     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-        <div class="row align-items-center g-lg-5 py-5">
-            <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Dodaj Zdarzenie</h1>
-                <p class="col-lg-10 fs-4">Wprowadź informacje o nowym zdarzeniu</p>
+        <div class="row align-items-start g-lg-5 py-5">
+            <!-- Sekcja Czatowa -->
+            <div class="col-lg-7 text-center text-lg-start d-flex flex-column h-100">
+                <div class="chat-container d-flex flex-column h-100">
+                    <div class="textarea-container bg-body-tertiary p-3 rounded mt-3">
+                        <form th:action="@{/disasters/chat}" method="post">
+                            <!-- Renderowanie pytania i opcji wyboru jako radio buttony -->
+                            <div th:if="${conversation != null}">
+                                <label class="form-label fw-bold" th:text="${conversation.question}"></label>
+                                <div class="form-check" th:each="answer, iter : ${conversation.answers}">
+                                    <input class="form-check-input" type="radio" name="selectedAnswer"
+                                           th:value="${answer}" th:id="${'answer-' + iter.index}" required>
+                                    <label class="form-check-label" th:for="${'answer-' + iter.index}" th:text="${answer}"></label>
+                                </div>
+
+                                <!-- Pole do wpisania własnej odpowiedzi -->
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="radio" name="selectedAnswer" value="custom" id="answer-custom">
+                                    <input type="text" class="form-control mt-2" name="selectedAnswer" placeholder="Wpisz własną odpowiedź">
+                                </div>
+
+                                <button type="submit" class="btn btn-success mt-3">Wyślij</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+
+            <!-- Sekcja Zgłoszenia Zdarzenia (Formularz) -->
             <div class="col-md-10 mx-auto col-lg-5">
                 <div th:replace="~{fragments :: message}"></div>
-                <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
+                <form th:action="@{/disasters/add}" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
                     <div class="form-floating mb-3">
                         <select th:value="${disasterTypSelected}" name="type" class="form-select" id="type" required>
                             <option th:if="${disasterTypSelected == null}" value="" disabled selected>Wybierz typ zdarzenia</option>
@@ -27,8 +52,8 @@
                         <label for="type">Typ Zdarzenia</label>
                     </div>
 
-                    <div class="form-floating mb-3">
-                        <input th:value="*{description()}" name="description" type="text" class="form-control" id="description" placeholder="Opis" required>
+                    <div th:if="${description != null}" class="form-floating mb-3">
+                        <input th:value="${description}" name="description" type="text" class="form-control" id="description" placeholder="Opis" required>
                         <label for="description">Opis</label>
                     </div>
                     <div th:replace="~{fragments :: citiesList}"></div>
@@ -43,5 +68,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>
