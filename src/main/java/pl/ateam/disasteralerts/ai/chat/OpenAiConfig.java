@@ -34,7 +34,12 @@ class OpenAiConfig {
 
     DisasterAddDTO getDisasterAdd(UUID uuid) {
         return chatClient.prompt()
-                .system("Zbuduj odpowiedź na podstawie konwersacji")
+                .system("""
+                Zbuduj odpowiedź na podstawie konwersacji. Odpowiedź powinna być rozbudowana i zawierać wszystkie istotne szczegóły.
+                Dodatkowo na podstawie uzyskanych informacji oceń poziom ryzyka dotyczący katastrofy od '0.0' do '1.0'
+                (gdzie 0,0 oznacza brak zagrożenia, a 1.0 oznacza bardzo prawdopodobne).
+                Podaj sam wynik - liczbę z zakresu od 0.0 do 1.0. Odenę dodaj do odpowiedzi.
+                """)
                 .messages(messages)
                 .user("userId: " + uuid)
                 .call()
@@ -64,7 +69,8 @@ class OpenAiConfig {
                 Zadawaj pytania pojedynczo, w formie `question` oraz `answers`.
                 Użytkownik będzie odpowiadał zaproponowanymi możliwościami.
                 Pytanie i odpowiedź podaj w formie JSON: {conversation} (String question, List<String> answers)
-                Jeśli nie ma żadnych odpowiednich odpowiedzi wygeneruj podsumowanie w question i zadnych odpowiedzi.
+                Jeśli nie ma żadnych odpowiednich odpowiedzi wygeneruj podsumowanie w question i zadnych pozycji w answers.
+                Nie powtarzaj już raz zadanego pytania. Jeśli sugerujesz odpowiedź 'tak' i użytkownik na nią odpowiada to dopytuj o szczegóły.
                 
                 Pamiętaj, by rozmowa była zwięzła i jasna, aby użytkownik wiedział, jakie informacje są potrzebne. JSON ma być przejrzysty i zawierać tylko najistotniejsze informacje o zgłoszeniu.
                 Do kontekstu dołączam wiadomości, które wcześniej wymieniłeś z użytkownikiem: {messages}.
