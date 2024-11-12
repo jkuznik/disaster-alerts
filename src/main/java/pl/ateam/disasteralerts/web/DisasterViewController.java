@@ -39,8 +39,10 @@ public class DisasterViewController {
         }
 
         baseModel(model, appUser);
-        model.addAttribute("disasterTypSelected", null);
-        model.addAttribute("disasterAddDTO", new DisasterAddDTO(null, null, null, null));
+        if (!model.containsAttribute("disasterAddDTO")) {
+            model.addAttribute("disasterTypSelected", null);
+            model.addAttribute("disasterAddDTO", new DisasterAddDTO(null, null, null, null));
+        }
         model.addAttribute("selectedLocation", appUser.getUserDTO().location());
 
         return "addDisaster";
@@ -72,7 +74,10 @@ public class DisasterViewController {
         ConversationDTO conversation = openAiService.getResponse(selectedAnswer);
 
         if (conversation.answers().isEmpty()) {
-            redirectAttributes.addFlashAttribute("description", openAiService.getDisasterAdd());
+            DisasterAddDTO disasterAdd = openAiService.getDisasterAdd(userDetails.getUserDTO().id());
+            redirectAttributes.addFlashAttribute("disasterAddDTO", disasterAdd);
+            redirectAttributes.addFlashAttribute("disasterTypSelected", disasterAdd.type());
+            redirectAttributes.addFlashAttribute("description", disasterAdd.description());
             redirectAttributes.addFlashAttribute("conversation", null);
             return "redirect:/disasters/add";
         }

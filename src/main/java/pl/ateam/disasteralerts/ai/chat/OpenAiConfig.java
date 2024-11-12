@@ -5,10 +5,12 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.context.annotation.Configuration;
 import pl.ateam.disasteralerts.ai.chat.dto.ConversationDTO;
+import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Configuration
 class OpenAiConfig {
@@ -30,11 +32,13 @@ class OpenAiConfig {
                 .entity(ConversationDTO.class);
     }
 
-    String getDisasterAdd() {
+    DisasterAddDTO getDisasterAdd(UUID uuid) {
         return chatClient.prompt()
                 .system("Zbuduj odpowiedź na podstawie konwersacji")
                 .messages(messages)
-                .call().content();
+                .user("userId: " + uuid)
+                .call()
+                .entity(DisasterAddDTO.class);
     }
 
     void addMessage(Message message) {
