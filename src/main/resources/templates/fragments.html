@@ -18,13 +18,13 @@
         </div>
     </nav>
 
-    <div th:fragment="message">
-        <p class="h4 text-success " th:if="${message} != null" th:text="${message}"></p>
+    <div th:fragment="message" class="px-2 text-center">
+        <p class="h4 text-center" th:if="${message} != null" th:text="${message}"></p>
     </div>
 
     <div th:fragment="citiesList" class="col-12">
         <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>
-        <h2>Wybierz miejscowość:</h2>
+        <h4 class="text-center">Wybierz miejscowość:</h4>
         <div class="form-group">
             <input th:value="${selectedLocation}" type="text" class="form-control" id="cityInput" placeholder="Zacznij wpisywać" onkeyup="filterCities()">
 
