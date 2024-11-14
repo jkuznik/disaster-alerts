@@ -68,7 +68,6 @@ public class TestProfileConfig {
     private UserDTO testUserDTO() {
         return new UserDTO(
                 UUID.randomUUID(),
-                "username",
                 "email@email.emial",
                 "password",
                 "+481233456789",

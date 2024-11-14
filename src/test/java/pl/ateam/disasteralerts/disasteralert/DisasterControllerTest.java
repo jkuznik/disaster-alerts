@@ -46,7 +46,6 @@ class DisasterControllerTest {
     class POSTMethodsTest {
 
         @Test
-        @WithUserDetails("username")
         void shouldReturnStatus201_whenUserIsAuthenticatedAndHasRoleValid_AndRequestParamsAreValid() throws Exception {
             //given
             DisasterDTO disasterDTO = mapper.mapDisasterToDisasterDto(mapper.mapDisasterAddDtoToDisaster(disasterAddDTO));
@@ -104,7 +103,6 @@ class DisasterControllerTest {
     private UserDTO testUserDTO() {
         return new UserDTO(
                 UUID.randomUUID(),
-                "username",
                 "email@email.emial",
                 "password",
                 "+481233456789",
