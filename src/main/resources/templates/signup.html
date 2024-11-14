@@ -15,9 +15,18 @@
 
                     <div class="row g-3">
                         <div class="col-12">
-                            <div class="text-danger" th:if="${#fields.errors('username')}" th:errors="*{username}"></div>
-                            <label for="username" class="form-label">Nazwa użytkownika</label>
-                            <input th:value="*{username}" name="username" type="text" class="form-control" id="username">
+                            <div class="text-danger" th:if="${#fields.errors('firstName')}" th:errors="*{firstName}"></div>
+                            <label for="firstName" class="form-label">Nazwa użytkownika</label>
+                            <input th:value="*{firstName}" name="firstName" type="text" class="form-control" id="firstName">
+                            <div class="invalid-feedback">
+                                Nazwa użytkownika jest wymagana
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="text-danger" th:if="${#fields.errors('lastName')}" th:errors="*{lastName}"></div>
+                            <label for="lastName" class="form-label">Nazwa użytkownika</label>
+                            <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastName">
                             <div class="invalid-feedback">
                                 Nazwa użytkownika jest wymagana
                             </div>
@@ -34,11 +43,6 @@
                                 </div>
                             </div>
                         </div>
-
-<!--                        <div class="col-12">-->
-<!--                            <label for="phoneNumber" class="form-label">Numer Telefonu <span class="text-body-secondary">(Opcjonalnie)</span></label>-->
-<!--                            <input th:value="*{phoneNumber}" name="phoneNumber" type="text" class="form-control" id="phoneNumber" placeholder="xxx-xxx-xxx">-->
-<!--                        </div>-->
 
                         <div class="col-12">
                             <div class="text-danger" th:if="${#fields.errors('password')}" th:errors="*{password}"></div>
