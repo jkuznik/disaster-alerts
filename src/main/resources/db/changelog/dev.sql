@@ -127,3 +127,16 @@ ALTER TABLE users
 -- changeset jkuznik:1728934675080-21
 ALTER TABLE alerts
     DROP COLUMN creation_date;
+
+-- changeset Slawek84PL:1730494287010-22
+ALTER TABLE users RENAME COLUMN username TO first_name;
+ALTER TABLE users ADD last_name VARCHAR(255);
+
+-- changeset Slawek84PL:1730494287010-23
+ALTER TABLE users ALTER COLUMN  first_name SET NOT NULL;
+
+-- changeset Slawek84PL:1730494287010-24
+UPDATE users SET last_name = 'Nieznane';
+
+-- changeset Slawek84PL:1730494287010-25
+ALTER TABLE users ALTER COLUMN  last_name SET NOT NULL;

@@ -3,6 +3,7 @@ package pl.ateam.disasteralerts.disasteralert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.ateam.disasteralerts.airiskassessment.RiskAssessmentFacade;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
@@ -16,16 +17,21 @@ class DisasterServiceImpl implements DisasterService {
     private final DisasterRepository disasterRepository;
     private final AlertService alertService;
     private final DisasterMapper mapper;
+    private final RiskAssessmentFacade riskAssessment;
 
     @Transactional
     @Override
     public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO, String source) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
         disaster.setSource(source);
-        disaster.setStatus(DisasterStatus.ACTIVE);
-        disasterRepository.save(disaster);
-
-        generateAlert(disaster.getId());
+        if (riskAssessment.assessRisk(disasterAddDTO)) {
+            disaster.setStatus(DisasterStatus.ACTIVE);
+            disasterRepository.save(disaster);
+            generateAlert(disaster.getId());
+        } else {
+            disaster.setStatus(DisasterStatus.FAKE);
+            disasterRepository.save(disaster);
+        }
 
         return mapper.mapDisasterToDisasterDto(disaster);
     }
@@ -39,7 +45,7 @@ class DisasterServiceImpl implements DisasterService {
         AlertAddDTO alertAddDTO = new AlertAddDTO(
                 disasterDTO.id(),
                 disasterDTO.description(),
-                disasterDTO.location()) ;
+                disasterDTO.location());
 
         alertService.createAlert(alertAddDTO);
     }

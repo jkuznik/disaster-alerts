@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import pl.ateam.disasteralerts.airiskassessment.RiskAssessmentFacade;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
@@ -33,6 +34,9 @@ class DisasterServiceImplTest {
     @MockBean
     DisasterMapper disasterMapper;
 
+    @MockBean
+    private RiskAssessmentFacade riskAssessment;
+
     private final UUID testUserId = UUID.randomUUID();
     private final DisasterAddDTO disasterAddDTO = getDisasterAddDTO();
     private final DisasterDTO disasterDTO = getDisasterDTO();
@@ -49,6 +53,7 @@ class DisasterServiceImplTest {
             when(disasterRepository.save(any(Disaster.class))).thenReturn(disaster);
             when(disasterRepository.findById(disaster.getId())).thenReturn(Optional.of(disaster));
             when(disasterMapper.mapDisasterToDisasterDto(disaster)).thenReturn(disasterDTO);
+            when(riskAssessment.assessRisk(disasterAddDTO)).thenReturn(true);
 
             //then
             DisasterDTO result = disasterService.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);

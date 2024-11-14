@@ -27,7 +27,7 @@ public class SignupViewController {
     @GetMapping
     public String signupView(Model model) {
         model.addAttribute("userDto",
-                new UserRegisterDTO(null, null, null, null));
+                new UserRegisterDTO(null, null, null, null, null));
         citiesList(model);
         return "signup";
     }

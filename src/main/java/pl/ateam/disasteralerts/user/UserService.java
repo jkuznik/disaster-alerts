@@ -25,10 +25,6 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
-    boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
-    }
-
     boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
@@ -39,10 +35,6 @@ public class UserService {
 
     UserUpdateDTO findUserUpdateDto(UUID userId) {
         return userMapper.mapUserToUserUpdateDto(findById(userId));
-    }
-
-    Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
     }
 
     Set<UserDTO> findAllByLocation(String location) {
@@ -103,7 +95,8 @@ public class UserService {
         User user = findById(userId);
         user.setLocation(userUpdateDto.location());
         user.setEmail(userUpdateDto.email());
-        user.setUsername(userUpdateDto.username());
+        user.setFirstName(userUpdateDto.firstName());
+        user.setLastName(userUpdateDto.lastName());
         user.setPhoneNumber(userUpdateDto.phoneNumber());
 
         userRepository.save(user);
