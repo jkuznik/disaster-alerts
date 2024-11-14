@@ -15,9 +15,20 @@ spring:
         format_sql: false
     show-sql: true
 
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/disasterdb
+    username: user
+    password: pass
+
   liquibase:
     change-log: db/changelog-dev.yaml
     contexts: dev
 
 server:
   port: 8080
+
+openweathermap:
+  api:
+    key: 3261c3b28f5aed55fcca580f4d7744d0
+    url: https://api.openweathermap.org/data/2.5/weather

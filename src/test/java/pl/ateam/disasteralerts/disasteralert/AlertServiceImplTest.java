@@ -84,7 +84,7 @@ class AlertServiceImplTest {
                     alertLocation
             );
 
-            //when
+            //when & then
             Assertions.assertThatThrownBy(() -> alertService.createAlert(alertAddDto)).isInstanceOf(ConstraintViolationException.class);
         }
 
@@ -97,7 +97,7 @@ class AlertServiceImplTest {
                     ""
             );
 
-            //when
+            //when & then
             Assertions.assertThatThrownBy(() -> alertService.createAlert(alertAddDto)).isInstanceOf(ConstraintViolationException.class);
         }
     }

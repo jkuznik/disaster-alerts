@@ -7,13 +7,19 @@ spring:
       file: compose-test.yaml
 
   jpa:
-#    hibernate:
-#      ddl-auto: create-drop
+    hibernate:
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
     show-sql: true
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/disasterdb
+    username: user
+    password: pass
 
 #  liquibase:
 #    change-log: db/changelog-test.yaml
@@ -21,3 +27,8 @@ spring:
 
 server:
   port: 8082
+
+openweathermap:
+  api:
+    key: 3261c3b28f5aed55fcca580f4d7744d0
+    url: https://api.openweathermap.org/data/2.5/weather
