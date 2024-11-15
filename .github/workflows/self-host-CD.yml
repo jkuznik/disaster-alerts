@@ -18,4 +18,4 @@ jobs:
       - name: Delete old docker container
         run: sudo docker rm -f disaster-alert-container || true
       - name: Run new docker container
-        run: sudo docker run -d -p 8080:8080 --name disaster-alert-container jkuznik/disaster-alert
+        run: sudo docker run -d -p 8080:8080 --name disaster-alert-container --network disaster-net jkuznik/disaster-alert
