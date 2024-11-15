@@ -1,0 +1,28 @@
+name: Update docker image
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Login Dockerhub
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - name: Build the Docker image
+      run: |
+        docker build -t jkuznik/disaster-alert:${{ github.sha }} .
+        docker tag jkuznik/disaster-alert:${{ github.sha }} jkuznik/disaster-alert:latest
+
+    - name: Push to Dockerhub
+      run: |
+        docker push jkuznik/disaster-alert:${{ github.sha }}
+        docker push jkuznik/disaster-alert:latest
