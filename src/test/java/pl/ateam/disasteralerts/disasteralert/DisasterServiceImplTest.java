@@ -48,8 +48,6 @@ class DisasterServiceImplTest {
     class PostMethodsTests {
         @Test
         void addDisaster_shouldReturnDisasterDtoWhenDisasterAddDtoIsValid() {
-            //given
-
             //when
             when(disasterMapper.mapDisasterAddDtoToDisaster(any(DisasterAddDTO.class))).thenReturn(disaster);
             when(disasterRepository.save(any(Disaster.class))).thenReturn(disaster);
@@ -66,7 +64,7 @@ class DisasterServiceImplTest {
 
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
-            //then
+            //when & then
             Assertions.assertThatThrownBy(() -> disasterService.createDisaster(null, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
 
@@ -79,9 +77,7 @@ class DisasterServiceImplTest {
                     null,
                     testUserId);
 
-            //when
-
-            //then
+            //when & then
             Assertions.assertThatThrownBy(() -> disasterService.createDisaster(notValidDTO, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
     }
