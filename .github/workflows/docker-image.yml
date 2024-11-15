@@ -1,4 +1,4 @@
-name: Docker Image CD
+name: Update docker image
 
 on:
   push:
