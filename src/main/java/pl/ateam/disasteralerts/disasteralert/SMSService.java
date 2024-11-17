@@ -77,4 +77,16 @@ class SMSLimitService {
 
     SMSLimitRepository smsLimitRepository;
 
+    boolean isLimitReached(LocalDateTime date) {
+        SMSLimit currentSmsLimit = smsLimitRepository.findByCreateDate(date)
+                .orElse(createLimiter());
+
+        return currentSmsLimit.getCounter() < 10;
+    }
+
+    private SMSLimit createLimiter() {
+        return smsLimitRepository.save(SMSLimit.builder()
+                .counter(1)
+                .build());
+    }
 }
