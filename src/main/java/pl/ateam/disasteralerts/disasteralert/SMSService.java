@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 import com.twilio.Twilio;
@@ -19,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +39,9 @@ class SMSService implements AlertListener {
     }
 
     public void sendSMS(String alertDescription, String phoneNumber) {
-        if(smsLimitService.isLimitReached(LocalDateTime.now())){
+        LocalDateTime today = LocalDateTime.now();
+
+        if(smsLimitService.isLimitReached(today)){
             Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
             Message message = Message
@@ -51,6 +53,8 @@ class SMSService implements AlertListener {
                     .create();
 
             System.out.println(message.getSid());
+
+            smsLimitService.increaseLimit(today);
         }
     }
 }
@@ -65,7 +69,11 @@ class SMSService implements AlertListener {
 class SMSLimit {
 
     @Column(nullable = false)
-    private int counter;
+    private int limitCounter;
+
+    public void increaseCounter(){
+        limitCounter++;
+    }
 }
 
 @Repository
@@ -84,12 +92,21 @@ class SMSLimitService {
         SMSLimit currentSmsLimit = smsLimitRepository.findByExactDay(date)
                 .orElse(createLimiter());
 
-        return currentSmsLimit.getCounter() < 10;
+        return currentSmsLimit.getLimitCounter() < 10;
+    }
+
+    @Transactional
+    void increaseLimit(LocalDateTime date) {
+        SMSLimit smsLimit = smsLimitRepository.findByExactDay(date).orElseThrow(
+                () -> new RuntimeException("Something go wrong with increase " + date + " SMS limit")
+        );
+
+        smsLimit.increaseCounter();
     }
 
     private SMSLimit createLimiter() {
         return smsLimitRepository.save(SMSLimit.builder()
-                .counter(1)
+                .limitCounter(1)
                 .build());
     }
 }
