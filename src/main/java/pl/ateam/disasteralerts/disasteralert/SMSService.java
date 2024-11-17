@@ -97,7 +97,7 @@ class SMSLimitService {
 
         Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
         if(byExactDay.isPresent()){
-            result = byExactDay.get().getLimitCounter() < 3;
+            result = byExactDay.get().getLimitCounter() < Integer.parseInt(System.getenv("DAY_SMS_LIMIT")); //TODO: ktoś z Was już próbował podpowiedzianego rozwiązania z sterowaniem konfiguracji aplikacji z poziomu application.properties? tutaj by mi się to przydało
         } else {
             createLimiter();
         }
