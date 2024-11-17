@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
@@ -68,7 +70,8 @@ class SMSLimit {
 
 @Repository
 interface SMSLimitRepository extends JpaRepository<SMSLimit, UUID> {
-    Optional<SMSLimit> findByCreateDate(LocalDateTime date);
+    @Query("SELECT s FROM SMSLimit s WHERE CAST(s.createDate AS date) = CAST(:date AS date)")
+    Optional<SMSLimit> findByExactDay(@Param("date") LocalDateTime date);
 }
 
 @RequiredArgsConstructor
@@ -78,7 +81,7 @@ class SMSLimitService {
     SMSLimitRepository smsLimitRepository;
 
     boolean isLimitReached(LocalDateTime date) {
-        SMSLimit currentSmsLimit = smsLimitRepository.findByCreateDate(date)
+        SMSLimit currentSmsLimit = smsLimitRepository.findByExactDay(date)
                 .orElse(createLimiter());
 
         return currentSmsLimit.getCounter() < 10;
