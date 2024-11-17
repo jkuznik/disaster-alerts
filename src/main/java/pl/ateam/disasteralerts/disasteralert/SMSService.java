@@ -1,6 +1,11 @@
 package pl.ateam.disasteralerts.disasteralert;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
@@ -8,7 +13,11 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -42,4 +51,17 @@ class SMSService implements AlertListener {
 
         System.out.println(message.getSid());
     }
+}
+
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "sms_limits")
+class SmsLimit {
+
+    @Column(nullable = false)
+    private int counter;
 }
