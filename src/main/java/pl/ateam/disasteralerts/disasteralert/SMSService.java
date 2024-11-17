@@ -26,7 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class SMSService implements AlertListener {
 
-    SMSLimitService smsLimitService;
+    private final SMSLimitService smsLimitService;
 
     public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
     public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
@@ -81,7 +81,7 @@ class SMSLimit extends EntityAudit {
 
 @Repository
 interface SMSLimitRepository extends JpaRepository<SMSLimit, UUID> {
-    @Query("SELECT s FROM SMSLimit s WHERE CAST(s.createDate AS date) = CAST(:date AS date)")
+    @Query(value = "SELECT * FROM sms_limits WHERE CAST(create_date AS date) = CAST(:date AS date)", nativeQuery = true)
     Optional<SMSLimit> findByExactDay(@Param("date") LocalDateTime date);
 }
 
@@ -89,13 +89,20 @@ interface SMSLimitRepository extends JpaRepository<SMSLimit, UUID> {
 @Service
 class SMSLimitService {
 
-    SMSLimitRepository smsLimitRepository;
+    private final SMSLimitRepository smsLimitRepository;
 
+    @Transactional
     boolean isLimitReached(LocalDateTime date) {
-        SMSLimit currentSmsLimit = smsLimitRepository.findByExactDay(date)
-                .orElse(createLimiter());
+        boolean result = false;
 
-        return currentSmsLimit.getLimitCounter() < 3;
+        Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
+        if(byExactDay.isPresent()){
+            result = byExactDay.get().getLimitCounter() < 3;
+        } else {
+            createLimiter();
+        }
+
+        return result;
     }
 
     @Transactional
@@ -107,9 +114,10 @@ class SMSLimitService {
         smsLimit.increaseCounter();
     }
 
-    private SMSLimit createLimiter() {
-        return smsLimitRepository.save(SMSLimit.builder()
-                .limitCounter(1)
+    @Transactional
+    private void createLimiter() {
+       smsLimitRepository.save(SMSLimit.builder()
+                .limitCounter(0)
                 .build());
     }
 }
