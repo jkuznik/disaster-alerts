@@ -24,7 +24,3 @@ spring:
           connectiontimeout: 10000
           timeout: 10000
           writetimeout: 10000
-
-day.
-  sms.
-    limit
