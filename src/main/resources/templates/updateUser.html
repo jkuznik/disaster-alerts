@@ -52,6 +52,9 @@
                             <label for="phoneNumber" class="form-label">Numer Telefonu</label>
                             <div class="input-group">
                                 <input th:value="*{phoneNumber}" name="phoneNumber" type="text" class="form-control" id="phoneNumber" placeholder="+48.........">
+                                <a th:if="*{phoneNumber() != ''}" role="button" class="btn btn-danger ms-2" href='/users/removePhoneNumber' methods="POST">
+                                    <i class="bi bi-trash"></i> Usuń numer telefonu
+                                </a>
                             </div>
                             <div class="invalid-feedback">
                                 Nieprawidłowy format numeru telefonu
