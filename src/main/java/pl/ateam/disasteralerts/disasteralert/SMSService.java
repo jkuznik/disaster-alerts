@@ -60,8 +60,21 @@ class SMSService implements AlertListener {
 @AllArgsConstructor
 @Entity
 @Table(name = "sms_limits")
-class SmsLimit {
+class SMSLimit {
 
     @Column(nullable = false)
     private int counter;
+}
+
+@Repository
+interface SMSLimitRepository extends JpaRepository<SMSLimit, UUID> {
+    Optional<SMSLimit> findByCreateDate(LocalDateTime date);
+}
+
+@RequiredArgsConstructor
+@Service
+class SMSLimitService {
+
+    SMSLimitRepository smsLimitRepository;
+
 }
