@@ -43,7 +43,6 @@ class DisasterServiceImpl implements DisasterService {
                 ));
 
         AlertAddDTO alertAddDTO = new AlertAddDTO(
-                UUID.randomUUID(),
                 disasterDTO.id(),
                 disasterDTO.description(),
                 disasterDTO.location());

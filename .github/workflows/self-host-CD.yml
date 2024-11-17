@@ -1,0 +1,21 @@
+name: Run application on host
+
+# Only trigger, when the build workflow succeeded
+on:
+  workflow_run:
+    workflows: ["Update docker image"]
+    types:
+      - completed
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull docker image
+        run: sudo docker pull jkuznik/disaster-alert:latest
+      - name: Delete old docker container
+        run: sudo docker rm -f disaster-alert-container || true
+      - name: Run new docker container
+        run: sudo docker run -d -p 8080:8080 --name disaster-alert-container jkuznik/disaster-alert

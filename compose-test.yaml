@@ -1,0 +1,16 @@
+services:
+  testDB:
+    image: postgres:16.3
+    container_name: TestDB
+    environment:
+      POSTGRES_DB: testdisasterdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - db_dataTest:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
+    restart: always
+
+volumes:
+  db_dataTest:
