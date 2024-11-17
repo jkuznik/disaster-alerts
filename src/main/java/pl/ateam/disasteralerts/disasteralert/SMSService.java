@@ -15,6 +15,7 @@ import pl.ateam.disasteralerts.user.dto.UserDTO;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import pl.ateam.disasteralerts.util.EntityAudit;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -55,6 +56,8 @@ class SMSService implements AlertListener {
             System.out.println(message.getSid());
 
             smsLimitService.increaseLimit(today);
+        } else {
+            throw new RuntimeException("Day SMS limit reached");
         }
     }
 }
@@ -66,7 +69,7 @@ class SMSService implements AlertListener {
 @AllArgsConstructor
 @Entity
 @Table(name = "sms_limits")
-class SMSLimit {
+class SMSLimit extends EntityAudit {
 
     @Column(nullable = false)
     private int limitCounter;
@@ -92,7 +95,7 @@ class SMSLimitService {
         SMSLimit currentSmsLimit = smsLimitRepository.findByExactDay(date)
                 .orElse(createLimiter());
 
-        return currentSmsLimit.getLimitCounter() < 10;
+        return currentSmsLimit.getLimitCounter() < 3;
     }
 
     @Transactional
