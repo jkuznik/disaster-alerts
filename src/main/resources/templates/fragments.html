@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
     <head th:fragment="head(pageTitle)">
         <meta charset="UTF-8">
@@ -16,6 +16,7 @@
                 <p class="d-inline-block display-6 align-middle">Disaster alerts</p>
             </a>
         </div>
+        <div sec:authorize="hasRole('USER')">Text visible to user.</div>
     </nav>
 
     <div th:fragment="message">
