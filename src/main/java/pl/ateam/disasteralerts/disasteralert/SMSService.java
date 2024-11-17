@@ -23,9 +23,10 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 class SMSService implements AlertListener {
 
+    SMSLimitService smsLimitService;
+
     public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
     public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
-    public static final String MY_PHONE_NUMBER = System.getenv("MY_PHONE_NUMBER");
     public static final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
 
     @Override
@@ -33,23 +34,22 @@ class SMSService implements AlertListener {
         interestedUsers.forEach(userDTO -> {
             sendSMS(alertAddDTO.description(), userDTO.phoneNumber());
         });
-
-        // TODO: docelowo powinna zadziałać powyższa część kodu, poniżej do testu podaję swój nr
-        // sendSMS(alertAddDTO.description(), MY_PHONE_NUMBER);
     }
 
-    public static void sendSMS(String alertDescription, String phoneNumber) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+    public void sendSMS(String alertDescription, String phoneNumber) {
+        if(smsLimitService.isLimitReached(LocalDateTime.now())){
+            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        Message message = Message
-                .creator(
-                        new PhoneNumber(phoneNumber),
-                        new PhoneNumber(TWILIO_PHONE_NUMBER),
-                        alertDescription
-                )
-                .create();
+            Message message = Message
+                    .creator(
+                            new PhoneNumber(phoneNumber),
+                            new PhoneNumber(TWILIO_PHONE_NUMBER),
+                            alertDescription
+                    )
+                    .create();
 
-        System.out.println(message.getSid());
+            System.out.println(message.getSid());
+        }
     }
 }
 
