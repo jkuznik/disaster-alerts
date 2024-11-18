@@ -10,11 +10,10 @@
     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
         <div class="row align-items-center g-lg-5 py-5">
             <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Dodaj Zdarzenie</h1>
-                <p class="col-lg-10 fs-4">Wprowadź informacje o nowym zdarzeniu</p>
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Dodaj <span class="text-primary">Zdarzenie</span></h1>
+                <p class="col-lg-10 fs-4 fw-light">Wprowadź informacje o nowym zdarzeniu</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-                <!--<div th:replace="~{fragments :: message}"></div>-->
                 <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
                     <div class="form-floating mb-3">
                         <select th:value="${disasterTypSelected}" name="type" class="form-select" id="type" required>
@@ -37,12 +36,16 @@
                         <input th:value="${userId}" name="userId" type="hidden" class="form-control" id="userId" required readonly>
                     </div>
 
-                    <button class="w-100 btn btn-lg btn-success" type="submit">Dodaj Zdarzenie</button>
-                    <div id="toastMessage" class="toast align-items-center bg-secondary border-0 position-fixed bottom-0 end-0 m-3 show" role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
-                        <div class="d-flex text-white">
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Dodaj Zdarzenie</button>
+                    <div id="toastMessage" class="toast rounded align-items-center border-0 position-fixed bottom-0 end-0 m-3 show" role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
+                        <div class="toast-header">
+                            <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"/></svg>
+                            <strong class="me-auto">Udało się!</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="d-flex text-secondary bg-light px-3 py-1 fw-light">
                             <div th:replace="~{fragments :: message}" class="toast-body text-white">
                             </div>
-                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
                     </div>
                 </form>

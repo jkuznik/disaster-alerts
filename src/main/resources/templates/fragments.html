@@ -19,14 +19,14 @@
     </nav>
 
     <div th:fragment="message" class="px-2 text-center">
-        <p class="h4 text-center" th:if="${message} != null" th:text="${message}"></p>
+        <p class="h5 text-center" th:if="${message} != null" th:text="${message}"></p>
     </div>
 
     <div th:fragment="citiesList" class="col-12">
         <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>
         <h4 class="text-center">Wybierz miejscowość:</h4>
         <div class="form-group">
-            <input th:value="${selectedLocation}" type="text" class="form-control" id="cityInput" placeholder="Zacznij wpisywać" onkeyup="filterCities()">
+            <input th:value="${selectedLocation}" type="text" class="form-control my-2" id="cityInput" placeholder="Zacznij wpisywać" onkeyup="filterCities()">
 
             <select class="form-select" id="location" name="location" size="5">
                 <option th:each="location : ${cities}"
