@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,9 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 @RequestMapping("/disasters")
 public class DisasterViewController {
 
+    @Value("${google.maps.api.key}")
+    private String googleApiKey;
+
     private final DisasterAlertFacade disasterAlertFacade;
     private final String USER_AS_DISASTER_SOURCE = "user";
 
@@ -34,6 +38,7 @@ public class DisasterViewController {
         model.addAttribute("disasterTypSelected", null);
         model.addAttribute("disasterAddDTO", new DisasterAddDTO(null, null, null, null));
         model.addAttribute("selectedLocation", appUser.getUserDTO().location());
+        model.addAttribute("googleApiKey", googleApiKey);
 
         return "addDisaster";
     }
