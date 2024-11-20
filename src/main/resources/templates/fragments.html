@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
     <head th:fragment="head(pageTitle)">
         <meta charset="UTF-8">
@@ -11,10 +11,37 @@
 
     <nav th:fragment="nav" class="navbar navbar-dark bg-dark text-sm-center" aria-label="First navbar example">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">
+            <a sec:authorize="isAnonymous()" class="navbar-brand" href="/">
                 <img class="d-inline-block me-3" style="max-height: 3.5em;" src="/images/disaster_alerts_logo.bmp" alt="logo" />
                 <p class="d-inline-block display-6 align-middle">Disaster alerts</p>
             </a>
+            <a sec:authorize="isAuthenticated()" class="navbar-brand" href="/disasters/add">
+                <img class="d-inline-block me-3" style="max-height: 3.5em;" src="/images/disaster_alerts_logo.bmp" alt="logo" />
+                <p class="d-inline-block display-6 align-middle">Disaster alerts</p>
+            </a>
+            <div sec:authorize="isAnonymous()">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Register</a>
+                    </li>
+                </ul>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/edit">Edytuj dane</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disasters/add">Dodaj zdarzenie</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
