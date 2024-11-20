@@ -10,6 +10,10 @@ Aplikacja realizuje funkcjonalności systemu wczesnego ostrzegania o kataklizmac
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black&style=flat)
 
+### Demo
+
+Wersja demonstracyjna dostępna pod adresem http://3.72.61.217:8080/
+
 ### Jak uruchomić
 
 Jeżeli posiadasz Git oraz Docker możesz w łatwy sposób uruchomić aplikację z poziomu konsoli systemowej gdzie wykorzystaniem wymienionych narzędzi wystarczy kolejno wywołać komendy:
