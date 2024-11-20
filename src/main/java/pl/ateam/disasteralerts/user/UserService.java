@@ -66,6 +66,12 @@ public class UserService {
 
     }
 
+    @Transactional
+    public void removePhoneNumber(String email) {
+        User user = findUserByEmail(email);
+        user.setPhoneNumber("");
+    }
+
     public void saveAll(Collection<User> users) {
         userRepository.saveAll(users);
     }
