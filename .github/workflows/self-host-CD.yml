@@ -24,12 +24,4 @@ jobs:
           TWILIO_PHONE_NUMBER: ${{secrets.TWILIO_PHONE_NUMBER}}
           OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
           DAY_SMS_LIMIT: 5
-        run: sudo docker run -d -p 8080:8080 \
-                              --name disaster-alert-container \
-                              --network disaster-net \
-                              -e TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID \
-                              -e TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN \
-                              -e TWILIO_PHONE_NUMBER=$TWILIO_PHONE_NUMBER \
-                              -e OPENAI_API_KEY=$OPENAI_API_KEY \
-                              -e DAY_SMS_LIMIT=$DAY_SMS_LIMIT \
-                              jkuznik/disaster-alert
+        run: sudo docker run -d -p 8080:8080 --name disaster-alert-container --network disaster-net -e TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID -e TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN -e TWILIO_PHONE_NUMBER=$TWILIO_PHONE_NUMBER -e OPENAI_API_KEY=$OPENAI_API_KEY -e DAY_SMS_LIMIT=$DAY_SMS_LIMIT jkuznik/disaster-alert

@@ -10,7 +10,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 @Slf4j
 class RiskAssessmentService {
 
-    public static final double RISK_THRESHOLD = 0.3;
+    public static final double RISK_THRESHOLD = 0.1;
     private final OpenAIClient openAIClient;
 
     boolean assessRisk(DisasterAddDTO disasterAddDTO) {
@@ -25,6 +25,7 @@ class RiskAssessmentService {
 
         try {
             double riskScore = openAIClient.getRiskScore(riskEvaluationPrompt);
+            log.info(String.valueOf(riskScore));
             return riskScore > RISK_THRESHOLD;
         } catch (Exception e) {
             log.error("Error assessing risk with OpenAIClient: {}", e.getMessage());
