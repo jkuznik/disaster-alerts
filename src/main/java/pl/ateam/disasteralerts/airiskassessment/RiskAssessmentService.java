@@ -25,6 +25,7 @@ class RiskAssessmentService {
 
         try {
             double riskScore = openAIClient.getRiskScore(riskEvaluationPrompt);
+            log.info(String.valueOf(riskScore));
             return riskScore > RISK_THRESHOLD;
         } catch (Exception e) {
             log.error("Error assessing risk with OpenAIClient: {}", e.getMessage());
