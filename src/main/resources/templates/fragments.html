@@ -33,26 +33,26 @@
             <div sec:authorize="isAnonymous()">
             <ul class="nav justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Login</a>
+                    <a class="nav-link text-light" href="/">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/signup">Register</a>
+                    <a class="nav-link text-light" href="/signup">Register</a>
                 </li>
             </ul>
         </div>
             <div sec:authorize="isAuthenticated()">
             <ul class="nav justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link" href="/disasters/add">Dodaj zdarzenie</a>
+                    <a class="nav-link text-light" href="/disasters/add">Dodaj zdarzenie</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/disasters/list">Sprawdź zdarzenia</a>
+                    <a class="nav-link text-light" href="/disasters/list">Sprawdź zdarzenia</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/edit">Edytuj dane</a>
+                    <a class="nav-link text-light" href="/users/edit">Edytuj dane</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link text-light" href="/logout">Logout</a>
                 </li>
             </ul>
         </div>
