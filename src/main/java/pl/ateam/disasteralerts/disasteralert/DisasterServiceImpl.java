@@ -24,14 +24,18 @@ class DisasterServiceImpl implements DisasterService {
     public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO, String source) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
         disaster.setSource(source);
-        if (riskAssessment.assessRisk(disasterAddDTO)) {
-            disaster.setStatus(DisasterStatus.ACTIVE);
-            disasterRepository.save(disaster);
-            generateAlert(disaster.getId());
-        } else {
-            disaster.setStatus(DisasterStatus.FAKE);
-            disasterRepository.save(disaster);
-        }
+//        if (riskAssessment.assessRisk(disasterAddDTO)) {
+//            disaster.setStatus(DisasterStatus.ACTIVE);
+//            disasterRepository.save(disaster);
+//            generateAlert(disaster.getId());
+//        } else {
+//            disaster.setStatus(DisasterStatus.FAKE);
+//            disasterRepository.save(disaster);
+//        }
+
+        disaster.setStatus(DisasterStatus.ACTIVE);
+        disasterRepository.save(disaster);
+        generateAlert(disaster.getId());
 
         return mapper.mapDisasterToDisasterDto(disaster);
     }
