@@ -10,7 +10,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 @Slf4j
 class RiskAssessmentService {
 
-    public static final double RISK_THRESHOLD = 0.1;
+    public static final double RISK_THRESHOLD = 0.7;
     private final OpenAIClient openAIClient;
 
     boolean assessRisk(DisasterAddDTO disasterAddDTO) {

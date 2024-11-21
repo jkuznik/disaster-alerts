@@ -33,51 +33,51 @@ class RiskAssessmentServiceTest {
 
     private final List<String> citiesInPoland = CitiesInPoland.getList();
 
-//    @Test
-//    void shouldReturnTrueWhenRiskScoreAboveThreshold() {
-//        // given
-//        DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
-//                DisasterType.FLOOD,
-//                FLOOD_DESCRIPTION,
-//                citiesInPoland.get(1),
-//                UUID.randomUUID());
-//
-//        // when
-//        when(openAIClient.getRiskScore(Mockito.anyString())).thenReturn(PROBABILITY_OF_RISK_HIGH);
-//
-//        // then
-//        assertTrue(riskAssessmentService.assessRisk(disasterAddDTO));
-//    }
-//
-//    @Test
-//    void shouldReturnFalseWhenRiskScoreBelowThreshold() {
-//        // given
-//        DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
-//                DisasterType.FIRE,
-//                FIRE_DESCRIPTION,
-//                citiesInPoland.get(1),
-//                UUID.randomUUID());
-//
-//        // when
-//        when(openAIClient.getRiskScore(Mockito.anyString())).thenReturn(PROBABILITY_OF_RISK_LOW);
-//
-//        // then
-//        assertFalse(riskAssessmentService.assessRisk(disasterAddDTO));
-//    }
-//
-//    @Test
-//    void shouldReturnFalseWhenOpenAIClientThrowsException() {
-//        // given
-//        DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
-//                DisasterType.FIRE,
-//                FIRE_DESCRIPTION,
-//                citiesInPoland.get(1),
-//                UUID.randomUUID());
-//
-//        // when
-//        when(openAIClient.getRiskScore(Mockito.anyString())).thenThrow(new RuntimeException("Connection error"));
-//
-//        //then
-//        assertFalse(riskAssessmentService.assessRisk(disasterAddDTO));
-//    }
+    @Test
+    void shouldReturnTrueWhenRiskScoreAboveThreshold() {
+        // given
+        DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
+                DisasterType.FLOOD,
+                FLOOD_DESCRIPTION,
+                citiesInPoland.get(1),
+                UUID.randomUUID());
+
+        // when
+        when(openAIClient.getRiskScore(Mockito.anyString())).thenReturn(PROBABILITY_OF_RISK_HIGH);
+
+        // then
+        assertTrue(riskAssessmentService.assessRisk(disasterAddDTO));
+    }
+
+    @Test
+    void shouldReturnFalseWhenRiskScoreBelowThreshold() {
+        // given
+        DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
+                DisasterType.FIRE,
+                FIRE_DESCRIPTION,
+                citiesInPoland.get(1),
+                UUID.randomUUID());
+
+        // when
+        when(openAIClient.getRiskScore(Mockito.anyString())).thenReturn(PROBABILITY_OF_RISK_LOW);
+
+        // then
+        assertFalse(riskAssessmentService.assessRisk(disasterAddDTO));
+    }
+
+    @Test
+    void shouldReturnFalseWhenOpenAIClientThrowsException() {
+        // given
+        DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
+                DisasterType.FIRE,
+                FIRE_DESCRIPTION,
+                citiesInPoland.get(1),
+                UUID.randomUUID());
+
+        // when
+        when(openAIClient.getRiskScore(Mockito.anyString())).thenThrow(new RuntimeException("Connection error"));
+
+        //then
+        assertFalse(riskAssessmentService.assessRisk(disasterAddDTO));
+    }
 }
