@@ -140,3 +140,14 @@ UPDATE users SET last_name = 'Nieznane';
 
 -- changeset Slawek84PL:1730494287010-25
 ALTER TABLE users ALTER COLUMN  last_name SET NOT NULL;
+
+-- changeset jkuznik:1728934675080-25
+CREATE TABLE sms_limits
+(
+    id                  UUID                        NOT NULL,
+    version             BIGINT                      NOT NULL,
+    create_date         TIMESTAMP WITHOUT TIME ZONE,
+    update_date         TIMESTAMP WITHOUT TIME ZONE,
+    limit_counter       INT                         NOT NULL,
+    CONSTRAINT pk_sms_limits PRIMARY KEY (id)
+);
