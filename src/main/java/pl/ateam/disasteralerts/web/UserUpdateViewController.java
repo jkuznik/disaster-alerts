@@ -47,6 +47,15 @@ public class UserUpdateViewController {
         return "redirect:/disasters/add";
     }
 
+    @GetMapping("removePhoneNumber")
+    public String removePhoneNumber(@AuthenticationPrincipal AppUser appUser,
+                                    RedirectAttributes redirectAttributes) {
+
+        userFacade.removePhoneNumber(appUser.getUsername());
+        redirectAttributes.addFlashAttribute("message", "Numer telefonu został usunięty");
+        return "redirect:/users/edit";
+    }
+
     private void baseModel(Model model, UserUpdateDTO userUpdateDto) {
         model.addAttribute("selectedLocation", userUpdateDto.location());
         model.addAttribute("cities", CitiesInPoland.getList());
