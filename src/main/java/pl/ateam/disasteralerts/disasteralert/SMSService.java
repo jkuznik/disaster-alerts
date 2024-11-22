@@ -57,7 +57,7 @@ class SMSService implements AlertListener {
 
             smsLimitService.increaseLimit(today);
         } else {
-            throw new RuntimeException("Day SMS limit reached");
+            throw new RuntimeException("Daily SMS limit reached - notifications will be sent via email only.");
         }
     }
 }
@@ -97,7 +97,7 @@ class SMSLimitService {
 
         Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
         if(byExactDay.isPresent()){
-            result = byExactDay.get().getLimitCounter() < 5;
+            result = byExactDay.get().getLimitCounter() < 2;
         } else {
             createLimiter();
         }
