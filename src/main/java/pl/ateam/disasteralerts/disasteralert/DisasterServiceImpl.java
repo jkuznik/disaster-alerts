@@ -64,9 +64,7 @@ class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public List<DisasterDTO> interestingDisasters(DisasterType type, String location) {
-        return disasterRepository.findAllByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE).stream()
-                .map(mapper::mapDisasterToDisasterDto)
-                .collect(Collectors.toList());
+    public List<DisasterDTO> interestingDisasters(Optional<DisasterType> type, Optional<String> location) {
+        return List.of();
     }
 }

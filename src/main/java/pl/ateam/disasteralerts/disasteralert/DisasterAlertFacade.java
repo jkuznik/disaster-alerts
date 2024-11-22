@@ -10,6 +10,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Validated
@@ -21,7 +22,7 @@ public class DisasterAlertFacade {
         return disasterService.createDisaster(disasterAddDTO, source);
     }
 
-    public List<DisasterDTO> interestingDisasters(@NotNull @Valid DisasterType type, @NotNull @NotBlank String location) {
+    public List<DisasterDTO> interestingDisasters(Optional<DisasterType> type, Optional<String> location) {
         return disasterService.interestingDisasters(type, location);
     }
 }

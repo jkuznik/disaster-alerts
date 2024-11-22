@@ -14,6 +14,7 @@ import java.util.Optional;
 interface DisasterService {
     DisasterDTO createDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO, @NotNull @NotBlank String source);
     Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(@NotNull @Valid DisasterType type, @NotNull @NotBlank String location);
-    List<DisasterDTO> interestingDisasters(@NotNull @Valid DisasterType type, @NotNull @NotBlank String location);
+
+    List<DisasterDTO> interestingDisasters(Optional<DisasterType> type, Optional<String> location);
 
 }

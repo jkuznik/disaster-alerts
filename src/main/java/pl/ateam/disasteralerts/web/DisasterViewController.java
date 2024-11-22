@@ -22,6 +22,7 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -98,8 +99,21 @@ public class DisasterViewController {
                              @RequestParam(name = "city", value = "") String city,
                              RedirectAttributes redirectAttributes) {
 
-        DisasterType type = DisasterType.valueOf(disasterType);
-        List<DisasterDTO> disasters = disasterAlertFacade.interestingDisasters(type, city);
+        Optional<DisasterType> type;
+        if (disasterType.equals("Wszystkie")){
+            type = Optional.empty();
+        } else {
+            type = Optional.of(DisasterType.valueOf(disasterType));
+        }
+
+        Optional<String> location;
+        if (disasterType.equals("Wszystkie")){
+            location = Optional.empty();
+        } else {
+            location = Optional.of(city);
+        }
+
+        List<DisasterDTO> disasters = disasterAlertFacade.interestingDisasters(type, location);
 
         redirectAttributes.addFlashAttribute("list", disasters);
         return "redirect:/disasters/list";
