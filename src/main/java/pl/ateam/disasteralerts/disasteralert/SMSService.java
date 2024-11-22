@@ -42,7 +42,7 @@ class SMSService implements AlertListener {
     public void sendSMS(String alertDescription, String phoneNumber) {
         LocalDateTime today = LocalDateTime.now();
 
-        if(smsLimitService.isLimitReached(today)){
+        if(smsLimitService.isBelowLimit(today)){
             Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
             Message message = Message
@@ -92,12 +92,12 @@ class SMSLimitService {
     private final SMSLimitRepository smsLimitRepository;
 
     @Transactional
-    boolean isLimitReached(LocalDateTime date) {
-        boolean result = false;
+    boolean isBelowLimit(LocalDateTime date) {
+        boolean result = true;
 
         Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
         if(byExactDay.isPresent()){
-            result = byExactDay.get().getLimitCounter() < Integer.parseInt(System.getenv("DAY_SMS_LIMIT")); //TODO: ktoś z Was już próbował podpowiedzianego rozwiązania z sterowaniem konfiguracji aplikacji z poziomu application.properties? tutaj by mi się to przydało
+            result = byExactDay.get().getLimitCounter() < 5;
         } else {
             createLimiter();
         }
