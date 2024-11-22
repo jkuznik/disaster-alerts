@@ -97,7 +97,7 @@ class SMSLimitService {
 
         Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
         if(byExactDay.isPresent()){
-            result = byExactDay.get().getLimitCounter() < 2;
+            result = byExactDay.get().getLimitCounter() < 5;
         } else {
             createLimiter();
         }
