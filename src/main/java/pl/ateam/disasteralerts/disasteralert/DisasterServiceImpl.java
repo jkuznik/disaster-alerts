@@ -8,6 +8,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +27,7 @@ class DisasterServiceImpl implements DisasterService {
     public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO, String source) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
         disaster.setSource(source);
+        //TODO: trzeba dopracować promt do czata bo przy obecnym trudno osiągnąć wynik pozwalający na uznanie zdarzenia za prawdziwe
 //        if (riskAssessment.assessRisk(disasterAddDTO)) {
 //            disaster.setStatus(DisasterStatus.ACTIVE);
 //            disasterRepository.save(disaster);
@@ -65,6 +67,28 @@ class DisasterServiceImpl implements DisasterService {
 
     @Override
     public List<DisasterDTO> interestingDisasters(Optional<DisasterType> type, Optional<String> location) {
-        return List.of();
+        //TODO: poniższa logika jest nie optymalna, do poprawy po zakończeniu konkursu
+
+        List<DisasterDTO> interestedDisasters = disasterRepository.findAllByStatus(DisasterStatus.ACTIVE).stream()
+                .map(mapper::mapDisasterToDisasterDto)
+                .collect(Collectors.toList());
+
+        if (type.isPresent()) {
+            List<DisasterDTO> byType = disasterRepository.findAllByType(type.get()).stream()
+                    .map(mapper::mapDisasterToDisasterDto)
+                    .collect(Collectors.toList());
+
+            interestedDisasters.retainAll(byType);
+        }
+
+        if (location.isPresent()) {
+            List<DisasterDTO> byLocation = disasterRepository.findAllByLocation(location.get()).stream()
+                    .map(mapper::mapDisasterToDisasterDto)
+                    .collect(Collectors.toList());
+
+            interestedDisasters.retainAll(byLocation);
+        }
+
+        return interestedDisasters;
     }
 }

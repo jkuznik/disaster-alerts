@@ -100,14 +100,14 @@ public class DisasterViewController {
                              RedirectAttributes redirectAttributes) {
 
         Optional<DisasterType> type;
-        if (disasterType.equals("Wszystkie")){
+        if (disasterType.isEmpty() || disasterType.equals("Wszystkie")){
             type = Optional.empty();
         } else {
             type = Optional.of(DisasterType.valueOf(disasterType));
         }
 
         Optional<String> location;
-        if (disasterType.equals("Wszystkie")){
+        if (city.isEmpty() || city.equals("Wszystkie")){
             location = Optional.empty();
         } else {
             location = Optional.of(city);

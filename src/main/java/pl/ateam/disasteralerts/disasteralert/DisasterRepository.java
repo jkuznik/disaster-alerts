@@ -9,6 +9,7 @@ import java.util.UUID;
 interface DisasterRepository extends JpaRepository<Disaster, UUID> {
     Optional<Disaster> findById(UUID id);
     Optional<Disaster> findFirstByTypeAndLocationAndStatus(DisasterType type, String location, DisasterStatus status);
-    List<Disaster> findAllByTypeAndStatus(DisasterType type, DisasterStatus status);
-    List<Disaster> findAllByLocationAndStatus(String location, DisasterStatus status);
+    List<Disaster> findAllByStatus(DisasterStatus status);
+    List<Disaster> findAllByType(DisasterType type);
+    List<Disaster> findAllByLocation(String location);
 }
