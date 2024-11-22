@@ -54,7 +54,7 @@
                             <td th:text="${disaster.type}"></td>
                             <td th:text="${disaster.description}"></td>
                             <td th:text="${disaster.location}"></td>
-                            <td th:text="${#temporals.format(disaster.creationDate(), 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(disaster.createDate(), 'yyyy-MM-dd HH:mm')}"></td>
                         </tr>
                         </tbody>
                     </table>
