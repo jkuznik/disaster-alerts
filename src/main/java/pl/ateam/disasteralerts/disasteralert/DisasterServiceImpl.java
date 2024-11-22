@@ -11,6 +11,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service(value = "prototype")
 @RequiredArgsConstructor
@@ -64,6 +65,8 @@ class DisasterServiceImpl implements DisasterService {
 
     @Override
     public List<DisasterDTO> interestingDisasters(DisasterType type, String location) {
-        return List.of();
+        return disasterRepository.findAllByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE).stream()
+                .map(mapper::mapDisasterToDisasterDto)
+                .collect(Collectors.toList());
     }
 }
