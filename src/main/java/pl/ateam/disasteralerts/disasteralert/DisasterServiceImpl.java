@@ -8,6 +8,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,5 +60,10 @@ class DisasterServiceImpl implements DisasterService {
     public Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(DisasterType type, String location) {
         return disasterRepository.findFirstByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE)
                 .map(mapper::mapDisasterToDisasterDto);
+    }
+
+    @Override
+    public List<DisasterDTO> interestingDisasters(DisasterType type, String location) {
+        return List.of();
     }
 }
