@@ -5,7 +5,7 @@
 
 <nav th:replace="~{fragments :: nav}"></nav>
 
-<div class="d-flex vh-100 align-items-center justify-content-center bg-body-tertiary">
+<div class="d-flex align-items-center justify-content-center bg-body-tertiary">
     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
         <div class="row align-items-center g-lg-5 py-5">
             <div class="col-lg-7 text-center text-lg-start">
@@ -13,7 +13,7 @@
                 <p class="col-lg-10 fs-4">Aktualizuj informacje</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-                <div th:replace="~{fragments :: message}"></div>
+                <div th:replace="~{fragments :: message}" class="bg-dark"></div>
                 <form th:action="@{/users/update}" method="post" th:object="${userUpdateDto}">
                     <div class="row g-3">
 
@@ -64,7 +64,7 @@
                         <div th:replace="~{fragments :: citiesList}"></div>
                     </div>
 
-                    <button class="w-100 btn btn-success btn-lg my-md-4" type="submit">Aktualizuj dane</button>
+                    <button class="w-100 btn btn-primary btn-lg my-md-4" type="submit">Aktualizuj dane</button>
                 </form>
             </div>
         </div>

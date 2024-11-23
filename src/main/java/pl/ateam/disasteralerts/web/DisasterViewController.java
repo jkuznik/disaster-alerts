@@ -10,13 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.ateam.disasteralerts.disasteralert.DisasterAlertFacade;
 import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
 import pl.ateam.disasteralerts.disasteralert.DisasterType;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
+import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -54,6 +61,43 @@ public class DisasterViewController {
         disasterAlertFacade.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
         redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
         return "redirect:/disasters/add";
+    }
+
+    @GetMapping("list")
+    public String showDisasterList(Model model, @AuthenticationPrincipal AppUser userDetails) {
+        baseModel(model, userDetails);
+        
+        if (!model.containsAttribute("list")) {
+            model.addAttribute("list", getDisasterDTOS("Wszystkie", "Wszystkie"));
+        }
+        return "listDisasters";
+    }
+
+    @PostMapping("list")
+    public String filterList(@RequestParam(name = "disasterType") String disasterType,
+                             @RequestParam(name = "city") String city,
+                             RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("list", getDisasterDTOS(disasterType, city));
+        return "redirect:/disasters/list";
+    }
+
+    private List<DisasterDTO> getDisasterDTOS(String disasterType, String city) {
+        Optional<DisasterType> type;
+        if (disasterType.isEmpty() || disasterType.equals("Wszystkie")){
+            type = Optional.empty();
+        } else {
+            type = Optional.of(DisasterType.valueOf(disasterType));
+        }
+
+        Optional<String> location;
+        if (city.isEmpty() || city.equals("Wszystkie")){
+            location = Optional.empty();
+        } else {
+            location = Optional.of(city);
+        }
+
+        return disasterAlertFacade.interestingDisasters(type, location);
     }
 
     private void baseModel(Model model, AppUser userDetails) {
