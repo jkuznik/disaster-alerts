@@ -17,18 +17,7 @@
                 <h4 class="fw-light">Spokój zaczyna się od ostrzeżenia</h4>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-
-                <div id="toastMessage" class="toast rounded align-items-center border-0 position-fixed bottom-0 end-0 m-3 show" role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
-                    <div class="toast-header">
-                        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"/></svg>
-                        <strong class="me-auto">Udało się!</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="d-flex text-secondary bg-light px-3 py-1 fw-light">
-                        <div th:replace="~{fragments :: message}" class="toast-body text-white">
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="~{fragments :: toast}"></div>
                 <div class="h4 text-danger text-center" th:if="${param.error}">Niepoprawny login lub hasło</div>
                 <div class="h4" th:if="${param.logout}">Wylogowano</div>
 

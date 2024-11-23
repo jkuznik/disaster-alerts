@@ -18,7 +18,7 @@
                 <p class="col-lg-10 fs-5 fw-light">Zaktualizuj dane. Bądź na bieżąco z doniesieniami ze swojego regionu</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-                <div th:replace="~{fragments :: message}" class="bg-dark"></div>
+                <div th:replace="~{fragments :: toast}"></div>
                 <form th:action="@{/users/update}" method="post" th:object="${userUpdateDto}">
                     <div class="row g-3">
 
