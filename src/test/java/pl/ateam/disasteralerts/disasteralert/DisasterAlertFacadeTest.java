@@ -40,8 +40,6 @@ class DisasterAlertFacadeTest {
     class AddDisasterTests {
         @Test
         void addDisaster_shouldReturnDisasterWhenDisasterAddDtoIsValid() {
-            //given
-
             //when
             when(disasterService.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE)).thenReturn(disasterDTO);
 
@@ -54,11 +52,7 @@ class DisasterAlertFacadeTest {
 
         @Test
         void addDisaster_shouldThrowExceptionWhenDisasterAddDtoIsNull() {
-            //given
-
-            //when
-
-            //then
+            //when & then
             Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(null, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
 
@@ -71,9 +65,7 @@ class DisasterAlertFacadeTest {
                     null,
                     testUserId);
 
-            //when
-
-            //then
+            //when & then
             Assertions.assertThatThrownBy(() -> disasterAlertFacade.createDisaster(notValidDTO, USER_AS_DISASTER_SOURCE)).isInstanceOf(ConstraintViolationException.class);
         }
     }

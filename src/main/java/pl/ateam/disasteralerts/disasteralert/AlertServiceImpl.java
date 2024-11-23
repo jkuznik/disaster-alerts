@@ -23,13 +23,12 @@ class AlertServiceImpl implements AlertService {
     @Transactional
     @Override
     public AlertDTO createAlert(AlertAddDTO alertAddDTO) {
-        Alert alert = mapper.mapAlertAddDtoToAlert(alertAddDTO);
-        AlertDTO alertDTO = mapper.mapAlertToAlertDto(alertRepository.save(alert));
-        alertRepository.save(alert);
+        Alert alert = alertRepository.save(
+                mapper.mapAlertAddDtoToAlert(alertAddDTO));
 
         sendNotifications(alertAddDTO);
 
-        return alertDTO;
+        return mapper.mapAlertToAlertDto(alert);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -37,7 +36,9 @@ class AlertServiceImpl implements AlertService {
         Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
         notificationManager.addEmailService();
-//        notificationManager.addSMSService();  //TODO: temporary mute after test functionality
+        notificationManager.addSMSService();
         notificationManager.createAlert(alertAddDTO, interestedUsers);
+
+        notificationManager.removeEmailService();
     }
 }
