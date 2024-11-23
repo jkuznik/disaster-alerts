@@ -1,79 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-    <head th:fragment="head(pageTitle)">
-        <meta charset="UTF-8">
-        <title th:text="*{pageTitle}">DisasterAlerts</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </head>
-    <body>
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8">
+    <title th:text="*{pageTitle}">DisasterAlerts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+</head>
+<body>
 
-    <nav th:fragment="nav" class="navbar navbar-dark bg-dark text-sm-center" aria-label="First navbar example">
-        <div class="container-fluid">
-            <a sec:authorize="isAnonymous()" class="navbar-brand" href="/">
-                <img class="d-inline-block me-3" style="max-height: 3.5em;" src="/images/disaster_alerts_logo.bmp" alt="logo" />
-                <p class="d-inline-block display-6 align-middle">Disaster alerts</p>
-            </a>
-            <a sec:authorize="isAuthenticated()" class="navbar-brand" href="/disasters/add">
-                <img class="d-inline-block me-3" style="max-height: 3.5em;" src="/images/disaster_alerts_logo.bmp" alt="logo" />
-                <p class="d-inline-block display-6 align-middle">Disaster alerts</p>
-            </a>
+<nav th:fragment="nav" class="navbar navbar-expand-sm bg-dark navbar-dark" aria-label="First navbar example">
+    <div class="container-fluid">
+        <a sec:authorize="isAnonymous()" class="navbar-brand" href="/">
+            <img class="d-inline-block me-3" style="max-height: 3.5em;" src="/images/disaster_alerts_logo.bmp"
+                 alt="logo"/>
+            <p class="d-inline-block display-6 align-middle">Disaster alerts</p>
+        </a>
+        <a sec:authorize="isAuthenticated()" class="navbar-brand" href="/disasters/add">
+            <img class="d-inline-block me-3" style="max-height: 3.5em;" src="/images/disaster_alerts_logo.bmp"
+                 alt="logo"/>
+            <p class="d-inline-block display-6 align-middle">Disaster alerts</p>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse nav justify-content-end" id="collapsibleNavbar">
             <div sec:authorize="isAnonymous()">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/signup">Register</a>
-                    </li>
-                </ul>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/users/edit">Edytuj dane</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disasters/add">Dodaj zdarzenie</a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/signup">Register</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+            <div sec:authorize="isAuthenticated()">
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/disasters/add">Dodaj zdarzenie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/disasters/list">Sprawdź zdarzenia</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/users/edit">Edytuj dane</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+</nav>
 
-    <div th:fragment="message">
-        <p class="h4 text-success " th:if="${message} != null" th:text="${message}"></p>
+<div th:fragment="message" class="px-2 text-center">
+    <p class="h5 text-center" th:if="${message} != null" th:text="${message}"></p>
+</div>
+
+<div th:fragment="citiesList" class="col-12">
+    <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>
+    <h4 class="text-center">Wybierz miejsce:</h4>
+    <div class="form-group">
+        <input th:value="${selectedLocation}" type="text" class="form-control my-2" id="cityInput"
+               placeholder="Zacznij wpisywać" onkeyup="filterCities()">
+
+        <select class="form-select" id="location" name="location" size="5" onchange="updateMap(); updateLocationFieldFromSelect()">
+            <option th:each="location : ${cities}"
+                    th:value="${location}"
+                    th:text="${location}"
+                    th:selected="${location == selectedLocation}">
+            </option>
+        </select>
     </div>
 
-    <div th:fragment="citiesList" class="col-12">
-        <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>
-        <h2>Wybierz miejsce:</h2>
-        <div class="form-group">
-            <input th:value="${selectedLocation}" type="text" class="form-control" id="cityInput" placeholder="Zacznij wpisywać" onkeyup="filterCities()">
-
-            <select class="form-select" id="location" name="location" size="5" onchange="updateMap(); updateLocationFieldFromSelect()">
-                <option th:each="location : ${cities}"
-                        th:value="${location}"
-                        th:text="${location}"
-                        th:selected="${location == selectedLocation}">
-                </option>
-            </select>
-        </div>
-
-        <div id="map" style="width: 100%; height: 450px;" class="mt-4"></div>
+    <div id="map" style="width: 100%; height: 450px;" class="mt-4"></div>
 
         <script th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleApiKey} + '&callback=initMap'" async defer></script>
 
         <script>
-            function filterCities() {
-                let input = document.getElementById('cityInput').value.toLowerCase();
-                let dropdown = document.getElementById('location');
-                let options = dropdown.getElementsByTagName('option');
+        function filterCities() {
+            let input = document.getElementById('cityInput').value.toLowerCase();
+            let dropdown = document.getElementById('location');
+            let options = dropdown.getElementsByTagName('option');
 
                 for (let i = 0; i < options.length; i++) {
                     let txtValue = options[i].textContent || options[i].innerText;
