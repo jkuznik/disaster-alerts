@@ -65,31 +65,7 @@ public class DisasterViewController {
 
     @GetMapping("list")
     public String showDisasterList(Model model, @AuthenticationPrincipal AppUser userDetails) {
-
         baseModel(model, userDetails);
-
-//        DisasterDTO disasterDTO1 = new DisasterDTO(UUID.randomUUID(),
-//                DisasterType.FIRE,
-//                "Opis katastrofy ogniowej",
-//                "user",
-//                "Bielsko-Biała",
-//                LocalDateTime.now().minusDays(2),
-//                LocalDateTime.now().plusDays(3),
-//                DisasterStatus.ACTIVE,
-//                userDetails.getUserDTO().id());
-//        DisasterDTO disasterDTO2 = new DisasterDTO(UUID.randomUUID(),
-//                DisasterType.HURRICANE,
-//                "Opis katastrofy wiatrowej",
-//                "user",
-//                "Bielsko-Biała",
-//                LocalDateTime.now().minusDays(1),
-//                LocalDateTime.now().plusDays(1),
-//                DisasterStatus.ACTIVE,
-//                userDetails.getUserDTO().id());
-//
-//        if (!model.containsAttribute("list")) {
-//            model.addAttribute("list", List.of(disasterDTO1, disasterDTO2));
-//        }
 
         return "listDisasters";
     }
