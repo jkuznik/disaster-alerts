@@ -9,11 +9,22 @@
     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
         <div class="row align-items-center g-lg-5 py-5">
             <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Aktualizacja danych</h1>
-                <p class="col-lg-10 fs-4">Aktualizuj informacje</p>
+                <h1 class="display-5 fw-bold lh-1 text-body-emphasis mb-3">Edycja profilu</h1>
+                <p class="col-lg-10 fs-5 fw-light">Zaktualizuj dane. Bądź na bieżąco z doniesieniami ze swojego regionu. Pamiętaj, że usunięcie lub niedodanie numeru telefonu skutkuje rezygnacją z alertów SMS</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-                <div th:replace="~{fragments :: message}" class="bg-dark"></div>
+                <!--<div th:replace="~{fragments :: message}" class="bg-dark"></div>-->
+                <div id="toastMessage" class="toast rounded align-items-center border-0 position-fixed bottom-0 end-0 m-3 show" role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
+                    <div class="toast-header">
+                        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"/></svg>
+                        <strong class="me-auto">Zapisano zmiany</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="d-flex text-secondary bg-light px-3 py-1 fw-light">
+                        <div th:replace="~{fragments :: message}" class="toast-body text-black">
+                        </div>
+                    </div>
+                </div>
                 <form th:action="@{/users/update}" method="post" th:object="${userUpdateDto}">
                     <div class="row g-3">
 
@@ -55,17 +66,19 @@
                                 <a th:if="*{phoneNumber() != ''}" role="button" class="btn btn-danger ms-2" href='/users/removePhoneNumber' methods="POST">
                                     <i class="bi bi-trash"></i> Usuń numer telefonu
                                 </a>
+                                <div class="invalid-feedback">
+                                    Nieprawidłowy format numeru telefonu
+                                </div>
                             </div>
-                            <div class="invalid-feedback">
-                                Nieprawidłowy format numeru telefonu
-                            </div>
+
                         </div>
 
                         <div th:replace="~{fragments :: citiesList}"></div>
                     </div>
 
-                    <button class="w-100 btn btn-primary btn-lg my-md-4" type="submit">Aktualizuj dane</button>
+                    <button class="w-100 btn btn-primary btn-lg my-md-4" type="submit">Zatwierdź</button>
                 </form>
+
             </div>
         </div>
     </div>
