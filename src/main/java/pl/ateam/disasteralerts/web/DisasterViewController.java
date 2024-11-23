@@ -66,7 +66,10 @@ public class DisasterViewController {
     @GetMapping("list")
     public String showDisasterList(Model model, @AuthenticationPrincipal AppUser userDetails) {
         baseModel(model, userDetails);
-
+        
+        if (!model.containsAttribute("list")) {
+            model.addAttribute("list", getDisasterDTOS("Wszystkie", "Wszystkie"));
+        }
         return "listDisasters";
     }
 
