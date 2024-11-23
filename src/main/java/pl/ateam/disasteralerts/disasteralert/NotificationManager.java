@@ -17,7 +17,7 @@ class NotificationManager {
     private final SMSService smsService;
 
     private final List<AlertListener> alertListeners = new ArrayList<>();
-    void createAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
+    void sendNotifications(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
         alertListeners.forEach(alertListener -> alertListener.addedAlert(alertAddDTO, interestedUsers));
     }
 

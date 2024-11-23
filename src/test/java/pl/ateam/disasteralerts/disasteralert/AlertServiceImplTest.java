@@ -59,7 +59,7 @@ class AlertServiceImplTest {
 
             when(userFacade.getInterestedUsers(any(String.class))).thenReturn(null);
             doNothing().when(notificationManager).addSMSService();
-            doNothing().when(notificationManager).createAlert(any(AlertAddDTO.class), any(Set.class));
+            doNothing().when(notificationManager).sendNotifications(any(AlertAddDTO.class), any(Set.class));
 
             //then
             AlertDTO result = alertService.createAlert(alertAddDto);
