@@ -75,6 +75,11 @@ public class DisasterViewController {
                              @RequestParam(name = "city") String city,
                              RedirectAttributes redirectAttributes) {
 
+        redirectAttributes.addFlashAttribute("list", getDisasterDTOS(disasterType, city));
+        return "redirect:/disasters/list";
+    }
+
+    private List<DisasterDTO> getDisasterDTOS(String disasterType, String city) {
         Optional<DisasterType> type;
         if (disasterType.isEmpty() || disasterType.equals("Wszystkie")){
             type = Optional.empty();
@@ -89,10 +94,7 @@ public class DisasterViewController {
             location = Optional.of(city);
         }
 
-        List<DisasterDTO> disasters = disasterAlertFacade.interestingDisasters(type, location);
-
-        redirectAttributes.addFlashAttribute("list", disasters);
-        return "redirect:/disasters/list";
+        return disasterAlertFacade.interestingDisasters(type, location);
     }
 
     private void baseModel(Model model, AppUser userDetails) {
