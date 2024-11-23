@@ -71,8 +71,8 @@ public class DisasterViewController {
     }
 
     @PostMapping("list")
-    public String filterList(@RequestParam(name = "disasterType", value = "") String disasterType,
-                             @RequestParam(name = "city", value = "") String city,
+    public String filterList(@RequestParam(name = "disasterType") String disasterType,
+                             @RequestParam(name = "city") String city,
                              RedirectAttributes redirectAttributes) {
 
         Optional<DisasterType> type;
