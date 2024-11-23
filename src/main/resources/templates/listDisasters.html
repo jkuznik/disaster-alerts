@@ -15,7 +15,6 @@
     <div class="container col-xl-10 col-xxl-10 px-4 ">
         <div class="row g-lg-5 py-5">
             <div class="col-md-10 mx-auto col-lg-10">
-                <!-- Filtry do wyszukiwania -->
                 <form th:action="@{/disasters/list}" method="post" class="mb-4">
                     <div class="row">
                         <div class="col-md-5">
@@ -38,8 +37,7 @@
                     </div>
                 </form>
 
-                <!-- Lista zdarzeń -->
-                <div th:if="${list != null}" class="table-responsive">
+                <div th:if="${!#lists.isEmpty(list)}" class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
@@ -58,6 +56,10 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div th:if="${#lists.isEmpty(list)}" class="px-4 py-5 mt-5 text-center bg-white shadow-sm">
+                    <h1 class="display-6 fw-bold text-body-emphasis">Brak <span class="text-primary">Zdarzeń</span>
+                    </h1>
                 </div>
             </div>
         </div>
