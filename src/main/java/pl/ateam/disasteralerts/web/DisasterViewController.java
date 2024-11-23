@@ -22,6 +22,7 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -64,31 +65,8 @@ public class DisasterViewController {
 
     @GetMapping("list")
     public String showDisasterList(Model model, @AuthenticationPrincipal AppUser userDetails) {
-
         baseModel(model, userDetails);
 
-        DisasterDTO disasterDTO1 = new DisasterDTO(UUID.randomUUID(),
-                DisasterType.FIRE,
-                "Opis katastrofy ogniowej",
-                "user",
-                "Bielsko-Biała",
-                LocalDateTime.now().minusDays(2),
-                LocalDateTime.now().plusDays(3),
-                DisasterStatus.ACTIVE,
-                userDetails.getUserDTO().id());
-        DisasterDTO disasterDTO2 = new DisasterDTO(UUID.randomUUID(),
-                DisasterType.HURRICANE,
-                "Opis katastrofy wiatrowej",
-                "user",
-                "Bielsko-Biała",
-                LocalDateTime.now().minusDays(1),
-                LocalDateTime.now().plusDays(1),
-                DisasterStatus.ACTIVE,
-                userDetails.getUserDTO().id());
-
-        if (!model.containsAttribute("list")) {
-            model.addAttribute("list", List.of(disasterDTO1, disasterDTO2));
-        }
         return "listDisasters";
     }
 
@@ -96,7 +74,24 @@ public class DisasterViewController {
     public String filterList(@RequestParam(name = "disasterType", value = "") String disasterType,
                              @RequestParam(name = "city", value = "") String city,
                              RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("list", null);
+
+        Optional<DisasterType> type;
+        if (disasterType.isEmpty() || disasterType.equals("Wszystkie")){
+            type = Optional.empty();
+        } else {
+            type = Optional.of(DisasterType.valueOf(disasterType));
+        }
+
+        Optional<String> location;
+        if (city.isEmpty() || city.equals("Wszystkie")){
+            location = Optional.empty();
+        } else {
+            location = Optional.of(city);
+        }
+
+        List<DisasterDTO> disasters = disasterAlertFacade.interestingDisasters(type, location);
+
+        redirectAttributes.addFlashAttribute("list", disasters);
         return "redirect:/disasters/list";
     }
 
