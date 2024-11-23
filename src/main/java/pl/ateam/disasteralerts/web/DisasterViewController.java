@@ -74,6 +74,7 @@ public class DisasterViewController {
         
         if (!model.containsAttribute("list")) {
             model.addAttribute("list", getDisasterDTOS("Wszystkie", "Wszystkie"));
+            model.addAttribute("googleApiKey", googleApiKey);
         }
         return "listDisasters";
     }
