@@ -24,7 +24,7 @@
 
                         <div class="col-12">
                             <div class="text-danger" th:if="${#fields.errors('firstName')}" th:errors="*{firstName}"></div>
-                            <label for="firstName" class="form-label">Nazwa użytkownika</label>
+                            <label for="firstName" class="form-label">Imię</label>
                             <input th:value="*{firstName}" name="firstName" type="text" class="form-control" id="firstName">
                             <div class="invalid-feedback">
                                 Nazwa użytkownika jest wymagana
@@ -33,7 +33,7 @@
 
                         <div class="col-12">
                             <div class="text-danger" th:if="${#fields.errors('lastName')}" th:errors="*{lastName}"></div>
-                            <label for="lastName" class="form-label">Nazwa użytkownika</label>
+                            <label for="lastName" class="form-label">Nazwisko</label>
                             <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastName">
                             <div class="invalid-feedback">
                                 Nazwa użytkownika jest wymagana
