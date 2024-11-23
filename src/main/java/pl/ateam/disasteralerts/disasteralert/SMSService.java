@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 class SMSService implements AlertListener {
 
     private final SMSLimitService smsLimitService;
@@ -57,7 +59,7 @@ class SMSService implements AlertListener {
 
             smsLimitService.increaseLimit(today);
         } else {
-            throw new RuntimeException("Daily SMS limit reached - notifications will be sent via email only.");
+            log.info("Daily SMS limit reached - notifications will be sent via email only.");
         }
     }
 }
