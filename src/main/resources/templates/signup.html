@@ -11,7 +11,7 @@
         <div class="row g-5 justify-content-center">
             <div class="col-md-8 col-lg-8">
                 <h4 class="mb-3">Rejestracja</h4>
-                <form th:action="@{/signup}", method="post" th:object="${userDto}">
+                <form th:action="@{/signup}" , method="post" th:object="${userDto}">
 
                     <div class="row g-3">
                         <div class="col-12">
@@ -24,9 +24,11 @@
                         </div>
 
                         <div class="col-12">
+
                             <div class="text-danger" th:if="${#fields.errors('lastName')}" th:errors="*{lastName}"></div>
                             <label for="lastName" class="form-label">Nazwisko</label>
                             <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastName">
+
                             <div class="invalid-feedback">
                                 Nazwisko musi zawierać co najmniej 2 znaki
                             </div>
@@ -37,7 +39,8 @@
                             <label for="email" class="form-label">Adres e-mai</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
-                                <input th:value="*{email}" name="email" type="text" class="form-control"  id="email" placeholder="you@example.com" required>
+                                <input th:value="*{email}" name="email" type="text" class="form-control" id="email"
+                                       placeholder="you@example.com" required>
                                 <div class="invalid-feedback">
                                     Niewłaściwy format adresu e-mail
                                 </div>
@@ -45,13 +48,16 @@
                         </div>
 
                         <div class="col-12">
-                            <div class="text-danger" th:if="${#fields.errors('password')}" th:errors="*{password}"></div>
+                            <div class="text-danger" th:if="${#fields.errors('password')}"
+                                 th:errors="*{password}"></div>
                             <label for="password" class="form-label">Hasło</label>
-                            <input th:value="*{password}" name="password" type="password" class="form-control" id="password">
+                            <input th:value="*{password}" name="password" type="password" class="form-control"
+                                   id="password">
                         </div>
 
                         <div class="col-12">
-                            <div class="text-danger" th:if="${confirmPasswordError}" th:text="${confirmPasswordError}"></div>
+                            <div class="text-danger" th:if="${confirmPasswordError}"
+                                 th:text="${confirmPasswordError}"></div>
                             <label for="confirmPassword" class="form-label">Powtórz hasło</label>
                             <input name="confirmPassword" type="password" class="form-control" id="confirmPassword">
                             <div class="invalid-feedback">
@@ -89,7 +95,7 @@
 <!--                            </div>-->
 <!--                        </div>-->
                         </div>
-
+                    </div>
                     <button class="w-100 btn btn-primary btn-lg my-md-4" type="submit">Utwórz konto</button>
                 </form>
             </div>
@@ -104,22 +110,5 @@
             <li class="list-inline-item"><a href="#">Pomoc</a></li>
         </ul>
     </footer>
-
-    <script>
-        function filterCities() {
-            let input = document.getElementById('cityInput').value.toLowerCase();
-            let dropdown = document.getElementById('location');
-            let options = dropdown.getElementsByTagName('option');
-
-            for (let i = 0; i < options.length; i++) {
-                let txtValue = options[i].textContent || options[i].innerText;
-                if (txtValue.toLowerCase().indexOf(input) > -1) {
-                    options[i].style.display = "";
-                } else {
-                    options[i].style.display = "none";
-                }
-            }
-        }
-    </script>
 </div>
 </body>
