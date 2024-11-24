@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,13 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/disasters")
 public class DisasterViewController {
 
@@ -76,6 +79,8 @@ public class DisasterViewController {
             model.addAttribute("list", getDisasterDTOS("Wszystkie", "Wszystkie"));
             model.addAttribute("googleApiKey", googleApiKey);
         }
+
+        model.addAttribute("locationDisasterCounts", inLocationDisastersAmount());
         return "listDisasters";
     }
 
@@ -86,6 +91,10 @@ public class DisasterViewController {
 
         redirectAttributes.addFlashAttribute("list", getDisasterDTOS(disasterType, city));
         return "redirect:/disasters/list";
+    }
+
+    private Map<String, Integer> inLocationDisastersAmount() {
+        return disasterAlertFacade.inLocationDisastersAmount();
     }
 
     private List<DisasterDTO> getDisasterDTOS(String disasterType, String city) {
