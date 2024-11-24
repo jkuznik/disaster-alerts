@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head('Lista zdarzeń')}"></head>
 <style>
     #map {
         width: 50%;
-        height: 50%;
+        height: 35%;
         margin: 0 auto;
         margin-left: 25%;
         margin-right: 25%;
@@ -13,9 +12,12 @@
     html, body {
         height: 100%;
         margin: 0;
-        padding: 0;
+        padding: 10;
     }
 </style>
+
+<head th:replace="~{fragments :: head('Lista zdarzeń')}"></head>
+
 <body class="bg-body-tertiary">
 <nav th:replace="~{fragments :: nav}"></nav>
 <div class="px-4 py-5 mt-5 text-center bg-white shadow-sm">
@@ -39,8 +41,8 @@
         // Dodanie wskaźników (markerów)
         const locations = [
             { lat: 52.1, lng: 19.1, label: 'A', info: 'Wskaźnik A' },
-            { lat: 52.2, lng: 19.2, label: 'B', info: 'Wskaźnik B' },
-            { lat: 52.3, lng: 19.3, label: 'C', info: 'Wskaźnik C' }
+            { lat: 52.5, lng: 19.5, label: 'B', info: 'Wskaźnik B' },
+            { lat: 52.9, lng: 19.9, label: 'C', info: 'Wskaźnik C' }
         ];
 
         locations.forEach(location => {
