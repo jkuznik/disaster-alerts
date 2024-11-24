@@ -5,7 +5,8 @@
 
 <body class="bg-body-tertiary">
 <nav th:replace="~{fragments :: nav}"></nav>
-<div class="px-4 py-5 mt-5 text-center bg-white shadow-sm">
+
+<div class="px-4 py-5 mt-md-5 text-center bg-white shadow-sm">
     <h1 class="display-5 fw-bold text-body-emphasis">Dodaj <span class="text-primary">Zdarzenie</span></h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead">Wprowadź informacje o nowym zdarzeniu. Pamiętaj, że fałszywe zgłoszenia zostaną wykryte.</p>
@@ -14,7 +15,7 @@
 <div>
     <div class="container col-xl-10 col-xxl-10 px-4 ">
         <div class="row g-lg-5 py-5">
-            <div class="col-md-10 mx-auto col-lg-10">
+            <div class="col-md-10 mx-auto col-lg-8">
                 <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-2 rounded-3 bg-body-tertiary">
                     <div class="form-floating mb-3">
                         <select th:value="${disasterTypSelected}" name="type" class="form-select" id="type" required>
@@ -38,17 +39,7 @@
                     </div>
 
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Dodaj Zdarzenie</button>
-                    <div id="toastMessage" class="toast rounded align-items-center border-0 position-fixed bottom-0 end-0 m-3 show" role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
-                        <div class="toast-header">
-                            <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"/></svg>
-                            <strong class="me-auto">Udało się!</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="d-flex text-secondary bg-light px-3 py-1 fw-light">
-                            <div th:replace="~{fragments :: message}" class="toast-body text-white">
-                            </div>
-                        </div>
-                    </div>
+                    <div th:replace="~{fragments :: toast}"></div>
                 </form>
             </div>
         </div>

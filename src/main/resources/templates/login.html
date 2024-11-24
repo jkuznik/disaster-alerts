@@ -17,8 +17,7 @@
                 <h4 class="fw-light">Spokój zaczyna się od ostrzeżenia</h4>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-
-                <div th:replace="~{fragments :: message}" class="text-success"></div>
+                <div th:replace="~{fragments :: toast}"></div>
                 <div class="h4 text-danger text-center" th:if="${param.error}">Niepoprawny login lub hasło</div>
                 <div class="h4" th:if="${param.logout}">Wylogowano</div>
 
