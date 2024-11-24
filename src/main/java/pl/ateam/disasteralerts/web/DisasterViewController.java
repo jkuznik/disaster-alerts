@@ -2,17 +2,12 @@ package pl.ateam.disasteralerts.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.ateam.disasteralerts.disasteralert.DisasterAlertFacade;
 import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
@@ -22,15 +17,12 @@ import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/disasters")
 public class DisasterViewController {
 
@@ -74,13 +66,11 @@ public class DisasterViewController {
     @GetMapping("list")
     public String showDisasterList(Model model, @AuthenticationPrincipal AppUser userDetails) {
         baseModel(model, userDetails);
-        
-        if (!model.containsAttribute("list")) {
+
             model.addAttribute("list", getDisasterDTOS("Wszystkie", "Wszystkie"));
             model.addAttribute("googleApiKey", googleApiKey);
-        }
+            model.addAttribute("inLocationDisasterAmount", inLocationDisastersAmount());
 
-        model.addAttribute("locationDisasterCounts", inLocationDisastersAmount());
         return "listDisasters";
     }
 
@@ -99,14 +89,14 @@ public class DisasterViewController {
 
     private List<DisasterDTO> getDisasterDTOS(String disasterType, String city) {
         Optional<DisasterType> type;
-        if (disasterType.isEmpty() || disasterType.equals("Wszystkie")){
+        if (disasterType.isEmpty() || disasterType.equals("Wszystkie")) {
             type = Optional.empty();
         } else {
             type = Optional.of(DisasterType.valueOf(disasterType));
         }
 
         Optional<String> location;
-        if (city.isEmpty() || city.equals("Wszystkie")){
+        if (city.isEmpty() || city.equals("Wszystkie")) {
             location = Optional.empty();
         } else {
             location = Optional.of(city);
