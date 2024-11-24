@@ -50,6 +50,18 @@
         <p class="h6 " th:if="${message} != null" th:text="${message}"></p>
     </div>
 
+    <div th:fragment="toast" class="toast rounded align-items-center border-0 position-fixed bottom-0 end-0 m-3 show" role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
+        <div class="toast-header">
+            <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"/></svg>
+            <strong class="me-auto">Udało się!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="d-flex text-secondary bg-light px-3 py-1 fw-light">
+            <div th:replace="~{fragments :: message}" class="toast-body text-white">
+            </div>
+        </div>
+    </div>
+
     <div th:fragment="citiesList" class="col-12">
         <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>
         <h2>Wybierz miejscowość:</h2>
@@ -65,17 +77,7 @@
             </select>
         </div>
 
-        <div th:fragment="toast" class="toast rounded align-items-center border-0 position-fixed bottom-0 end-0 m-3 show" role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
-            <div class="toast-header">
-                <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"/></svg>
-                <strong class="me-auto">Udało się!</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="d-flex text-secondary bg-light px-3 py-1 fw-light">
-                <div th:replace="~{fragments :: message}" class="toast-body text-white">
-                </div>
-            </div>
-        </div>
+
 
         <script>
             function filterCities() {
