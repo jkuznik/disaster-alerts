@@ -3,19 +3,20 @@
 
 <head th:replace="~{fragments :: head('Dodaj Zdarzenie')}"></head>
 
-<body>
+<body class="bg-body-tertiary">
 <nav th:replace="~{fragments :: nav}"></nav>
 
-<div class="d-flex vh-100 align-items-center justify-content-center bg-body-tertiary">
-    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-        <div class="row align-items-center g-lg-5 py-5">
-            <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Dodaj Zdarzenie</h1>
-                <p class="col-lg-10 fs-4">Wprowadź informacje o nowym zdarzeniu</p>
-            </div>
-            <div class="col-md-10 mx-auto col-lg-5">
-                <div th:replace="~{fragments :: message}"></div>
-                <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
+<div class="px-4 py-5 mt-md-5 text-center bg-white shadow-sm">
+    <h1 class="display-5 fw-bold text-body-emphasis">Dodaj <span class="text-primary">Zdarzenie</span></h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead">Wprowadź informacje o nowym zdarzeniu. Pamiętaj, że fałszywe zgłoszenia zostaną wykryte.</p>
+    </div>
+</div>
+<div>
+    <div class="container col-xl-10 col-xxl-10 px-4 ">
+        <div class="row g-lg-5 py-5">
+            <div class="col-md-10 mx-auto col-lg-8">
+                <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-2 rounded-3 bg-body-tertiary">
                     <div class="form-floating mb-3">
                         <select th:value="${disasterTypSelected}" name="type" class="form-select" id="type" required>
                             <option th:if="${disasterTypSelected == null}" value="" disabled selected>Wybierz typ zdarzenia</option>
@@ -37,7 +38,8 @@
                         <input th:value="${userId}" name="userId" type="hidden" class="form-control" id="userId" required readonly>
                     </div>
 
-                    <button class="w-100 btn btn-lg btn-success" type="submit">Dodaj Zdarzenie</button>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Dodaj Zdarzenie</button>
+                    <div th:replace="~{fragments :: toast}"></div>
                 </form>
             </div>
         </div>

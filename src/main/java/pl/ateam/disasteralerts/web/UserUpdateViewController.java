@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +22,16 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 @RequiredArgsConstructor
 public class UserUpdateViewController {
 
+    @Value("${google.maps.api.key}")
+    private String googleApiKey;
+
     private final UserFacade userFacade;
 
     @GetMapping("edit")
     public String getUserForUpdate(@AuthenticationPrincipal AppUser appUser, Model model) {
         UserUpdateDTO userUpdateDto = userFacade.getUserForUpdate(appUser.getUserDTO().id());
         model.addAttribute("userUpdateDto", userUpdateDto);
+        model.addAttribute("googleApiKey", googleApiKey);
         baseModel(model, userUpdateDto);
         return "updateUser";
     }

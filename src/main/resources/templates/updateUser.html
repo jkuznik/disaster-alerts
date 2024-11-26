@@ -5,21 +5,28 @@
 
 <nav th:replace="~{fragments :: nav}"></nav>
 
-<div class="d-flex vh-100 align-items-center justify-content-center bg-body-tertiary">
+<div class="px-4 py-5 mt-md-5 text-center bg-white shadow-sm d-none d-lg-block">
+    <h1 class="display-5 fw-bold text-body-emphasis">Edycja <span class="text-primary">Profilu</span></h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead">Zaktualizuj dane. Bądź na bieżąco z doniesieniami ze swojego regionu. Pamiętaj, że usunięcie lub niedodanie numeru telefonu skutkuje rezygnacją z alertów SMS.</p>
+    </div>
+</div>
+
+<div class="d-flex align-items-center justify-content-center bg-body-tertiary">
     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
         <div class="row align-items-center g-lg-5 py-5">
-            <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Aktualizacja danych</h1>
-                <p class="col-lg-10 fs-4">Aktualizuj informacje</p>
+            <div class="col-lg-7 text-center text-lg-start d-lg-none">
+                <h1 class="display-5 fw-bold lh-1 text-body-emphasis mb-3">Edycja profilu</h1>
+                <p class="col-lg-10 fs-5 fw-light">Zaktualizuj dane. Bądź na bieżąco z doniesieniami ze swojego regionu</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-                <div th:replace="~{fragments :: message}"></div>
+                <div th:replace="~{fragments :: toast}"></div>
                 <form th:action="@{/users/update}" method="post" th:object="${userUpdateDto}">
                     <div class="row g-3">
 
                         <div class="col-12">
                             <div class="text-danger" th:if="${#fields.errors('firstName')}" th:errors="*{firstName}"></div>
-                            <label for="firstName" class="form-label">Nazwa użytkownika</label>
+                            <label for="firstName" class="form-label">Imię</label>
                             <input th:value="*{firstName}" name="firstName" type="text" class="form-control" id="firstName">
                             <div class="invalid-feedback">
                                 Nazwa użytkownika jest wymagana
@@ -28,7 +35,7 @@
 
                         <div class="col-12">
                             <div class="text-danger" th:if="${#fields.errors('lastName')}" th:errors="*{lastName}"></div>
-                            <label for="lastName" class="form-label">Nazwa użytkownika</label>
+                            <label for="lastName" class="form-label">Nazwisko</label>
                             <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastName">
                             <div class="invalid-feedback">
                                 Nazwa użytkownika jest wymagana
@@ -55,16 +62,14 @@
                                 <a th:if="*{phoneNumber() != ''}" role="button" class="btn btn-danger ms-2" href='/users/removePhoneNumber' methods="POST">
                                     <i class="bi bi-trash"></i> Usuń numer telefonu
                                 </a>
-                            </div>
-                            <div class="invalid-feedback">
-                                Nieprawidłowy format numeru telefonu
+                                <div class="invalid-feedback">
+                                    Nieprawidłowy format numeru telefonu
+                                </div>
                             </div>
                         </div>
-
                         <div th:replace="~{fragments :: citiesList}"></div>
                     </div>
-
-                    <button class="w-100 btn btn-success btn-lg my-md-4" type="submit">Aktualizuj dane</button>
+                    <button class="w-100 btn btn-primary btn-lg my-md-4" type="submit">Zatwierdź</button>
                 </form>
             </div>
         </div>

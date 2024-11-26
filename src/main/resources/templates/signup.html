@@ -11,24 +11,24 @@
         <div class="row g-5 justify-content-center">
             <div class="col-md-8 col-lg-8">
                 <h4 class="mb-3">Rejestracja</h4>
-                <form th:action="@{/signup}", method="post" th:object="${userDto}">
+                <form th:action="@{/signup}" , method="post" th:object="${userDto}">
 
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="text-danger" th:if="${#fields.errors('firstName')}" th:errors="*{firstName}"></div>
-                            <label for="firstName" class="form-label">Nazwa użytkownika</label>
+                            <label for="firstName" class="form-label">Imię</label>
                             <input th:value="*{firstName}" name="firstName" type="text" class="form-control" id="firstName">
                             <div class="invalid-feedback">
-                                Nazwa użytkownika jest wymagana
+                                Imię musi zawierać co najmniej 2 znaki
                             </div>
                         </div>
 
                         <div class="col-12">
                             <div class="text-danger" th:if="${#fields.errors('lastName')}" th:errors="*{lastName}"></div>
-                            <label for="lastName" class="form-label">Nazwa użytkownika</label>
+                            <label for="lastName" class="form-label">Nazwisko</label>
                             <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastName">
                             <div class="invalid-feedback">
-                                Nazwa użytkownika jest wymagana
+                                Nazwisko musi zawierać co najmniej 2 znaki
                             </div>
                         </div>
 
@@ -37,7 +37,8 @@
                             <label for="email" class="form-label">Adres e-mai</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
-                                <input th:value="*{email}" name="email" type="text" class="form-control"  id="email" placeholder="you@example.com" required>
+                                <input th:value="*{email}" name="email" type="text" class="form-control" id="email"
+                                       placeholder="you@example.com" required>
                                 <div class="invalid-feedback">
                                     Niewłaściwy format adresu e-mail
                                 </div>
@@ -45,13 +46,16 @@
                         </div>
 
                         <div class="col-12">
-                            <div class="text-danger" th:if="${#fields.errors('password')}" th:errors="*{password}"></div>
+                            <div class="text-danger" th:if="${#fields.errors('password')}"
+                                 th:errors="*{password}"></div>
                             <label for="password" class="form-label">Hasło</label>
-                            <input th:value="*{password}" name="password" type="password" class="form-control" id="password">
+                            <input th:value="*{password}" name="password" type="password" class="form-control"
+                                   id="password">
                         </div>
 
                         <div class="col-12">
-                            <div class="text-danger" th:if="${confirmPasswordError}" th:text="${confirmPasswordError}"></div>
+                            <div class="text-danger" th:if="${confirmPasswordError}"
+                                 th:text="${confirmPasswordError}"></div>
                             <label for="confirmPassword" class="form-label">Powtórz hasło</label>
                             <input name="confirmPassword" type="password" class="form-control" id="confirmPassword">
                             <div class="invalid-feedback">
@@ -60,37 +64,8 @@
                         </div>
 
                         <div th:replace="~{fragments :: citiesList}"></div>
-
-<!--                    <hr class="my-4">-->
-
-<!--                    <h4 class="mb-3">Preferencje</h4>-->
-
-<!--                    <div class="my-3">-->
-<!--                        <div class="form-check">-->
-<!--                            <input id="credit" name="paymentMethod" type="checkbox" class="form-check-input" checked>-->
-<!--                            <label class="form-check-label" for="credit">Alerty mailowe</label>-->
-<!--                        </div>-->
-<!--                        <div class="form-check">-->
-<!--                            <input id="debit" name="paymentMethod" type="checkbox" class="form-check-input">-->
-<!--                            <label class="form-check-label" for="debit">Alerty SMS</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-
-
-<!--                    <div class="col-md-7 col-lg-8 my-4">-->
-<!--                        <h4 class="d-flex justify-content-between align-items-center mb-3">-->
-<!--                            Zweryfikowany użytkownik-->
-<!--                        </h4>-->
-<!--                        <div class="card p-2">-->
-<!--                            <div class="input-group">-->
-<!--                                <input type="text" class="form-control" placeholder="Kod organizacji">-->
-<!--                                <button class="btn btn-secondary">Zweryfikuj</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-                    <button class="w-100 btn btn-success btn-lg my-md-4" type="submit">Utwórz konto</button>
+                    </div>
+                    <button class="w-100 btn btn-primary btn-lg my-md-4" type="submit">Utwórz konto</button>
                 </form>
             </div>
         </div>
@@ -104,22 +79,5 @@
             <li class="list-inline-item"><a href="#">Pomoc</a></li>
         </ul>
     </footer>
-
-    <script>
-        function filterCities() {
-            let input = document.getElementById('cityInput').value.toLowerCase();
-            let dropdown = document.getElementById('location');
-            let options = dropdown.getElementsByTagName('option');
-
-            for (let i = 0; i < options.length; i++) {
-                let txtValue = options[i].textContent || options[i].innerText;
-                if (txtValue.toLowerCase().indexOf(input) > -1) {
-                    options[i].style.display = "";
-                } else {
-                    options[i].style.display = "none";
-                }
-            }
-        }
-    </script>
 </div>
 </body>
