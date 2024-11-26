@@ -34,26 +34,26 @@
             <div sec:authorize="isAnonymous()">
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="/">Login</a>
+                        <a class="nav-link text-light" href="/">Login <i class="bi bi-forward"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="/signup">Register</a>
+                        <a class="nav-link text-light" href="/signup">Register <i class="bi bi-forward-fill"></i></a>
                     </li>
                 </ul>
             </div>
             <div sec:authorize="isAuthenticated()">
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="/disasters/add">Dodaj zdarzenie</a>
+                        <a class="nav-link text-light" href="/disasters/add"><i class="bi bi-cloud-lightning-rain"></i> Dodaj zdarzenie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="/disasters/list">Sprawdź zdarzenia</a>
+                        <a class="nav-link text-light" href="/disasters/list"><i class="bi bi-list-stars"></i> Sprawdź zdarzenia</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="/users/edit">Edytuj dane</a>
+                        <a class="nav-link text-light" href="/users/edit"><i class="bi bi-person-lines-fill"></i> Edytuj dane</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="/logout">Logout</a>
+                        <a class="nav-link text-light" href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
                     </li>
                 </ul>
             </div>
