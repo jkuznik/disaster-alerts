@@ -37,8 +37,9 @@ class AlertServiceImpl implements AlertService {
 
         notificationManager.addEmailService();
         notificationManager.addSMSService();
-        notificationManager.createAlert(alertAddDTO, interestedUsers);
+        notificationManager.sendNotifications(alertAddDTO, interestedUsers);
 
         notificationManager.removeEmailService();
+        notificationManager.removeSMSService();
     }
 }

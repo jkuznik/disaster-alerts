@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 class SMSService implements AlertListener {
 
     private final SMSLimitService smsLimitService;
@@ -42,7 +44,7 @@ class SMSService implements AlertListener {
     public void sendSMS(String alertDescription, String phoneNumber) {
         LocalDateTime today = LocalDateTime.now();
 
-        if(smsLimitService.isLimitReached(today)){
+        if(smsLimitService.isBelowLimit(today)){
             Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
             Message message = Message
@@ -57,7 +59,7 @@ class SMSService implements AlertListener {
 
             smsLimitService.increaseLimit(today);
         } else {
-            throw new RuntimeException("Day SMS limit reached");
+            log.info("Daily SMS limit reached - notifications will be sent via email only.");
         }
     }
 }
@@ -92,12 +94,12 @@ class SMSLimitService {
     private final SMSLimitRepository smsLimitRepository;
 
     @Transactional
-    boolean isLimitReached(LocalDateTime date) {
-        boolean result = false;
+    boolean isBelowLimit(LocalDateTime date) {
+        boolean result = true;
 
         Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
         if(byExactDay.isPresent()){
-            result = byExactDay.get().getLimitCounter() < Integer.parseInt(System.getenv("DAY_SMS_LIMIT")); //TODO: ktoś z Was już próbował podpowiedzianego rozwiązania z sterowaniem konfiguracji aplikacji z poziomu application.properties? tutaj by mi się to przydało
+            result = byExactDay.get().getLimitCounter() < Integer.parseInt(System.getenv("DAY_SMS_LIMIT"));
         } else {
             createLimiter();
         }
