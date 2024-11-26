@@ -1,6 +1,7 @@
 package pl.ateam.disasteralerts.web;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,9 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 @RequestMapping("/signup")
 public class SignupViewController {
 
+    @Value("${google.maps.api.key}")
+    private String googleApiKey;
+
     private final UserService userService;
 
     public SignupViewController(UserService userService) {
@@ -29,6 +33,8 @@ public class SignupViewController {
         model.addAttribute("userDto",
                 new UserRegisterDTO(null, null, null, null, null));
         citiesList(model);
+        model.addAttribute("googleApiKey", googleApiKey);
+
         return "signup";
     }
 
