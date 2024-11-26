@@ -8,10 +8,7 @@ import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service(value = "prototype")
@@ -90,5 +87,16 @@ class DisasterServiceImpl implements DisasterService {
         }
 
         return interestedDisasters;
+    }
+
+    @Override
+    public Map<String, Integer> inLocationDisastersAmount() {
+        List<Disaster> allActiveDisasters = disasterRepository.findAllByStatus(DisasterStatus.ACTIVE);
+
+        return allActiveDisasters.stream()
+                .collect(Collectors.groupingBy(
+                        Disaster::getLocation,
+                        Collectors.summingInt(e -> 1)
+                ));
     }
 }

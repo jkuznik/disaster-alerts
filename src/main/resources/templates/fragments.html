@@ -85,10 +85,10 @@
     <div class="text-danger" th:if="${#fields.errors('location')}" th:errors="*{location}"></div>
     <h2>Wybierz miejscowość:</h2>
     <div class="form-group">
-        <input th:value="${selectedLocation}" type="text" class="form-control" id="cityInput"
+        <input th:value="${selectedLocation}" type="text" class="form-control my-2" id="cityInput"
                placeholder="Zacznij wpisywać" onkeyup="filterCities()">
 
-        <select class="form-select" id="location" name="location" size="5">
+        <select class="form-select" id="location" name="location" size="5" onchange="updateMap(); updateLocationFieldFromSelect()">
             <option th:each="location : ${cities}"
                     th:value="${location}"
                     th:text="${location}"
@@ -97,24 +97,76 @@
         </select>
     </div>
 
+    <div id="map" style="width: 100%; height: 450px;" class="mt-4"></div>
 
-    <script>
+        <script th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleApiKey} + '&callback=initMap'" async defer></script>
+
+        <script>
         function filterCities() {
             let input = document.getElementById('cityInput').value.toLowerCase();
             let dropdown = document.getElementById('location');
             let options = dropdown.getElementsByTagName('option');
 
-            for (let i = 0; i < options.length; i++) {
-                let txtValue = options[i].textContent || options[i].innerText;
-                if (txtValue.toLowerCase().indexOf(input) > -1) {
-                    options[i].style.display = "";
-                } else {
-                    options[i].style.display = "none";
+                for (let i = 0; i < options.length; i++) {
+                    let txtValue = options[i].textContent || options[i].innerText;
+                    if (txtValue.toLowerCase().indexOf(input) > -1) {
+                        options[i].style.display = "";
+                    } else {
+                        options[i].style.display = "none";
+                    }
                 }
             }
-        }
-    </script>
-</div>
+
+            function updateMap() {
+                let selectedLocation = document.getElementById('location').value;
+                const geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': selectedLocation }, function(results, status) {
+                    if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        marker.setPosition(results[0].geometry.location);
+                    }
+                });
+            }
+
+            function updateLocationFieldFromSelect() {
+                let selectedLocation = document.getElementById('location').value;
+                document.getElementById('cityInput').value = selectedLocation;
+            }
+
+            let map;
+            let marker;
+
+            function initMap() {
+                const defaultLocation = {lat: 52.2297, lng: 21.0122};
+
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: defaultLocation,
+                    zoom: 6,
+                });
+
+                marker = new google.maps.Marker({
+                    position: defaultLocation,
+                    map: map,
+                    draggable: true
+                });
+
+                map.addListener("click", (event) => {
+                    placeMarker(event.latLng);
+                    updateLocationField(event.latLng);
+                });
+            }
+
+            function placeMarker(location) {
+                marker.setPosition(location);
+                map.panTo(location);
+            }
+
+            function updateLocationField(location) {
+                const locationInput = document.getElementById("cityInput");
+                locationInput.value = `${location.lat()}, ${location.lng()}`;
+            }
+        </script>
+    </div>
 
 </body>
 </html>
