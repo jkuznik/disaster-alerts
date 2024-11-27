@@ -1,5 +1,8 @@
 package pl.ateam.disasteralerts.disasteralert;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -13,20 +16,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 import pl.ateam.disasteralerts.util.EntityAudit;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-class SMSService implements AlertListener {
+class SMSService implements NotificationListener {
 
     private final SMSLimitService smsLimitService;
 
@@ -35,10 +34,8 @@ class SMSService implements AlertListener {
     public static final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
 
     @Override
-    public void addedAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
-        interestedUsers.forEach(userDTO -> {
-            sendSMS(alertAddDTO.description(), userDTO.phoneNumber());
-        });
+    public void addedAlert(AlertAddDTO alertAddDTO, UserDTO interestedUser) {
+            sendSMS(alertAddDTO.description(), interestedUser.phoneNumber());
     }
 
     public void sendSMS(String alertDescription, String phoneNumber) {
@@ -55,7 +52,7 @@ class SMSService implements AlertListener {
                     )
                     .create();
 
-            System.out.println(message.getSid());
+            log.info(message.getSid());
 
             smsLimitService.increaseLimit(today);
         } else {

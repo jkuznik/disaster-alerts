@@ -67,10 +67,12 @@ public class DisasterViewController {
     public String showDisasterList(Model model, @AuthenticationPrincipal AppUser userDetails) {
         baseModel(model, userDetails);
 
+        if (!model.containsAttribute("list")) {
             model.addAttribute("list", getDisasterDTOS("Wszystkie", "Wszystkie"));
-            model.addAttribute("googleApiKey", googleApiKey);
-            model.addAttribute("inLocationDisasterAmount", inLocationDisastersAmount());
+        }
 
+        model.addAttribute("googleApiKey", googleApiKey);
+        model.addAttribute("inLocationDisasterAmount", inLocationDisastersAmount());
         return "listDisasters";
     }
 

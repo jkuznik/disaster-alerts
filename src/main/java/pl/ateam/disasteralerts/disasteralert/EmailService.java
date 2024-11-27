@@ -16,35 +16,20 @@ import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 
-import java.io.IOException;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Service
 @RequiredArgsConstructor
-class EmailService implements AlertListener {
+class EmailService implements NotificationListener {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender mailSender;
 
     @Override
-    public void addedAlert(AlertAddDTO alertAddDTO, Set<UserDTO> interestedUsers) {
-        ExecutorService executor = Executors.newFixedThreadPool(3);
-
-        interestedUsers.forEach(interestedUser -> {
-            executor.submit(() -> {
-                try {
-                    sendEmail(interestedUser.email(), "Alert for " + alertAddDTO.location(), alertAddDTO.description());
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            });
-        });
-
-        executor.shutdown();
+    public void addedAlert(AlertAddDTO alertAddDTO, UserDTO interestedUser) {
+        sendEmail(interestedUser.email(), "Alert for " + alertAddDTO.location(), alertAddDTO.description());
     }
 
     @Recover
