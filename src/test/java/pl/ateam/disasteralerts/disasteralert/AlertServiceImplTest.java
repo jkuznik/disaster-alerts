@@ -11,6 +11,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.AlertDTO;
 import pl.ateam.disasteralerts.user.UserFacade;
+import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 import java.util.Set;
 import java.util.UUID;
@@ -59,7 +60,7 @@ class AlertServiceImplTest {
 
             when(userFacade.getInterestedUsers(any(String.class))).thenReturn(null);
             doNothing().when(notificationManager).addSMSService();
-            doNothing().when(notificationManager).sendNotifications(any(AlertAddDTO.class), any(Set.class));
+            doNothing().when(notificationManager).sendNotifications(any(AlertAddDTO.class), any(UserDTO.class));
 
             //then
             AlertDTO result = alertService.createAlert(alertAddDto);

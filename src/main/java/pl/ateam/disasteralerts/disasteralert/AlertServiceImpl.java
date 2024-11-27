@@ -26,6 +26,8 @@ class AlertServiceImpl implements AlertService {
         Alert alert = alertRepository.save(
                 mapper.mapAlertAddDtoToAlert(alertAddDTO));
 
+        //TODO: powiadomienia są wysyłane przed zakończeniem tranzakcji, to umożliwia wysłanie powiadomień
+        // nawet jeżeli alert nie zostanie zapisany w bazie
         sendNotifications(alertAddDTO);
 
         return mapper.mapAlertToAlertDto(alert);
@@ -33,13 +35,6 @@ class AlertServiceImpl implements AlertService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void sendNotifications(AlertAddDTO alertAddDTO) {
-        Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
-        notificationManager.addEmailService();
-        notificationManager.addSMSService();
-        notificationManager.sendNotifications(alertAddDTO, interestedUsers);
-
-        notificationManager.removeEmailService();
-        notificationManager.removeSMSService();
     }
 }
