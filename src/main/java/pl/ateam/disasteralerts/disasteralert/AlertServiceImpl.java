@@ -35,6 +35,18 @@ class AlertServiceImpl implements AlertService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void sendNotifications(AlertAddDTO alertAddDTO) {
+        Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
+        interestedUsers.forEach(user -> {
+            if (user.phoneNumber() != null && !user.phoneNumber().isEmpty()) {
+                notificationManager.addSMSService();
+            }
+            if (user.email() != null && !user.email().isEmpty()) {
+                notificationManager.addEmailService();
+            }
+
+            notificationManager.sendNotifications(alertAddDTO, user);
+            notificationManager.clearNotificationServices();
+        });
     }
 }
