@@ -29,18 +29,7 @@ class EmailService implements NotificationListener {
 
     @Override
     public void addedAlert(AlertAddDTO alertAddDTO, UserDTO interestedUser) {
-        ExecutorService executor = Executors.newFixedThreadPool(3);
-
-        executor.submit(() -> {
-            try {
-                sendEmail(interestedUser.email(), "Alert for " + alertAddDTO.location(), alertAddDTO.description());
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        });
-
-        executor.shutdown();
+        sendEmail(interestedUser.email(), "Alert for " + alertAddDTO.location(), alertAddDTO.description());
     }
 
     @Recover
