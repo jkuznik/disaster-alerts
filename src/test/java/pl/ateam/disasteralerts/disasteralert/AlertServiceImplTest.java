@@ -58,8 +58,6 @@ class AlertServiceImplTest {
             when(alertMapper.mapAlertAddDtoToAlert(alertAddDto)).thenReturn(alert);
             when(alertMapper.mapAlertToAlertDto(alert)).thenReturn(alertDto);
 
-            when(userFacade.getInterestedUsers(any(String.class))).thenReturn(null);
-            doNothing().when(notificationManager).addSMSService();
             doNothing().when(notificationManager).sendNotifications(any(AlertAddDTO.class), any(UserDTO.class));
 
             //then

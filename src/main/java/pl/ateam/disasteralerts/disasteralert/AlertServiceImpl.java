@@ -37,7 +37,8 @@ class AlertServiceImpl implements AlertService {
     void sendNotifications(AlertAddDTO alertAddDTO) {
         Set<UserDTO> interestedUsers = userFacade.getInterestedUsers(alertAddDTO.location());
 
-        interestedUsers.forEach(user -> {
+        interestedUsers.stream()
+                .forEach(user -> {
             if (user.phoneNumber() != null && !user.phoneNumber().isEmpty()) {
                 notificationManager.addSMSService();
             }
