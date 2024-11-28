@@ -91,7 +91,7 @@
                             <label for="disasterType" class="form-label">Rodzaj zdarzenia</label>
                             <select id="disasterType" name="disasterType" class="form-select">
                                 <option value="" selected>Wszystkie</option>
-                                <option th:each="type : ${disasterType}" th:value="${type}" th:text="${type}"></option>
+                                <option th:each="type : ${disasterType}" th:value="${type}" th:text="${type.getPolishName()}"></option>
                             </select>
                         </div>
                         <div class="col-md-5">
@@ -119,7 +119,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="disaster : ${list}">
-                            <td th:text="${disaster.type}"></td>
+                            <td th:text="${disaster.type.getPolishName()}"></td>
                             <td th:text="${disaster.description}"></td>
                             <td th:text="${disaster.location}"></td>
                             <td th:text="${#temporals.format(disaster.createDate(), 'yyyy-MM-dd HH:mm')}"></td>
