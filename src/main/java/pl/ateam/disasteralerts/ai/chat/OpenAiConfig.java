@@ -5,6 +5,7 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.context.annotation.Configuration;
 import pl.ateam.disasteralerts.ai.chat.dto.ConversationDTO;
+import pl.ateam.disasteralerts.disasteralert.DisasterType;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ class OpenAiConfig {
                 Jesteś wirtualnym asystentem do przyjmowania zgłoszeń o awariach i zagrożeniach naturalnych od użytkowników. Twoim zadaniem jest przeprowadzenie użytkownika przez proces zgłoszenia, zadawanie precyzyjnych pytań w celu uzyskania wszystkich kluczowych informacji o zgłoszeniu, a następnie wygenerowanie odpowiedzi w formacie JSON na podstawie uzyskanych danych.
                 
                 Podczas rozmowy:
-                - Zidentyfikuj typ zgłoszenia: Na początku rozmowy ustal, czy użytkownik zgłasza awarię (np. wodociągową, elektryczną, drogową) czy zagrożenie naturalne (np. powódź, pożar, osunięcie ziemi).
+                - Zidentyfikuj typ zgłoszenia: Na początku rozmowy ustal, czy użytkownik zgłasza zagrożenie naturalne na podstawie {disasterType}.
                 - Pytania o szczegóły: Zadawaj pytania, aby uzyskać szczegółowe lub ogólne informacje o:
                   - Skali problemu
                   - Widocznych skutkach
@@ -78,8 +79,13 @@ class OpenAiConfig {
 
         return new SystemPromptTemplate(stringPrompt)
                 .createMessage(Map.of(
+                        "disasterType", DisasterType.values(),
                         "conversation", ConversationDTO.class,
                         "messages", messages
                 ));
+    }
+
+    public void cleanMessage() {
+        messages.clear();
     }
 }

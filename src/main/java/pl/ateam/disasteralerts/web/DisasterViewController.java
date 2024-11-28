@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.ateam.disasteralerts.ai.chat.OpenAiService;
 import pl.ateam.disasteralerts.ai.chat.dto.ConversationDTO;
@@ -40,17 +42,19 @@ public class DisasterViewController {
 
     @GetMapping("add")
     public String showAddDisasterForm(Model model, @AuthenticationPrincipal AppUser appUser) {
+        baseModel(model, appUser);
 
         if (!model.containsAttribute("conversation")) {
+            openAiService.cleanMessage();
             ConversationDTO conversation = openAiService.getResponse("Jestem " + appUser.getUsername() + " i chcę zgłosić zagrożenie.");
             model.addAttribute("conversation", conversation);
         }
 
-        baseModel(model, appUser);
         if (!model.containsAttribute("disasterAddDTO")) {
             model.addAttribute("disasterTypSelected", null);
             model.addAttribute("disasterAddDTO", new DisasterAddDTO(null, null, null, null));
         }
+
         model.addAttribute("selectedLocation", appUser.getUserDTO().location());
         model.addAttribute("googleApiKey", googleApiKey);
         model.addAttribute("disasterTypes", DisasterType.values());

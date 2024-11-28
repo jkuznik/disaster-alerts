@@ -34,4 +34,8 @@ public class OpenAiService {
             openAiConfig.addMessage(new AssistantMessage(answer.toString()));
         }
     }
+
+    public void cleanMessage() {
+        openAiConfig.cleanMessage();
+    }
 }
