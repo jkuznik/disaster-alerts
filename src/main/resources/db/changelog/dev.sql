@@ -153,4 +153,4 @@ CREATE TABLE sms_limits
 );
 
 -- changeset jkuznik:1728934675080-26
-ALTER TABLE users DROP CONSTRAINT uc_users_first_name;
+ALTER TABLE users DROP CONSTRAINT uc_users_username;
