@@ -23,7 +23,7 @@
                             <option th:each="type : ${disasterType}"
                                     th:value="${type}"
                                     th:selected="${type == disasterTypSelected}"
-                                    th:text="${type}"></option>
+                                    th:text="${type.getPolishName()}"></option>
                         </select>
                         <label for="type">Typ Zdarzenia</label>
                     </div>
