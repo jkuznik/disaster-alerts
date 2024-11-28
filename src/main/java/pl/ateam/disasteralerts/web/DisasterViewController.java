@@ -41,6 +41,7 @@ public class DisasterViewController {
         model.addAttribute("disasterAddDTO", new DisasterAddDTO(null, null, null, null));
         model.addAttribute("selectedLocation", appUser.getUserDTO().location());
         model.addAttribute("googleApiKey", googleApiKey);
+        model.addAttribute("disasterTypes", DisasterType.values());
 
         return "addDisaster";
     }
@@ -73,6 +74,7 @@ public class DisasterViewController {
 
         model.addAttribute("googleApiKey", googleApiKey);
         model.addAttribute("inLocationDisasterAmount", inLocationDisastersAmount());
+        model.addAttribute("disasterTypes", DisasterType.values());
         return "listDisasters";
     }
 
