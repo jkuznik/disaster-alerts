@@ -2,8 +2,9 @@ spring:
   application:
     name: Disaster Alerts
 
-  datasource:
-    driver-class-name: org.postgresql.Driver
+  docker:
+    compose:
+      file: compose-test.yaml
 
   jpa:
     hibernate:
@@ -14,9 +15,20 @@ spring:
         format_sql: false
     show-sql: true
 
-  liquibase:
-    change-log: db/changelog-test.yaml
-    contexts: test
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/disasterdb
+    username: user
+    password: pass
+
+#  liquibase:
+#    change-log: db/changelog-test.yaml
+#    contexts: test
 
 server:
   port: 8082
+
+openweathermap:
+  api:
+    key: 3261c3b28f5aed55fcca580f4d7744d0
+    url: https://api.openweathermap.org/data/2.5/weather

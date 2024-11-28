@@ -1,0 +1,28 @@
+name: Run application on host
+
+# Only trigger, when the build workflow succeeded
+on:
+  workflow_run:
+    workflows: ["Update docker image"]
+    types:
+      - completed
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull docker image
+        run: sudo docker pull jkuznik/disaster-alert:latest
+      - name: Delete old docker container
+        run: sudo docker rm -f disaster-alert-container || true
+      - name: Run new docker container
+        env:
+          TWILIO_ACCOUNT_SID: ${{secrets.TWILIO_ACCOUNT_SID}}
+          TWILIO_AUTH_TOKEN: ${{secrets.TWILIO_AUTH_TOKEN}}
+          TWILIO_PHONE_NUMBER: ${{secrets.TWILIO_PHONE_NUMBER}}
+          OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
+          GOOGLE_API_KEY: ${{secrets.GOOGLE_API_KEY}}
+          DAY_SMS_LIMIT: 5
+        run: sudo docker run -d -p 8080:8080 --name disaster-alert-container --network disaster-net -e TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID -e TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN -e TWILIO_PHONE_NUMBER=$TWILIO_PHONE_NUMBER -e OPENAI_API_KEY=$OPENAI_API_KEY -e GOOGLE_API_KEY=$GOOGLE_API_KEY -e DAY_SMS_LIMIT=$DAY_SMS_LIMIT jkuznik/disaster-alert

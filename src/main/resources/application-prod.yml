@@ -19,5 +19,25 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   liquibase:
-    change-log: db/changelog-prod.yaml
+    change-log: db/changelog-dev.yaml
     contexts: prod
+
+  ai:
+    openai:
+      api-key: "${{ secrets.OPENAI_API_KEY }}"
+      chat:
+        options:
+          model: gpt-4o
+          temperature: 0.5
+
+server:
+  port: 8080
+
+openweathermap:
+  api:
+    key: 3261c3b28f5aed55fcca580f4d7744d0
+    url: https://api.openweathermap.org/data/2.5/weather
+
+google.maps:
+  api:
+    key: ${GOOGLE_API_KEY}

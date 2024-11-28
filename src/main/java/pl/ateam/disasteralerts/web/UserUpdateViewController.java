@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +22,16 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 @RequiredArgsConstructor
 public class UserUpdateViewController {
 
+    @Value("${google.maps.api.key}")
+    private String googleApiKey;
+
     private final UserFacade userFacade;
 
     @GetMapping("edit")
     public String getUserForUpdate(@AuthenticationPrincipal AppUser appUser, Model model) {
         UserUpdateDTO userUpdateDto = userFacade.getUserForUpdate(appUser.getUserDTO().id());
         model.addAttribute("userUpdateDto", userUpdateDto);
+        model.addAttribute("googleApiKey", googleApiKey);
         baseModel(model, userUpdateDto);
         return "updateUser";
     }
@@ -45,6 +50,15 @@ public class UserUpdateViewController {
         userFacade.updateUser(userUpdateDto, appUser.getUserDTO().id());
         redirectAttributes.addFlashAttribute("message", "Dane użytkownika zostały pomyślnie zaktualizowane.");
         return "redirect:/disasters/add";
+    }
+
+    @GetMapping("removePhoneNumber")
+    public String removePhoneNumber(@AuthenticationPrincipal AppUser appUser,
+                                    RedirectAttributes redirectAttributes) {
+
+        userFacade.removePhoneNumber(appUser.getUsername());
+        redirectAttributes.addFlashAttribute("message", "Numer telefonu został usunięty");
+        return "redirect:/users/edit";
     }
 
     private void baseModel(Model model, UserUpdateDTO userUpdateDto) {

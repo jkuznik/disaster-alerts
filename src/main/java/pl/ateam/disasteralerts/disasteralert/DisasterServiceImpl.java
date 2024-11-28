@@ -8,8 +8,8 @@ import pl.ateam.disasteralerts.disasteralert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service(value = "prototype")
 @RequiredArgsConstructor
@@ -24,14 +24,19 @@ class DisasterServiceImpl implements DisasterService {
     public DisasterDTO createDisaster(DisasterAddDTO disasterAddDTO, String source) {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
         disaster.setSource(source);
-        if (riskAssessment.assessRisk(disasterAddDTO)) {
-            disaster.setStatus(DisasterStatus.ACTIVE);
-            disasterRepository.save(disaster);
-            generateAlert(disaster.getId());
-        } else {
-            disaster.setStatus(DisasterStatus.FAKE);
-            disasterRepository.save(disaster);
-        }
+        //TODO: trzeba dopracować promt do czata bo przy obecnym trudno osiągnąć wynik pozwalający na uznanie zdarzenia za prawdziwe
+//        if (riskAssessment.assessRisk(disasterAddDTO)) {
+//            disaster.setStatus(DisasterStatus.ACTIVE);
+//            disasterRepository.save(disaster);
+//            generateAlert(disaster.getId());
+//        } else {
+//            disaster.setStatus(DisasterStatus.FAKE);
+//            disasterRepository.save(disaster);
+//        }
+
+        disaster.setStatus(DisasterStatus.ACTIVE);
+        disasterRepository.save(disaster);
+        generateAlert(disaster.getId());
 
         return mapper.mapDisasterToDisasterDto(disaster);
     }
@@ -43,7 +48,6 @@ class DisasterServiceImpl implements DisasterService {
                 ));
 
         AlertAddDTO alertAddDTO = new AlertAddDTO(
-                UUID.randomUUID(),
                 disasterDTO.id(),
                 disasterDTO.description(),
                 disasterDTO.location());
@@ -56,5 +60,43 @@ class DisasterServiceImpl implements DisasterService {
     public Optional<DisasterDTO> getActiveDisasterForTypeAndLocation(DisasterType type, String location) {
         return disasterRepository.findFirstByTypeAndLocationAndStatus(type, location, DisasterStatus.ACTIVE)
                 .map(mapper::mapDisasterToDisasterDto);
+    }
+
+    @Override
+    public List<DisasterDTO> interestingDisasters(Optional<DisasterType> type, Optional<String> location) {
+        //TODO: poniższa logika jest nie optymalna, do poprawy po zakończeniu konkursu
+
+        List<DisasterDTO> interestedDisasters = disasterRepository.findAllByStatus(DisasterStatus.ACTIVE).stream()
+                .map(mapper::mapDisasterToDisasterDto)
+                .collect(Collectors.toList());
+
+        if (type.isPresent()) {
+            List<DisasterDTO> byType = disasterRepository.findAllByType(type.get()).stream()
+                    .map(mapper::mapDisasterToDisasterDto)
+                    .collect(Collectors.toList());
+
+            interestedDisasters.retainAll(byType);
+        }
+
+        if (location.isPresent()) {
+            List<DisasterDTO> byLocation = disasterRepository.findAllByLocation(location.get()).stream()
+                    .map(mapper::mapDisasterToDisasterDto)
+                    .collect(Collectors.toList());
+
+            interestedDisasters.retainAll(byLocation);
+        }
+
+        return interestedDisasters;
+    }
+
+    @Override
+    public Map<String, Integer> inLocationDisastersAmount() {
+        List<Disaster> allActiveDisasters = disasterRepository.findAllByStatus(DisasterStatus.ACTIVE);
+
+        return allActiveDisasters.stream()
+                .collect(Collectors.groupingBy(
+                        Disaster::getLocation,
+                        Collectors.summingInt(e -> 1)
+                ));
     }
 }

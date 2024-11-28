@@ -9,6 +9,10 @@ import org.springframework.validation.annotation.Validated;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 @Component
 @Validated
 @RequiredArgsConstructor
@@ -17,5 +21,13 @@ public class DisasterAlertFacade {
 
     public DisasterDTO createDisaster(@NotNull @Valid DisasterAddDTO disasterAddDTO, @NotNull @NotBlank String source) {
         return disasterService.createDisaster(disasterAddDTO, source);
+    }
+
+    public List<DisasterDTO> interestingDisasters(Optional<DisasterType> type, Optional<String> location) {
+        return disasterService.interestingDisasters(type, location);
+    }
+
+    public Map<String, Integer> inLocationDisastersAmount() {
+        return disasterService.inLocationDisastersAmount();
     }
 }

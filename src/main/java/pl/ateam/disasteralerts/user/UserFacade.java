@@ -33,4 +33,8 @@ public class UserFacade {
     public void updateUser(UserUpdateDTO userUpdateDto, UUID userId) {
         userService.updateUserEntity(userUpdateDto, userId);
     }
+
+    public void removePhoneNumber(String email) {
+        userService.removePhoneNumber(email);
+    }
 }
