@@ -6,9 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import pl.ateam.disasteralerts.disasteralert.DisasterType;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
@@ -20,19 +17,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-@SpringJUnitConfig(classes = {OpenAIClient.class, RiskAssessmentService.class})
+@ExtendWith(MockitoExtension.class)
 class RiskAssessmentServiceTest {
-
-    @Autowired
-    private RiskAssessmentService riskAssessmentService;
-
-    @MockBean
-    private OpenAIClient openAIClient;
 
     public static final String FLOOD_DESCRIPTION = "Duża powódź";
     public static final String FIRE_DESCRIPTION = "Ognisko palone przez turystów nad rzeką";
     public static final Double PROBABILITY_OF_RISK_HIGH = 0.8;
     public static final Double PROBABILITY_OF_RISK_LOW = 0.3;
+
+    @Mock
+    private OpenAIClient openAIClient;
+
+    @InjectMocks
+    private RiskAssessmentService riskAssessmentService;
+
     private final List<String> citiesInPoland = CitiesInPoland.getList();
 
     @Test
