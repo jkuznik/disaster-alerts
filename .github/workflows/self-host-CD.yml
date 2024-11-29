@@ -26,7 +26,8 @@ jobs:
           GOOGLE_API_KEY: ${{secrets.GOOGLE_API_KEY}}
           DAY_SMS_LIMIT: ${{secrets.DAY_SMS_LIMIT}}
           RISK_THRESHOLD: ${{secrets.RISK_THRESHOLD}}
-        run: sudo docker run -d --name disaster-alert-container --network disaster-net -p 8080:8080 \
+        run: |
+          sudo docker run -d --name disaster-alert-container --network disaster-net -p 8080:8080 \
           -e TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID \
           -e TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN \
           -e TWILIO_PHONE_NUMBER=$TWILIO_PHONE_NUMBER \

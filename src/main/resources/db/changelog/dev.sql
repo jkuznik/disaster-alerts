@@ -151,3 +151,6 @@ CREATE TABLE sms_limits
     limit_counter       INT                         NOT NULL,
     CONSTRAINT pk_sms_limits PRIMARY KEY (id)
 );
+
+-- changeset jkuznik:1728934675080-26
+ALTER TABLE users DROP CONSTRAINT uc_users_username;
