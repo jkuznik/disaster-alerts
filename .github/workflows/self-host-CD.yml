@@ -32,6 +32,7 @@ jobs:
           -e TWILIO_PHONE_NUMBER=$TWILIO_PHONE_NUMBER \
           -e OPENAI_API_KEY=$OPENAI_API_KEY \
           -e GOOGLE_API_KEY=$GOOGLE_API_KEY \
+          -e TZ=Europe/Warsaw \
           -e RISK_THRESHOLD=$RISK_THRESHOLD \
           -e DAY_SMS_LIMIT=5 \
           jkuznik/disaster-alert
