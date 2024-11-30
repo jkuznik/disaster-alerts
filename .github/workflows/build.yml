@@ -44,5 +44,6 @@ jobs:
 
       - name: Build and Run Tests
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
+          RISK_THRESHOLD: ${{secrets.RISK_THRESHOLD}}
         run: mvn clean install

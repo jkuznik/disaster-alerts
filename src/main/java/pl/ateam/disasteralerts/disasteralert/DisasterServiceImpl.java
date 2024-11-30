@@ -25,18 +25,15 @@ class DisasterServiceImpl implements DisasterService {
         Disaster disaster = mapper.mapDisasterAddDtoToDisaster(disasterAddDTO);
         disaster.setSource(source);
         //TODO: trzeba dopracować promt do czata bo przy obecnym trudno osiągnąć wynik pozwalający na uznanie zdarzenia za prawdziwe
-//        if (riskAssessment.assessRisk(disasterAddDTO)) {
-//            disaster.setStatus(DisasterStatus.ACTIVE);
-//            disasterRepository.save(disaster);
-//            generateAlert(disaster.getId());
-//        } else {
-//            disaster.setStatus(DisasterStatus.FAKE);
-//            disasterRepository.save(disaster);
-//        }
-
-        disaster.setStatus(DisasterStatus.ACTIVE);
-        disasterRepository.save(disaster);
-        generateAlert(disaster.getId());
+        // edit: tymczasowo można po prostu zmniejszyć wymagany wynik zwracany przez AI aby zdarzenie zakwalifikować jako ACTIVE
+        if (riskAssessment.assessRisk(disasterAddDTO)) {
+            disaster.setStatus(DisasterStatus.ACTIVE);
+            disasterRepository.save(disaster);
+            generateAlert(disaster.getId());
+        } else {
+            disaster.setStatus(DisasterStatus.FAKE);
+            disasterRepository.save(disaster);
+        }
 
         return mapper.mapDisasterToDisasterDto(disaster);
     }
