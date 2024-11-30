@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
 import pl.ateam.disasteralerts.security.AppUser;
+import pl.ateam.disasteralerts.util.levelofrisk.RiskLevel;
 
 @RestController
 @RequestMapping(DisasterController.DISASTERS_BASE_URL)
@@ -26,11 +27,13 @@ class DisasterController {
     @PostMapping()
     public ResponseEntity<DisasterDTO> createDisaster(@AuthenticationPrincipal AppUser appUser,
                                                       @RequestParam DisasterType disasterType,
+                                                      @RequestParam RiskLevel riskLevel,
                                                       @RequestParam String description,
                                                       @RequestParam String location) {
 
         DisasterAddDTO disasterAddDTO = new DisasterAddDTO(
                 disasterType,
+                riskLevel,
                 description,
                 location,
                 appUser.getUserDTO().id()
