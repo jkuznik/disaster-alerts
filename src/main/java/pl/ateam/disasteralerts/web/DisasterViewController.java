@@ -59,8 +59,18 @@ public class DisasterViewController {
             return "addDisaster";
         }
 
-        disasterAlertFacade.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
-        redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
+        DisasterDTO disasterDTO = disasterAlertFacade.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
+
+        if (DisasterStatus.FAKE.equals(disasterDTO.status())) {
+            String message = String.format("""
+                    Zdarzenie zostało uznane za falszywe. 
+                    Jeśli chcesz je aktywować skontatuj się z adminiastratorem i podaj id zgłoszenia %s.
+                    """, disasterDTO.id());
+            redirectAttributes.addFlashAttribute("message", message);
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
+        }
+
         return "redirect:/disasters/add";
     }
 
