@@ -63,9 +63,10 @@ public class DisasterViewController {
 
         if (DisasterStatus.FAKE.equals(disasterDTO.status())) {
             String message = String.format("""
-                    Zdarzenie zostało uznane za falszywe. 
+                    Zdarzenie zostało uznane za fałszywe. 
                     Jeśli chcesz je aktywować skontatuj się z adminiastratorem i podaj id zgłoszenia %s.
                     """, disasterDTO.id());
+            redirectAttributes.addFlashAttribute("messageStatus", DisasterStatus.FAKE.toString());
             redirectAttributes.addFlashAttribute("message", message);
         } else {
             redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
