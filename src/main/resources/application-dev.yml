@@ -32,6 +32,10 @@ spring:
         options:
           model: gpt-4o
           temperature: 0.5
+my:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
 
 server:
   port: 8080

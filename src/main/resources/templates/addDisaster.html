@@ -15,22 +15,39 @@
 <div>
     <div class="container col-xl-10 col-xxl-10 px-4 ">
         <div class="row g-lg-5 py-5">
-            <div class="col-md-10 mx-auto col-lg-8">
-                <form action="/disasters/add" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-2 rounded-3 bg-body-tertiary">
+            <div th:if="${disasterTypSelected == null}" class="col-md-10 mx-auto col-lg-8">
+                <div class="chat-container d-flex flex-column h-100">
+                    <div class="textarea-container bg-body-tertiary p-3 rounded mt-3">
+                        <form th:action="@{/disasters/chat}" method="post">
+                            <div th:if="${conversation != null}">
+                                <label class="form-label fw-bold" th:text="${conversation.question}"></label>
+                                <div class="form-check" th:each="answer, iter : ${conversation.answers}">
+                                    <input class="form-check-input" type="radio" name="selectedAnswer"
+                                           th:value="${answer}" th:id="${'answer-' + iter.index}" required>
+                                    <label class="form-check-label" th:for="${'answer-' + iter.index}" th:text="${answer}"></label>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="radio" name="selectedAnswer" value="custom" id="answer-custom">
+                                    <input type="text" class="form-control mt-2" name="selectedAnswer" placeholder="Wpisz własną odpowiedź">
+                                </div>
+
+                                <button type="submit" class="w-100 btn btn-lg btn-primary">Wyślij</button>
+                                <div th:replace="~{fragments :: toast}"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${disasterTypSelected != null}" class="col-md-10 mx-auto col-lg-8">
+                <form th:action="@{/disasters/add}" method="post" th:object="${disasterAddDTO}" class="p-4 p-md-5 rounded-3 bg-body-tertiary">
+
                     <div class="form-floating mb-3">
-                        <select th:value="${disasterTypSelected}" name="type" class="form-select" id="type" required>
-                            <option th:if="${disasterTypSelected == null}" value="" disabled selected>Wybierz typ zdarzenia</option>
-                            <option th:each="type : ${disasterType}"
-                                    th:value="${type}"
-                                    th:selected="${type == disasterTypSelected}"
-                                    th:text="${type.getPolishName()}"></option>
-                        </select>
-                        <label for="type">Typ Zdarzenia</label>
+                        <input th:value="${disasterTypSelected}" name="type" type="hidden" class="form-control" id="tye" required>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input th:value="*{description()}" name="description" type="text" class="form-control" id="description" placeholder="Opis" required>
-                        <label for="description">Opis</label>
+                        <input th:value="*{description()}" name="description" type="hidden" class="form-control" id="description" required>
                     </div>
                     <div th:replace="~{fragments :: citiesList}"></div>
 
@@ -39,7 +56,6 @@
                     </div>
 
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Dodaj Zdarzenie</button>
-                    <div th:replace="~{fragments :: toast}"></div>
                 </form>
             </div>
         </div>
