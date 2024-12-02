@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.util.List;
 import java.util.Map;

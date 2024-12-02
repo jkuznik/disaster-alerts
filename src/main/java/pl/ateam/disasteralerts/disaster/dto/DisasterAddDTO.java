@@ -2,7 +2,7 @@ package pl.ateam.disasteralerts.disaster.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import pl.ateam.disasteralerts.disaster.DisasterType;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.util.UUID;
 

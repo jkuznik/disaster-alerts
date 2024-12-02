@@ -8,10 +8,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.ateam.disasteralerts.API.WeatherMonitoringFacade;
-import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterStatus;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.user.UserFacade;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.util.List;
 import java.util.UUID;

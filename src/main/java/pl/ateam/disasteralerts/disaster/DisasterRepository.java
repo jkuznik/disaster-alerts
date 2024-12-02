@@ -1,7 +1,8 @@
 package pl.ateam.disasteralerts.disaster;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.util.List;
 import java.util.Optional;

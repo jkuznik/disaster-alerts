@@ -8,7 +8,8 @@ import pl.ateam.disasteralerts.alert.AlertFacade;
 import pl.ateam.disasteralerts.alert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
-import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.util.*;
 import java.util.stream.Collectors;

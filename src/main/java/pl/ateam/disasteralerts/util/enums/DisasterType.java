@@ -1,4 +1,4 @@
-package pl.ateam.disasteralerts.disaster;
+package pl.ateam.disasteralerts.util.enums;
 
 public enum DisasterType {
     STORM("Burza"),

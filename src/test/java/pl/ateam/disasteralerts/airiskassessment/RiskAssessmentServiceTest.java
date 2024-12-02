@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.ateam.disasteralerts.disaster.DisasterType;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
 

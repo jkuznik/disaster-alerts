@@ -1,7 +1,7 @@
 package pl.ateam.disasteralerts.disaster.dto;
 
-import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
-import pl.ateam.disasteralerts.disaster.DisasterType;
+import pl.ateam.disasteralerts.util.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

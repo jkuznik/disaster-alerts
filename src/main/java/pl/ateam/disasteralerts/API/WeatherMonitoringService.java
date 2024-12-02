@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.ateam.disasteralerts.disaster.DisasterFacade;
-import pl.ateam.disasteralerts.disaster.DisasterType;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
 import pl.ateam.disasteralerts.util.CitiesInPoland;

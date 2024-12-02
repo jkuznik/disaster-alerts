@@ -10,8 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterStatus;
 import pl.ateam.disasteralerts.util.EntityAudit;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

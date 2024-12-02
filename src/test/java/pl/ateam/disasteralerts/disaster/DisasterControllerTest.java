@@ -14,6 +14,7 @@ import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.util.UUID;
 
