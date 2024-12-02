@@ -4,10 +4,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.ateam.disasteralerts.API.WeatherMonitoringFacade;
 import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
 import pl.ateam.disasteralerts.security.AppUser;
+import pl.ateam.disasteralerts.user.UserFacade;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 
 import java.util.List;
@@ -22,7 +25,13 @@ public class DisasteralertIT extends PSQLTestConatiner {
     DisasterRepository disasterRepository;
 
     @Autowired
+    UserFacade userFacade;
+
+    @Autowired
     MockMvc mockMvc;
+
+    @MockBean
+    WeatherMonitoringFacade weatherMonitoringFacade;
 
     AppUser appUser = getTestAppUser();
 
