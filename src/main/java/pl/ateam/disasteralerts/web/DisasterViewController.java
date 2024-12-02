@@ -9,11 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.ateam.disasteralerts.disasteralert.DisasterAlertFacade;
-import pl.ateam.disasteralerts.disasteralert.DisasterStatus;
-import pl.ateam.disasteralerts.disasteralert.DisasterType;
-import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
-import pl.ateam.disasteralerts.disasteralert.dto.DisasterDTO;
+import pl.ateam.disasteralerts.disaster.DisasterFacade;
+import pl.ateam.disasteralerts.disaster.enums.DisasterStatus;
+import pl.ateam.disasteralerts.disaster.DisasterType;
+import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
+import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
 
@@ -29,7 +29,7 @@ public class DisasterViewController {
     @Value("${google.maps.api.key}")
     private String googleApiKey;
 
-    private final DisasterAlertFacade disasterAlertFacade;
+    private final DisasterFacade disasterAlertFacade;
     private final String USER_AS_DISASTER_SOURCE = "user";
 
 

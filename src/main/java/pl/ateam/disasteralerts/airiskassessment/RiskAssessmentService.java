@@ -3,7 +3,7 @@ package pl.ateam.disasteralerts.airiskassessment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
+import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 
 @Service
 @RequiredArgsConstructor
