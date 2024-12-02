@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +29,7 @@ import java.util.UUID;
 class SMSService implements NotificationListener {
 
     private final SMSLimitService smsLimitService;
-
-    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
-    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
-    public static final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
+    private final TwilioClient twilioClient;
 
     @Override
     public void addedAlert(AlertAddDTO alertAddDTO, UserDTO interestedUser) {
@@ -39,24 +37,19 @@ class SMSService implements NotificationListener {
     }
 
     public void sendSMS(String alertDescription, String phoneNumber) {
+        try {
+            SMSValidator.validate(alertDescription, phoneNumber);
+        } catch (SMSNotSentException e) {
+            log.info(e.getMessage(), e.getCause());
+        }
+
         LocalDateTime today = LocalDateTime.now();
-
         if(smsLimitService.isBelowLimit(today)){
-            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-
-            Message message = Message
-                    .creator(
-                            new PhoneNumber(phoneNumber),
-                            new PhoneNumber(TWILIO_PHONE_NUMBER),
-                            alertDescription
-                    )
-                    .create();
-
-            log.info(message.getSid());
-
+            twilioClient.sendSMS(alertDescription, phoneNumber);
             smsLimitService.increaseLimit(today);
+
         } else {
-            log.info("Daily SMS limit reached - notifications will be sent via email only.");
+            log.info("Dzienny limit SMS osięgniety - powiadomienia zostaną wysłane tylko w formie maili");
         }
     }
 }
@@ -118,5 +111,37 @@ class SMSLimitService {
        smsLimitRepository.save(SMSLimit.builder()
                 .limitCounter(0)
                 .build());
+    }
+}
+
+@Component
+class TwilioClient {
+
+    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
+    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
+    public static final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
+
+    void sendSMS(String alertDescription, String phoneNumber) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+        Message message = Message
+                .creator(
+                        new PhoneNumber(phoneNumber),
+                        new PhoneNumber(TWILIO_PHONE_NUMBER),
+                        alertDescription
+                )
+                .create();
+    }
+}
+
+class SMSValidator {
+    static void validate(String alertDescription, String phoneNumber) throws SMSNotSentException {
+        if (alertDescription.length() > 255) {
+            throw new SMSNotSentException("Opis zdarzenia za długi - powiadomienia ");
+        }
+
+        if (!phoneNumber.matches("\\+48\\d{9}")) {
+            throw new SMSNotSentException("Zły format numeru telefonu. Numer powinien posiadać prefix '+48' oraz kolejno 9 cyfr");
+        }
     }
 }

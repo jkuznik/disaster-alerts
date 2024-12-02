@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 @Configuration
-class SwaggerConfig {
+public class SwaggerConfig {
 
     @Bean
     public OpenAPI myOpenAPI() {
