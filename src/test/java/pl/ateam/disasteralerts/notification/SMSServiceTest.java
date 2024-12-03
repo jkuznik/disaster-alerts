@@ -10,6 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = {SMSService.class, SMSLimitService.class, SMSLimitRepository.class, NotificationManager.class, TwilioClient.class})
@@ -21,7 +22,7 @@ class SMSServiceTest {
     @Autowired
     SMSLimitService smsLimitService;
 
-    @Autowired
+    @MockBean
     TwilioClient twilioClient;
 
     @MockBean
@@ -33,25 +34,26 @@ class SMSServiceTest {
     @MockBean
     SMSLimitRepository smsLimitRepository;
 
-    private final String ALERT_DESCRIPTION = "Test description";
-    private final String VALID_PHONE_NUMBER = "+48123456789";
+    private final String alertDescription = "Test description";
+    private final String validPhoneNumber = "+48123456789";
 
     @Nested
     class SMSServiceTests {
 
         @Test
-        void shouldNotThrownException_whenDescriptionAndPhoneNumberIsValid() {
+        void shouldSendSMSAndIncreaseSMSDayLimitCounter_whenMessageAndPhoneNumberAreValid() {
             //when
-            when(smsLimitServiceMock.isBelowLimit(any(LocalDateTime.class))).thenReturn(false);
+            when(smsLimitServiceMock.isBelowLimit(any(LocalDateTime.class))).thenReturn(true);
+            doNothing().when(twilioClient).sendSMS(alertDescription, validPhoneNumber);
 
             //then
-            Assertions.assertThatNoException().isThrownBy(() -> smsService.sendSMS(ALERT_DESCRIPTION, VALID_PHONE_NUMBER));
+            Assertions.assertThatNoException().isThrownBy(() -> smsService.sendSMS(alertDescription, validPhoneNumber));
         }
     }
 
     @Nested
     class SMSValidatorTests {
-        private final String longDescription = """ 
+        private final String tooLongDescription = """ 
                                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                                       Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                                       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
@@ -60,12 +62,12 @@ class SMSServiceTest {
                                       pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
                                       culpa qui officia deserunt mollit anim id est laborum.
                                         """;
-        private final String NOT_VALID_PHONE_NUMBER = "+481234567890";
+        private final String notValidPhoneNumber = "+481234567890";
 
         @Test
         void shouldThrownException_whenPhoneNumberIsNotValid() {
                      //then
-            Assertions.assertThatThrownBy(() -> SMSValidator.validate(ALERT_DESCRIPTION, NOT_VALID_PHONE_NUMBER)).isExactlyInstanceOf(SMSNotSentException.class);
+            Assertions.assertThatThrownBy(() -> SMSValidator.validate(alertDescription, notValidPhoneNumber)).isExactlyInstanceOf(SMSNotSentException.class);
         }
 
         @Test
@@ -74,7 +76,7 @@ class SMSServiceTest {
             when(smsLimitServiceMock.isBelowLimit(any(LocalDateTime.class))).thenReturn(false);
 
             //then
-            Assertions.assertThatThrownBy(() -> SMSValidator.validate(longDescription, NOT_VALID_PHONE_NUMBER)).isExactlyInstanceOf(SMSNotSentException.class);
+            Assertions.assertThatThrownBy(() -> SMSValidator.validate(tooLongDescription, notValidPhoneNumber)).isExactlyInstanceOf(SMSNotSentException.class);
         }
     }
 

@@ -37,19 +37,21 @@ class SMSService implements NotificationListener {
     }
 
     public void sendSMS(String alertDescription, String phoneNumber) {
+        boolean SMSLimitIsBelow = false;
+        LocalDateTime today = LocalDateTime.now();
+
         try {
             SMSValidator.validate(alertDescription, phoneNumber);
+            SMSLimitIsBelow = smsLimitService.isBelowLimit(today);
         } catch (SMSNotSentException e) {
             log.info(e.getMessage(), e.getCause());
         }
 
-        LocalDateTime today = LocalDateTime.now();
-        if(smsLimitService.isBelowLimit(today)){
+        if(SMSLimitIsBelow){
             twilioClient.sendSMS(alertDescription, phoneNumber);
             smsLimitService.increaseLimit(today);
-
         } else {
-            log.info("Dzienny limit SMS osięgniety - powiadomienia zostaną wysłane tylko w formie maili");
+            log.info("Nie wysłano powiadomienia SMS");
         }
     }
 }
@@ -66,8 +68,8 @@ class SMSLimit extends EntityAudit {
     @Column(nullable = false)
     private int limitCounter;
 
-    public void increaseCounter(){
-        limitCounter++;
+    public int increaseCounter(){
+        return limitCounter++;
     }
 }
 
@@ -98,12 +100,12 @@ class SMSLimitService {
     }
 
     @Transactional
-    void increaseLimit(LocalDateTime date) {
+    int increaseLimit(LocalDateTime date) {
         SMSLimit smsLimit = smsLimitRepository.findByExactDay(date).orElseThrow(
                 () -> new RuntimeException("Something go wrong with increase " + date + " SMS limit")
         );
 
-        smsLimit.increaseCounter();
+        return smsLimit.increaseCounter();
     }
 
     @Transactional
