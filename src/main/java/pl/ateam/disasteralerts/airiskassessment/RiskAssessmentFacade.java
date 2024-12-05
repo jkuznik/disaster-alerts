@@ -2,7 +2,7 @@ package pl.ateam.disasteralerts.airiskassessment;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.ateam.disasteralerts.disasteralert.dto.DisasterAddDTO;
+import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 
 @Component
 @RequiredArgsConstructor
