@@ -139,7 +139,7 @@ class TwilioClient {
 class SMSValidator {
     static void validate(String alertDescription, String phoneNumber) throws SMSNotSentException {
         if (alertDescription.length() > 255) {
-            throw new SMSNotSentException("Opis zdarzenia za długi - powiadomienia ");
+            throw new SMSNotSentException("Opis zdarzenia za długi");
         }
 
         if (!phoneNumber.matches("\\+48\\d{9}")) {
