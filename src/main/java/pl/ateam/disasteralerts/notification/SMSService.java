@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -83,6 +84,9 @@ interface SMSLimitRepository extends JpaRepository<SMSLimit, UUID> {
 @Service
 class SMSLimitService {
 
+    @Value("{day.sms.limit}")
+    private String daySmsLimit;
+
     private final SMSLimitRepository smsLimitRepository;
 
     @Transactional
@@ -119,17 +123,23 @@ class SMSLimitService {
 @Component
 class TwilioClient {
 
-    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
-    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
-    public static final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
+    @Value("${twilio.account.sid}")
+    public String accountSid;
+
+    @Value("${twilio.auth.token}")
+    public String authToken;
+
+    @Value("${twilio.phone.number}")
+    public String twilioPhoneNumber;
+
 
     void sendSMS(String alertDescription, String phoneNumber) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Twilio.init(accountSid, authToken);
 
         Message message = Message
                 .creator(
                         new PhoneNumber(phoneNumber),
-                        new PhoneNumber(TWILIO_PHONE_NUMBER),
+                        new PhoneNumber(twilioPhoneNumber),
                         alertDescription
                 )
                 .create();

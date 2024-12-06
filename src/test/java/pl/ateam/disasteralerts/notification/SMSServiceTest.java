@@ -141,4 +141,9 @@ class SMSServiceTest {
             Assertions.assertThatThrownBy(() -> SMSValidator.validate(tooLongDescription, notValidPhoneNumber)).isExactlyInstanceOf(SMSNotSentException.class);
         }
     }
+
+    @Nested
+    class TwilioClientTests {
+
+    }
 }
