@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,9 +21,6 @@ class SMSServiceTest {
 
     @Autowired
     SMSService smsService;
-
-    @Autowired
-    SMSLimitService smsLimitService;
 
     @MockBean
     TwilioClient twilioClient;
@@ -45,14 +41,14 @@ class SMSServiceTest {
     class SMSServiceTests {
 
         private final String tooLongDescription = """ 
-                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                                      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                                      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                                      culpa qui officia deserunt mollit anim id est laborum.
-                                        """;
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                culpa qui officia deserunt mollit anim id est laborum.
+                """;
         private final String notValidPhoneNumber = "+481234567890";
 
         @Test
@@ -90,7 +86,7 @@ class SMSServiceTest {
             when(smsLimitServiceMock.isBelowLimit(any(LocalDateTime.class))).thenReturn(false);
 
             //then
-            smsService.sendSMS(tooLongDescription,validPhoneNumber);
+            smsService.sendSMS(tooLongDescription, validPhoneNumber);
             List<String> logs = logCaptor.getLogs();
 
             logs.forEach(System.out::println);
@@ -109,10 +105,8 @@ class SMSServiceTest {
             when(smsLimitServiceMock.isBelowLimit(any(LocalDateTime.class))).thenReturn(false);
 
             //then
-            smsService.sendSMS(alertDescription,notValidPhoneNumber);
+            smsService.sendSMS(alertDescription, notValidPhoneNumber);
             List<String> logs = logCaptor.getLogs();
-
-            logs.forEach(System.out::println);
 
             assertThat(logs.size()).isEqualTo(2);
             assertThat(logs.get(0)).isEqualTo("Zły format numeru telefonu. Numer powinien posiadać prefix '+48' oraz kolejno 9 cyfr");
@@ -122,35 +116,29 @@ class SMSServiceTest {
 
     @Nested
     class SMSValidatorTests {
+
         private final String tooLongDescription = """ 
-                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                                      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                                      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                                      culpa qui officia deserunt mollit anim id est laborum.
-                                        """;
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                culpa qui officia deserunt mollit anim id est laborum.
+                """;
+
         private final String notValidPhoneNumber = "+481234567890";
 
         @Test
         void shouldThrownException_whenPhoneNumberIsNotValid() {
-                     //then
+            //then
             Assertions.assertThatThrownBy(() -> SMSValidator.validate(alertDescription, notValidPhoneNumber)).isExactlyInstanceOf(SMSNotSentException.class);
         }
 
         @Test
         void shouldThrownException_whenDescriptionIsToLong() {
-            //when
-            when(smsLimitServiceMock.isBelowLimit(any(LocalDateTime.class))).thenReturn(false);
-
             //then
             Assertions.assertThatThrownBy(() -> SMSValidator.validate(tooLongDescription, notValidPhoneNumber)).isExactlyInstanceOf(SMSNotSentException.class);
         }
-    }
-
-    @Nested
-    class SMSLimitServiceTests {
-
     }
 }
