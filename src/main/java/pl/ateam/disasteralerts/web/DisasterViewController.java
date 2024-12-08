@@ -7,15 +7,21 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.ateam.disasteralerts.disaster.DisasterFacade;
-import pl.ateam.disasteralerts.util.enums.DisasterStatus;
-import pl.ateam.disasteralerts.util.enums.DisasterType;
 import pl.ateam.disasteralerts.disaster.dto.DisasterAddDTO;
 import pl.ateam.disasteralerts.disaster.dto.DisasterDTO;
+import pl.ateam.disasteralerts.message.ToastMessageFacade;
+import pl.ateam.disasteralerts.message.ToastMessageType;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
+import pl.ateam.disasteralerts.util.enums.DisasterStatus;
+import pl.ateam.disasteralerts.util.enums.DisasterType;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +32,7 @@ import java.util.Optional;
 @RequestMapping("/disasters")
 public class DisasterViewController {
 
+    private final ToastMessageFacade toastMessageFacade;
     @Value("${google.maps.api.key}")
     private String googleApiKey;
 
@@ -62,14 +69,22 @@ public class DisasterViewController {
         DisasterDTO disasterDTO = disasterAlertFacade.createDisaster(disasterAddDTO, USER_AS_DISASTER_SOURCE);
 
         if (DisasterStatus.FAKE.equals(disasterDTO.status())) {
+
             String message = String.format("""
                     Zdarzenie zostało uznane za fałszywe. 
                     Jeśli chcesz je aktywować skontatuj się z adminiastratorem i podaj id zgłoszenia %s.
                     """, disasterDTO.id());
+
             redirectAttributes.addFlashAttribute("messageStatus", DisasterStatus.FAKE.toString());
-            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute("message", toastMessageFacade.buildMessage(
+                    ToastMessageType.DANGER,
+                    "Niestety nie udało się",
+                    message));
         } else {
-            redirectAttributes.addFlashAttribute("message", "Dodano zdarzenie");
+            redirectAttributes.addFlashAttribute("message", toastMessageFacade.buildMessage(
+                    ToastMessageType.SUCCESS,
+                    "Udało się",
+                    "Dodano to co miało byc dodane"));
         }
 
         return "redirect:/disasters/add";
