@@ -27,7 +27,10 @@ spring:
 
 twilio:
   account.sid: ${TWILIO_ACCOUNT_SID}
-  auth.token: $(TWILIO_AUTH_TOKEN}
+  auth.token: ${TWILIO_AUTH_TOKEN}
   phone.number: ${TWILIO_PHONE_NUMBER}
+  test:
+    account.sid: ${TWILIO_TEST_ACCOUNT_SID}
+    auth.token: ${TWILIO_TEST_AUTH_TOKEN}
 
 day.sms.limit: ${DAY_SMS_LIMIT}

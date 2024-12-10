@@ -84,7 +84,7 @@ interface SMSLimitRepository extends JpaRepository<SMSLimit, UUID> {
 @Service
 class SMSLimitService {
 
-    @Value("{day.sms.limit}")
+    @Value("${day.sms.limit}")
     private String daySmsLimit;
 
     private final SMSLimitRepository smsLimitRepository;
@@ -95,7 +95,7 @@ class SMSLimitService {
 
         Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
         if(byExactDay.isPresent()){
-            result = byExactDay.get().getLimitCounter() < Integer.parseInt(System.getenv("DAY_SMS_LIMIT"));
+            result = byExactDay.get().getLimitCounter() < Integer.parseInt(daySmsLimit);
         } else {
             createLimiter();
         }
@@ -131,7 +131,6 @@ class TwilioClient {
 
     @Value("${twilio.phone.number}")
     public String twilioPhoneNumber;
-
 
     void sendSMS(String alertDescription, String phoneNumber) {
         Twilio.init(accountSid, authToken);

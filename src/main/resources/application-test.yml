@@ -32,9 +32,3 @@ openweathermap:
   api:
     key: 3261c3b28f5aed55fcca580f4d7744d0
     url: https://api.openweathermap.org/data/2.5/weather
-
-twilio:
-  test:
-    account.sid: ${TEST_TWILIO_ACCOUNT_SID}
-    auth.token: $(TEST_TWILIO_AUTH_TOKEN}
-    phone.number: ${TEST_TWILIO_PHONE_NUMBER}
