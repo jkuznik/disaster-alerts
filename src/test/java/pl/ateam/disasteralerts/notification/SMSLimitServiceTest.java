@@ -2,6 +2,7 @@ package pl.ateam.disasteralerts.notification;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -21,39 +22,40 @@ class SMSLimitServiceTest {
     @MockBean
     SMSLimitRepository smsLimitRepository;
 
-//    @Test
-//    void shouldReturnLimitNotReach() {
-//        //given
-//        System.setProperty("DAY_SMS_LIMIT", "10");
-//        SMSLimit smsLimit = SMSLimit.builder()
-//                .limitCounter(0)
-//                .build();
-//
-//        //when
-//        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
-//
-//        //then
-//        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
-//
-//        assertThat(belowLimit).isTrue();
-//    }
-//
-//    @Test
-//    void shouldReturnLimitIsReach() {
-//        //given
-//        System.setProperty("DAY_SMS_LIMIT", "10");
-//        SMSLimit smsLimit = SMSLimit.builder()
-//                .limitCounter(10)
-//                .build();
-//
-//        //when
-//        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
-//
-//        //then
-//        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
-//
-//        assertThat(belowLimit).isFalse();
-//    }
+    @Value("${day.sms.limit}")
+    private String daySmsLimit;
+
+    @Test
+    void shouldReturnLimitNotReach() {
+        //given
+        SMSLimit smsLimit = SMSLimit.builder()
+                .limitCounter(0)
+                .build();
+
+        //when
+        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
+
+        //then
+        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
+
+        assertThat(belowLimit).isTrue();
+    }
+
+    @Test
+    void shouldReturnLimitIsReach() {
+        //given
+        SMSLimit smsLimit = SMSLimit.builder()
+                .limitCounter(Integer.parseInt(daySmsLimit))
+                .build();
+
+        //when
+        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
+
+        //then
+        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
+
+        assertThat(belowLimit).isFalse();
+    }
 
     @Test
     void shouldCreateNewLimiter_whenNeededLimiterNotExist() {
