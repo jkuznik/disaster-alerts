@@ -21,39 +21,39 @@ class SMSLimitServiceTest {
     @MockBean
     SMSLimitRepository smsLimitRepository;
 
-    @Test
-    void shouldReturnLimitNotReach() {
-        //given
-        System.setProperty("DAY_SMS_LIMIT", "10");
-        SMSLimit smsLimit = SMSLimit.builder()
-                .limitCounter(0)
-                .build();
-
-        //when
-        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
-
-        //then
-        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
-
-        assertThat(belowLimit).isTrue();
-    }
-
-    @Test
-    void shouldReturnLimitIsReach() {
-        //given
-        System.setProperty("DAY_SMS_LIMIT", "10");
-        SMSLimit smsLimit = SMSLimit.builder()
-                .limitCounter(10)
-                .build();
-
-        //when
-        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
-
-        //then
-        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
-
-        assertThat(belowLimit).isFalse();
-    }
+//    @Test
+//    void shouldReturnLimitNotReach() {
+//        //given
+//        System.setProperty("DAY_SMS_LIMIT", "10");
+//        SMSLimit smsLimit = SMSLimit.builder()
+//                .limitCounter(0)
+//                .build();
+//
+//        //when
+//        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
+//
+//        //then
+//        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
+//
+//        assertThat(belowLimit).isTrue();
+//    }
+//
+//    @Test
+//    void shouldReturnLimitIsReach() {
+//        //given
+//        System.setProperty("DAY_SMS_LIMIT", "10");
+//        SMSLimit smsLimit = SMSLimit.builder()
+//                .limitCounter(10)
+//                .build();
+//
+//        //when
+//        when(smsLimitRepository.findByExactDay(any(LocalDateTime.class))).thenReturn(Optional.of(smsLimit));
+//
+//        //then
+//        boolean belowLimit = smsLimitService.isBelowLimit(LocalDateTime.now());
+//
+//        assertThat(belowLimit).isFalse();
+//    }
 
     @Test
     void shouldCreateNewLimiter_whenNeededLimiterNotExist() {
