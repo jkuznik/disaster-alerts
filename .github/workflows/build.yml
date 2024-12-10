@@ -46,4 +46,6 @@ jobs:
         env:
           OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
           RISK_THRESHOLD: ${{secrets.RISK_THRESHOLD}}
+          TWILIO_TEST_ACCOUNT_SID: ${{secrets.TWILIO_TEST_ACCOUNT_SID}}
+          TWILIO_TEST_AUTH_TOKEN: ${{secrets.TWILIO_TEST_AUTH_TOKEN}}
         run: mvn clean install
