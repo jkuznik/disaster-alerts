@@ -8,9 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +30,7 @@ import java.util.UUID;
 class SMSService implements NotificationListener {
 
     private final SMSLimitService smsLimitService;
-
-    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
-    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
-    public static final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
+    private final TwilioClient twilioClient;
 
     @Override
     public void addedAlert(AlertAddDTO alertAddDTO, UserDTO interestedUser) {
@@ -39,24 +38,21 @@ class SMSService implements NotificationListener {
     }
 
     public void sendSMS(String alertDescription, String phoneNumber) {
+        boolean SMSLimitIsBelow = false;
         LocalDateTime today = LocalDateTime.now();
 
-        if(smsLimitService.isBelowLimit(today)){
-            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        try {
+            SMSValidator.validate(alertDescription, phoneNumber);
+            SMSLimitIsBelow = smsLimitService.isBelowLimit(today);
+        } catch (SMSNotSentException e) {
+            log.info(e.getMessage(), e.getCause());
+        }
 
-            Message message = Message
-                    .creator(
-                            new PhoneNumber(phoneNumber),
-                            new PhoneNumber(TWILIO_PHONE_NUMBER),
-                            alertDescription
-                    )
-                    .create();
-
-            log.info(message.getSid());
-
+        if(SMSLimitIsBelow){
+            twilioClient.sendSMS(alertDescription, phoneNumber);
             smsLimitService.increaseLimit(today);
         } else {
-            log.info("Daily SMS limit reached - notifications will be sent via email only.");
+            log.info("Nie wysłano powiadomienia SMS");
         }
     }
 }
@@ -73,8 +69,8 @@ class SMSLimit extends EntityAudit {
     @Column(nullable = false)
     private int limitCounter;
 
-    public void increaseCounter(){
-        limitCounter++;
+    public int increaseCounter(){
+        return limitCounter++;
     }
 }
 
@@ -88,6 +84,9 @@ interface SMSLimitRepository extends JpaRepository<SMSLimit, UUID> {
 @Service
 class SMSLimitService {
 
+    @Value("${day.sms.limit}")
+    private String daySmsLimit;
+
     private final SMSLimitRepository smsLimitRepository;
 
     @Transactional
@@ -96,7 +95,7 @@ class SMSLimitService {
 
         Optional<SMSLimit> byExactDay = smsLimitRepository.findByExactDay(date);
         if(byExactDay.isPresent()){
-            result = byExactDay.get().getLimitCounter() < Integer.parseInt(System.getenv("DAY_SMS_LIMIT"));
+            result = byExactDay.get().getLimitCounter() < Integer.parseInt(daySmsLimit);
         } else {
             createLimiter();
         }
@@ -105,12 +104,12 @@ class SMSLimitService {
     }
 
     @Transactional
-    void increaseLimit(LocalDateTime date) {
+    int increaseLimit(LocalDateTime date) {
         SMSLimit smsLimit = smsLimitRepository.findByExactDay(date).orElseThrow(
                 () -> new RuntimeException("Something go wrong with increase " + date + " SMS limit")
         );
 
-        smsLimit.increaseCounter();
+        return smsLimit.increaseCounter();
     }
 
     @Transactional
@@ -118,5 +117,42 @@ class SMSLimitService {
        smsLimitRepository.save(SMSLimit.builder()
                 .limitCounter(0)
                 .build());
+    }
+}
+
+@Component
+class TwilioClient {
+
+    @Value("${twilio.account.sid}")
+    public String accountSid;
+
+    @Value("${twilio.auth.token}")
+    public String authToken;
+
+    @Value("${twilio.phone.number}")
+    public String twilioPhoneNumber;
+
+    void sendSMS(String alertDescription, String phoneNumber) {
+        Twilio.init(accountSid, authToken);
+
+        Message message = Message
+                .creator(
+                        new PhoneNumber(phoneNumber),
+                        new PhoneNumber(twilioPhoneNumber),
+                        alertDescription
+                )
+                .create();
+    }
+}
+
+class SMSValidator {
+    static void validate(String alertDescription, String phoneNumber) throws SMSNotSentException {
+        if (alertDescription.length() > 255) {
+            throw new SMSNotSentException("Opis zdarzenia za długi");
+        }
+
+        if (!phoneNumber.matches("\\+48\\d{9}")) {
+            throw new SMSNotSentException("Zły format numeru telefonu. Numer powinien posiadać prefix '+48' oraz kolejno 9 cyfr");
+        }
     }
 }
