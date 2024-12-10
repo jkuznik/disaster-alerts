@@ -48,4 +48,5 @@ jobs:
           RISK_THRESHOLD: ${{secrets.RISK_THRESHOLD}}
           TWILIO_TEST_ACCOUNT_SID: ${{secrets.TWILIO_TEST_ACCOUNT_SID}}
           TWILIO_TEST_AUTH_TOKEN: ${{secrets.TWILIO_TEST_AUTH_TOKEN}}
+          DAY_SMS_LIMIT: $${{secrets.DAY_SMS_LIMIT}}
         run: mvn clean install
