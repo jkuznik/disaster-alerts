@@ -67,14 +67,13 @@
 
 <div th:fragment="toast" class="toast rounded align-items-center border-0 position-fixed bottom-0 end-0 m-3 show"
      role="alert" aria-live="assertive" aria-atomic="true" th:if="${message}">
-    <div class="toast-header"
-         th:classappend="${messageStatus != 'FAKE'} ? ' text-primary' : ' text-danger'">
-        <i th:class="${messageStatus != 'FAKE'} ? 'bi bi-balloon-heart-fill' : 'bi bi-exclamation-circle-fill'"></i>
-        <strong class="me-auto">Dodano zgłoszenie</strong>
+    <div class="toast-header" th:classappend="' text-' + ${message.type.toLowerCase()}">
+        <i th:class="${message.icon}"></i>
+        <strong class="me-auto" th:text="${message.header}">Dodano zgłoszenie</strong>
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="d-flex text-secondary bg-light px-3 py-1 fw-light">
-        <div th:replace="~{fragments :: message}" class="toast-body text-white">
+        <div th:text="${message.message}" class="toast-body">
         </div>
     </div>
 </div>

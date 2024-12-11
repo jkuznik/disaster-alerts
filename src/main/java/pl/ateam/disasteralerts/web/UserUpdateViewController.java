@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.ateam.disasteralerts.message.ToastMessageFacade;
+import pl.ateam.disasteralerts.message.ToastMessageType;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.user.UserFacade;
 import pl.ateam.disasteralerts.user.dto.UserUpdateDTO;
@@ -22,6 +24,7 @@ import pl.ateam.disasteralerts.util.CitiesInPoland;
 @RequiredArgsConstructor
 public class UserUpdateViewController {
 
+    private final ToastMessageFacade toastMessageFacade;
     @Value("${google.maps.api.key}")
     private String googleApiKey;
 
@@ -48,7 +51,10 @@ public class UserUpdateViewController {
         }
 
         userFacade.updateUser(userUpdateDto, appUser.getUserDTO().id());
-        redirectAttributes.addFlashAttribute("message", "Dane użytkownika zostały pomyślnie zaktualizowane.");
+        redirectAttributes.addFlashAttribute("message", toastMessageFacade.buildMessage(
+                ToastMessageType.SUCCESS,
+                "Aktualizacja",
+                "Dane użytkownika zostały pomyślnie zaktualizowane."));
         return "redirect:/disasters/add";
     }
 
@@ -57,7 +63,9 @@ public class UserUpdateViewController {
                                     RedirectAttributes redirectAttributes) {
 
         userFacade.removePhoneNumber(appUser.getUsername());
-        redirectAttributes.addFlashAttribute("message", "Numer telefonu został usunięty");
+        redirectAttributes.addFlashAttribute("message", toastMessageFacade.buildMessage(
+                ToastMessageType.SUCCESS,
+                "Aktualizacja", "Numer telefonu został usunięty"));
         return "redirect:/users/edit";
     }
 
