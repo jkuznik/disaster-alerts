@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<!--<style>-->
+<!--  #map {-->
+<!--      width: 50%;-->
+<!--      height: 35%;-->
+<!--      margin: 0 auto;-->
+<!--      margin-left: 25%;-->
+<!--      margin-right: 25%;-->
+<!--  }-->
+<!--  html, body {-->
+<!--      height: 100%;-->
+<!--      margin: 0;-->
+<!--      padding: 10;-->
+<!--  }-->
+<!--</style>-->
+
+<head th:replace="~{fragments :: head('Powiadomieina')}"></head>
+
+<body class="bg-body-tertiary">
+<nav th:replace="~{fragments :: nav}"></nav>
+<div class="px-4 py-5 mt-5 text-center bg-white shadow-sm">
+  <h1 class="display-5 fw-bold text-body-emphasis">Twoje <span class="text-primary">Powiadomienia</span></h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead">Lista interesujących Cię powiadomień.</p>
+  </div>
+</div>
+
+<!--<div id="map"></div>-->
+
+<!--<script th:inline="javascript">-->
+<!--  // Thymeleaf wstawia dane do skryptu w formacie JSON-->
+<!--  const cityCounts = /*[[${inLocationDisasterAmount}]]*/ {};-->
+
+<!--  // Sprawdzamy, czy cityCounts zawiera dane-->
+<!--  console.log(cityCounts);-->
+
+<!--  // Funkcja do uzyskiwania współrzędnych geograficznych dla miasta-->
+<!--  function getLatLng(city, callback) {-->
+<!--      const geocoder = new google.maps.Geocoder();-->
+
+<!--      geocoder.geocode({ address: city }, function(results, status) {-->
+<!--          if (status === 'OK') {-->
+<!--              const location = results[0].geometry.location;-->
+<!--              callback(location.lat(), location.lng());-->
+<!--          } else {-->
+<!--              console.error("Geocode error: " + status);-->
+<!--          }-->
+<!--      });-->
+<!--  }-->
+
+<!--  function initMap() {-->
+<!--      const map = new google.maps.Map(document.getElementById('map'), {-->
+<!--          center: { lat: 52.0, lng: 19.0 },-->
+<!--          zoom: 6-->
+<!--      });-->
+
+<!--      if (Object.keys(cityCounts).length > 0) {-->
+<!--          for (const [city, count] of Object.entries(cityCounts)) {-->
+<!--              getLatLng(city, (lat, lng) => {-->
+<!--                  const marker = new google.maps.Marker({-->
+<!--                      position: { lat, lng },-->
+<!--                      map: map,-->
+<!--                      label: count.toString()-->
+<!--                  });-->
+
+<!--                  const infoWindow = new google.maps.InfoWindow({-->
+<!--                      content: `Miasto: ${city}<br>Liczba zdarzeń: ${count}`-->
+<!--                  });-->
+
+<!--                  marker.addListener('click', () => {-->
+<!--                      infoWindow.open(map, marker);-->
+<!--                  });-->
+<!--              });-->
+<!--          }-->
+<!--      } else {-->
+<!--          console.log("Brak danych o miastach.");-->
+<!--      }-->
+<!--  }-->
+<!--</script>-->
+
+<script th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleApiKey} + '&callback=initMap'" async defer></script>
+<div>
+  <div class="container col-xl-10 col-xxl-10 px-4 ">
+    <div class="row g-lg-5 py-5">
+      <div class="col-md-10 mx-auto col-lg-10">
+
+        <div th:if="${!#lists.isEmpty(internalNotifications)}" class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Typ zdarzenia</th>
+              <th>Opis</th>
+              <th>Lokalizacja</th>
+              <th>Data zgłoszenia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="notification : ${internalNotifications}">
+              <td th:text="${notification.alertDescription}"></td>
+<!--              <td th:text="${disaster.location}"></td>-->
+<!--              <td th:text="${#temporals.format(disaster.createDate(), 'yyyy-MM-dd HH:mm')}"></td>-->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div th:if="${#lists.isEmpty(internalNotifications)}" class="px-4 py-5 mt-5 text-center bg-white shadow-sm">
+          <h1 class="display-6 fw-bold text-body-emphasis">Brak <span class="text-primary">Powiadomień</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
