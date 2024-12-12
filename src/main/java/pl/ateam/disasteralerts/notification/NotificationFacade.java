@@ -6,6 +6,7 @@ import pl.ateam.disasteralerts.alert.dto.AlertAddDTO;
 import pl.ateam.disasteralerts.notification.dto.InternalNotificationDTO;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class NotificationFacade {
         notificationManager.sendNotifications(alertAddDTO, interestedUser);
     }
 
-    public Set<InternalNotificationDTO> getAllInternalNotifications (UUID userId){
+    public List<InternalNotificationDTO> getAllInternalNotifications (UUID userId){
         return internalNotificationService.getAllIN(userId);
     }
 
@@ -32,6 +33,8 @@ public class NotificationFacade {
         notificationManager.addSMSService();
     }
 
+    public void addInternalNotificationService() {notificationManager.addInternalNotificationsService();}
+
     public void removeEmailService() {
         notificationManager.removeEmailService();
     }
@@ -39,6 +42,8 @@ public class NotificationFacade {
     public void removeSMSService() {
         notificationManager.removeSMSService();
     }
+
+    public void removeInternalNotificationService() {notificationManager.removeInternalNotificationsService();}
 
     public void clearNotificationServices() {
         notificationManager.clearNotificationServices();

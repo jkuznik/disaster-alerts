@@ -14,6 +14,7 @@ class NotificationManager {
 
     private final EmailService emailService;
     private final SMSService smsService;
+    private final InternalNotificationService internalNotificationService;
 
     private final List<NotificationListener> notificationListeners = new ArrayList<>();
     void sendNotifications(AlertAddDTO alertAddDTO, UserDTO interestedUser) {
@@ -28,7 +29,7 @@ class NotificationManager {
         notificationListeners.add(smsService);
     }
 
-
+    void addInternalNotificationsService() { notificationListeners.add(internalNotificationService);}
 
     void removeEmailService() {
         notificationListeners.remove(emailService);
@@ -37,6 +38,8 @@ class NotificationManager {
     void removeSMSService() {
         notificationListeners.remove(smsService);
     }
+
+    void removeInternalNotificationsService() { notificationListeners.remove(internalNotificationService);}
 
     void clearNotificationServices() {
         notificationListeners.clear();

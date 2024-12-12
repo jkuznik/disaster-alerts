@@ -21,6 +21,7 @@ import pl.ateam.disasteralerts.user.UserFacade;
 import pl.ateam.disasteralerts.user.dto.UserUpdateDTO;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -37,7 +38,7 @@ public class UserUpdateViewController {
 
     @GetMapping("notifications")
     public String getNotifications(@AuthenticationPrincipal AppUser appUser, Model model) {
-        Set<InternalNotificationDTO> allInternalNotifications = notificationFacade.getAllInternalNotifications(appUser.getUserDTO().id());
+        List<InternalNotificationDTO> allInternalNotifications = notificationFacade.getAllInternalNotifications(appUser.getUserDTO().id());
 
         model.addAttribute("internalNotifications", allInternalNotifications);
 

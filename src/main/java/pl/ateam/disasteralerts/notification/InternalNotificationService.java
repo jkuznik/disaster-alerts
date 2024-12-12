@@ -3,10 +3,7 @@ package pl.ateam.disasteralerts.notification;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.mapstruct.Mapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,6 +13,7 @@ import pl.ateam.disasteralerts.notification.dto.InternalNotificationDTO;
 import pl.ateam.disasteralerts.user.dto.UserDTO;
 import pl.ateam.disasteralerts.util.EntityAudit;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -37,16 +35,18 @@ class InternalNotificationService implements NotificationListener{
                 .build());
     }
 
-    public Set<InternalNotificationDTO> getAllIN(UUID userId) {
+    public List<InternalNotificationDTO> getAllIN(UUID userId) {
         return internalNotificationRepository.findAllByUserId(userId).stream()
                 .map(internalNotificationMapper::toDto)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "internal_notifications")
 class InternalNotification extends EntityAudit {
