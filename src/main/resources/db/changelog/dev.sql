@@ -154,3 +154,17 @@ CREATE TABLE sms_limits
 
 -- changeset jkuznik:1728934675080-26
 ALTER TABLE users DROP CONSTRAINT uc_users_username;
+
+-- changeset jkuznik:1728934675080-27
+CREATE TABLE internal_notifications
+(
+    id            UUID                        NOT NULL,
+    version       BIGINT                      NOT NULL,
+    create_date   TIMESTAMP WITHOUT TIME ZONE,
+    update_date   TIMESTAMP WITHOUT TIME ZONE,
+    user_id       UUID,
+    disaster_id   UUID,
+    alert_description   VARCHAR(255)                NOT NULL,
+    already_read  BOOLEAN,
+    CONSTRAINT pk_internal_notifications PRIMARY KEY (id)
+);
