@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.ateam.disasteralerts.message.ToastMessageFacade;
 import pl.ateam.disasteralerts.message.ToastMessageType;
+import pl.ateam.disasteralerts.notification.NotificationFacade;
+import pl.ateam.disasteralerts.notification.dto.InternalNotificationDTO;
 import pl.ateam.disasteralerts.security.AppUser;
 import pl.ateam.disasteralerts.user.UserFacade;
 import pl.ateam.disasteralerts.user.dto.UserUpdateDTO;
 import pl.ateam.disasteralerts.util.CitiesInPoland;
+
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("users")
@@ -29,6 +34,16 @@ public class UserUpdateViewController {
     private String googleApiKey;
 
     private final UserFacade userFacade;
+    private final NotificationFacade notificationFacade;
+
+    @GetMapping("notifications")
+    public String getNotifications(@AuthenticationPrincipal AppUser appUser, Model model) {
+        List<InternalNotificationDTO> allInternalNotifications = notificationFacade.getAllInternalNotifications(appUser.getUserDTO().id());
+
+        model.addAttribute("internalNotifications", allInternalNotifications);
+
+        return "userNotifications";
+    }
 
     @GetMapping("edit")
     public String getUserForUpdate(@AuthenticationPrincipal AppUser appUser, Model model) {

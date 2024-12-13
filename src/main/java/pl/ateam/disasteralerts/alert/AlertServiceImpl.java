@@ -46,6 +46,8 @@ class AlertServiceImpl implements AlertService {
                 notificationFacade.addEmailService();
             }
 
+            //TODO: dodać możliwość wyboru sposobu otrzymania powiadomień przez użytkownika
+            notificationFacade.addInternalNotificationService();
             notificationFacade.sendNotifications(alertAddDTO, user);
             notificationFacade.clearNotificationServices();
         });
